@@ -1,0 +1,125 @@
+{
+  "nav": {
+    "properties": "Propiedades",
+    "invest": "Invertir",
+    "valuation": "Valoración",
+    "insights": "Insights",
+    "contact": "Contacto",
+    "bookCall": "Reservar llamada"
+  },
+  "hero": {
+    "eyebrow": "Propiedad Destacada",
+    "title": "Villa Cala Llamp",
+    "subtitle": "Port d'Andratx · 6 hab · 520 m² · Vistas al mar",
+    "description": "Una finca mediterránea moderna con vistas panorámicas a la costa, piscina infinity y acceso directo al puerto deportivo.",
+    "ctaPrimary": "Solicitar visita privada",
+    "ctaSecondary": "Ver todas las propiedades de Port d'Andratx",
+    "badge": "Nuevo"
+  },
+  "properties": {
+    "eyebrow": "Colección Curada",
+    "title": "Tres hogares. Tres historias.",
+    "description": "Propiedades seleccionadas con sólido historial de alquiler, baja vacancia y claro potencial de revalorización.",
+    "cta": "Explorar el portfolio completo",
+    "villa1": "Cala Fornells · Villa",
+    "villa2": "Santa Ponsa · Moderna",
+    "villa3": "Palma Casco Antiguo · Ático"
+  },
+  "investment": {
+    "eyebrow": "Tesis de Inversión",
+    "title": "Por qué las Baleares superan al mercado.",
+    "description": "Oferta limitada, demanda global y un mercado de alquiler turístico regulado crean ingresos resilientes y apreciación a largo plazo.",
+    "metric1": "Crecimiento anual precios (5A)",
+    "metric2": "Ocupación (temporada)",
+    "metric3": "Volumen transacciones (2024)",
+    "cta": "Descargar informe de mercado"
+  },
+  "neighborhood": {
+    "eyebrow": "Zona Destacada",
+    "title": "Palma Casco Antiguo",
+    "description": "Calles empedradas, boutiques de diseño y apartamentos históricos con acabados modernos. Una de las zonas con mayor demanda de alquiler estable.",
+    "caption": "FOTO: PLAÇA DE SANTA EULÀLIA",
+    "cta": "Ver propiedades en Casco Antiguo"
+  },
+  "valuation": {
+    "title": "Conozca el valor real.",
+    "description": "Combinamos comparables locales, conocimiento del terreno y señales de mercado para que nunca pague de más.",
+    "service1": {
+      "title": "Valoración Instantánea",
+      "description": "Una estimación basada en datos en 24 horas."
+    },
+    "service2": {
+      "title": "Previsión de Alquiler",
+      "description": "Ingresos proyectados + ocupación por temporada."
+    },
+    "service3": {
+      "title": "Impuestos y Costes",
+      "description": "Escenarios de compra, mantenimiento y venta."
+    },
+    "form": {
+      "title": "Solicitar valoración",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "address": "Dirección de la propiedad",
+      "message": "Mensaje (opcional)",
+      "placeholderName": "Su nombre",
+      "placeholderEmail": "su@email.com",
+      "placeholderAddress": "Ubicación de la propiedad",
+      "placeholderMessage": "Cuéntenos más sobre su propiedad...",
+      "submit": "Enviar solicitud",
+      "success": "¡Solicitud enviada!",
+      "successMessage": "Nos pondremos en contacto en 24 horas."
+    }
+  },
+  "insights": {
+    "title": "Insights de mercado.",
+    "description": "Lecturas breves sobre regulación, financiación y tendencias de barrios.",
+    "article1": {
+      "title": "Normativa Alquiler 2026",
+      "subtitle": "Lo que deben saber los propietarios"
+    },
+    "article2": {
+      "title": "Financiación No Residentes",
+      "subtitle": "Bancos, tipos y documentación"
+    },
+    "article3": {
+      "title": "Tendencias de Barrios",
+      "subtitle": "Dónde crece la demanda"
+    },
+    "newsletter": {
+      "title": "El Briefing",
+      "description": "Un email al mes. Sin ruido. Solo insights que importan.",
+      "cta": "Suscribirse",
+      "success": "¡Suscrito!"
+    }
+  },
+  "contact": {
+    "title": "Encontremos su próximo hogar.",
+    "description": "Cuéntenos qué busca. Preseleccionaremos propiedades, organizaremos visitas y calcularemos los números.",
+    "cta": "Reservar llamada",
+    "email": "Correo electrónico",
+    "whatsapp": "WhatsApp",
+    "office": "Oficina",
+    "hours": "Horario de oficina",
+    "weekdays": "Lunes – Viernes: 9:00 – 18:00",
+    "saturday": "Sábado: 10:00 – 14:00"
+  },
+  "footer": {
+    "description": "Bienes raíces de lujo y asesoría de inversión en las Islas Baleares. Conectamos inversores exigentes con propiedades excepcionales.",
+    "quickLinks": "Enlaces rápidos",
+    "legal": "Legal",
+    "contact": "Contacto",
+    "privacy": "Política de Privacidad",
+    "cookies": "Política de Cookies",
+    "terms": "Términos y Condiciones",
+    "legalNotice": "Aviso Legal",
+    "ethics": "Código de Ética",
+    "rights": "Todos los derechos reservados."
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "fr": "Français",
+    "de": "Deutsch"
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "nav": {
+    "properties": "Immobilien",
+    "invest": "Investieren",
+    "valuation": "Bewertung",
+    "insights": "Einblicke",
+    "contact": "Kontakt",
+    "bookCall": "Anruf vereinbaren"
+  },
+  "hero": {
+    "eyebrow": "Empfohlene Immobilie",
+    "title": "Villa Cala Llamp",
+    "subtitle": "Port d'Andratx · 6 Zi · 520 m² · Meerblick",
+    "description": "Eine moderne mediterrane Villa mit panoramischem Küstenblick, Infinity-Pool und direktem Yachthafen-Zugang.",
+    "ctaPrimary": "Private Besichtigung anfragen",
+    "ctaSecondary": "Alle Immobilien in Port d'Andratx ansehen",
+    "badge": "Neu"
+  },
+  "properties": {
+    "eyebrow": "Kuratierte Kollektion",
+    "title": "Drei Häuser. Drei Geschichten.",
+    "description": "Handverlesene Anwesen mit starker Vermietungshistorie, niedriger Leerstand und klarem Aufwertungspotenzial.",
+    "cta": "Das gesamte Portfolio erkunden",
+    "villa1": "Cala Fornells · Villa",
+    "villa2": "Santa Ponsa · Modern",
+    "villa3": "Palma Altstadt · Penthouse"
+  },
+  "investment": {
+    "eyebrow": "Investment-These",
+    "title": "Warum die Balearen überperformen.",
+    "description": "Begrenztes Angebot, globale Nachfrage und ein regulierter Kurzzeitmietmarkt schaffen resiliente Einkommen und langfristige Wertsteigerung.",
+    "metric1": "Jährliche Preissteigerung (5J)",
+    "metric2": "Belegung (saisonal)",
+    "metric3": "Transaktionsvolumen (2024)",
+    "cta": "Marktbericht herunterladen"
+  },
+  "neighborhood": {
+    "eyebrow": "Stadtteil im Fokus",
+    "title": "Palma Altstadt",
+    "description": "Kopfsteinpflasterstraßen, Design-Boutiquen und historische Wohnungen mit modernen Ausstattungen. Eine Top-Wahl für stabile Mietnachfrage.",
+    "caption": "FOTO: PLAÇA DE SANTA EULÀLIA",
+    "cta": "Altstadt-Immobilien ansehen"
+  },
+  "valuation": {
+    "title": "Den echten Wert kennen.",
+    "description": "Wir kombinieren lokale Vergleichswerte, Ortskenntnis und Marktsignale—damit Sie nie zu viel zahlen.",
+    "service1": {
+      "title": "Sofortige Bewertung",
+      "description": "Eine datengestützte Schätzung innerhalb von 24 Stunden."
+    },
+    "service2": {
+      "title": "Mietprognose",
+      "description": "Projizierte Einnahmen + Belegung nach Saison."
+    },
+    "service3": {
+      "title": "Steuern & Kosten",
+      "description": "Szenarien für Kauf, Haltung und Verkauf."
+    },
+    "form": {
+      "title": "Bewertung anfragen",
+      "name": "Name",
+      "email": "E-Mail",
+      "address": "Immobilienadresse",
+      "message": "Nachricht (optional)",
+      "placeholderName": "Ihr Name",
+      "placeholderEmail": "ihre@email.com",
+      "placeholderAddress": "Standort der Immobilie",
+      "placeholderMessage": "Erzählen Sie uns mehr über Ihre Immobilie...",
+      "submit": "Anfrage senden",
+      "success": "Anfrage gesendet!",
+      "successMessage": "Wir melden uns innerhalb von 24 Stunden."
+    }
+  },
+  "insights": {
+    "title": "Markteinblicke.",
+    "description": "Kurze Lesetipps zu Vorschriften, Finanzierung und Quartierstrends.",
+    "article1": {
+      "title": "Mietvorschriften 2026",
+      "subtitle": "Was Vermieter wissen müssen"
+    },
+    "article2": {
+      "title": "Finanzierung für Nicht-Residenten",
+      "subtitle": "Banken, Zinsen und Unterlagen"
+    },
+    "article3": {
+      "title": "Quartierstrends",
+      "subtitle": "Wo die Nachfrage wächst"
+    },
+    "newsletter": {
+      "title": "Das Briefing",
+      "description": "Eine E-Mail pro Monat. Kein Lärm. Nur Einblicke, die zählen.",
+      "cta": "Abonnieren",
+      "success": "Abonniert!"
+    }
+  },
+  "contact": {
+    "title": "Finden wir Ihr nächstes Zuhause.",
+    "description": "Sagen Sie uns, wonach Sie suchen. Wir treffen eine Vorauswahl, organisieren Besichtigungen und rechnen die Zahlen durch.",
+    "cta": "Anruf vereinbaren",
+    "email": "E-Mail",
+    "whatsapp": "WhatsApp",
+    "office": "Büro",
+    "hours": "Bürozeiten",
+    "weekdays": "Montag – Freitag: 9:00 – 18:00",
+    "saturday": "Samstag: 10:00 – 14:00"
+  },
+  "footer": {
+    "description": "Luxusimmobilien und Investment-Beratung auf den Balearen. Wir verbinden anspruchsvolle Investoren mit außergewöhnlichen Immobilien.",
+    "quickLinks": "Schnelllinks",
+    "legal": "Rechtliches",
+    "contact": "Kontakt",
+    "privacy": "Datenschutzrichtlinie",
+    "cookies": "Cookie-Richtlinie",
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "legalNotice": "Impressum",
+    "ethics": "Verhaltenskodex",
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "fr": "Français",
+    "de": "Deutsch"
+  }
+}

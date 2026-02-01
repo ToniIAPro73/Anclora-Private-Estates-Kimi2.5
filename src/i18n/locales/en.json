@@ -1,0 +1,125 @@
+{
+  "nav": {
+    "properties": "Properties",
+    "invest": "Invest",
+    "valuation": "Valuation",
+    "insights": "Insights",
+    "contact": "Contact",
+    "bookCall": "Book a call"
+  },
+  "hero": {
+    "eyebrow": "Featured Listing",
+    "title": "Villa Cala Llamp",
+    "subtitle": "Port d'Andratx · 6 beds · 520 m² · Sea views",
+    "description": "A modern Mediterranean estate with panoramic coastline views, infinity pool, and direct marina access.",
+    "ctaPrimary": "Request a private viewing",
+    "ctaSecondary": "See all Port d'Andratx listings",
+    "badge": "New"
+  },
+  "properties": {
+    "eyebrow": "Curated Collection",
+    "title": "Three homes. Three stories.",
+    "description": "Handpicked estates with strong rental history, low vacancy, and clear upside.",
+    "cta": "Explore the full portfolio",
+    "villa1": "Cala Fornells · Villa",
+    "villa2": "Santa Ponsa · Modern",
+    "villa3": "Palma Old Town · Penthouse"
+  },
+  "investment": {
+    "eyebrow": "Investment Thesis",
+    "title": "Why the Balearics outperform.",
+    "description": "Limited supply, global demand, and a regulated short-term rental market create resilient income and long-term appreciation.",
+    "metric1": "Annual price growth (5Y)",
+    "metric2": "Occupancy (seasonal)",
+    "metric3": "Transaction volume (2024)",
+    "cta": "Download the market report"
+  },
+  "neighborhood": {
+    "eyebrow": "Neighborhood Spotlight",
+    "title": "Palma Old Town",
+    "description": "Cobblestone streets, designer boutiques, and historic apartments with modern finishes. A top choice for stable rental demand.",
+    "caption": "PHOTO: PLAÇA DE SANTA EULÀLIA",
+    "cta": "See Old Town listings"
+  },
+  "valuation": {
+    "title": "Know the real value.",
+    "description": "We combine local comps, on-the-ground insight, and market signals—so you never overpay.",
+    "service1": {
+      "title": "Instant Valuation",
+      "description": "A data-driven estimate in 24 hours."
+    },
+    "service2": {
+      "title": "Rental Forecast",
+      "description": "Projected income + occupancy by season."
+    },
+    "service3": {
+      "title": "Tax & Costs",
+      "description": "Closing, holding, and exit scenarios."
+    },
+    "form": {
+      "title": "Request a valuation",
+      "name": "Name",
+      "email": "Email",
+      "address": "Property address",
+      "message": "Message (optional)",
+      "placeholderName": "Your name",
+      "placeholderEmail": "your@email.com",
+      "placeholderAddress": "Property location",
+      "placeholderMessage": "Tell us more about your property...",
+      "submit": "Send request",
+      "success": "Request sent!",
+      "successMessage": "We'll get back to you within 24 hours."
+    }
+  },
+  "insights": {
+    "title": "Market insights.",
+    "description": "Short reads on regulation, financing, and neighborhood momentum.",
+    "article1": {
+      "title": "2026 Rental Rules",
+      "subtitle": "What hosts need to know"
+    },
+    "article2": {
+      "title": "Financing for Non-Residents",
+      "subtitle": "Banks, rates, and paperwork"
+    },
+    "article3": {
+      "title": "Neighborhood Momentum",
+      "subtitle": "Where demand is growing"
+    },
+    "newsletter": {
+      "title": "The Briefing",
+      "description": "One email a month. No noise. Just insights that matter.",
+      "cta": "Subscribe",
+      "success": "Subscribed!"
+    }
+  },
+  "contact": {
+    "title": "Let's find your next home.",
+    "description": "Tell us what you're looking for. We'll shortlist properties, book viewings, and run the numbers.",
+    "cta": "Book a call",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "office": "Office",
+    "hours": "Office Hours",
+    "weekdays": "Monday – Friday: 9:00 – 18:00",
+    "saturday": "Saturday: 10:00 – 14:00"
+  },
+  "footer": {
+    "description": "Luxury real estate and investment advisory in the Balearic Islands. We connect discerning investors with exceptional properties.",
+    "quickLinks": "Quick Links",
+    "legal": "Legal",
+    "contact": "Contact",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy",
+    "terms": "Terms & Conditions",
+    "legalNotice": "Legal Notice",
+    "ethics": "Code of Ethics",
+    "rights": "All rights reserved."
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "fr": "Français",
+    "de": "Deutsch"
+  }
+}

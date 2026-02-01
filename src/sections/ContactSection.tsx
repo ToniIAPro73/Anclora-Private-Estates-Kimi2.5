@@ -1,0 +1,172 @@
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from 'react-i18next';
+import { MapPin, Phone, Mail, ArrowRight, Calendar } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const contactInfo = [
+  {
+    icon: Mail,
+    labelKey: 'contact.email',
+    value: 'hello@ancloraprivateestates.com',
+    href: 'mailto:hello@ancloraprivateestates.com',
+  },
+  {
+    icon: Phone,
+    labelKey: 'contact.whatsapp',
+    value: '+34 600 000 000',
+    href: 'tel:+34600000000',
+  },
+  {
+    icon: MapPin,
+    labelKey: 'contact.office',
+    value: 'Palma de Mallorca',
+    href: '#',
+  },
+];
+
+export function ContactSection() {
+  const { t } = useTranslation();
+  const sectionRef = useRef<HTMLElement>(null);
+  const contactCardRef = useRef<HTMLDivElement>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const contactCard = contactCardRef.current;
+    const details = detailsRef.current;
+
+    if (!section || !contactCard || !details) return;
+
+    const ctx = gsap.context(() => {
+      // Contact card reveal
+      gsap.fromTo(
+        contactCard,
+        { x: '-8vw', opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: contactCard,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+
+      // Details panel reveal
+      gsap.fromTo(
+        details,
+        { x: '8vw', opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: details,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }, section);
+
+    return () => ctx.revert();
+  }, [t]);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="contact"
+      className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-24 lg:py-32"
+    >
+      <div className="w-full px-6 lg:px-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Left Contact Card */}
+          <div className="lg:col-span-7">
+            <div
+              ref={contactCardRef}
+              className="card-premium overflow-hidden h-[64vh] relative"
+            >
+              <img
+                src="/images/contact-office.jpg"
+                alt="Anclora Office"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-anclora-teal dark:from-anclora-teal via-anclora-teal/60 dark:via-anclora-teal/60 to-transparent" />
+              
+              {/* Content Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-12">
+                <h2 className="font-display text-4xl lg:text-5xl font-bold text-anclora-cream leading-tight mb-4">
+                  {t('contact.title').split('.')[0]}.<br />{t('contact.title').split('.')[1]}.
+                </h2>
+                <p className="text-anclora-text-muted leading-relaxed max-w-lg mb-6">
+                  {t('contact.description')}
+                </p>
+                <button className="btn-primary flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  {t('contact.cta')}
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Details Panel */}
+          <div className="lg:col-span-5">
+            <div
+              ref={detailsRef}
+              className="h-full flex flex-col justify-center"
+            >
+              <div className="p-8 bg-anclora-teal-bg dark:bg-anclora-teal-bg/70 rounded-2xl border border-anclora-navy/10 dark:border-white/10">
+                <h3 className="font-display text-2xl font-semibold text-anclora-navy dark:text-anclora-cream mb-8">
+                  {t('footer.contact')}
+                </h3>
+
+                <div className="space-y-6">
+                  {contactInfo.map((item) => (
+                    <a
+                      key={item.labelKey}
+                      href={item.href}
+                      className="flex items-center gap-4 group"
+                    >
+                      <div className="w-12 h-12 rounded-full bg-anclora-gold/10 flex items-center justify-center flex-shrink-0 group-hover:bg-anclora-gold/20 transition-colors">
+                        <item.icon className="w-5 h-5 text-anclora-gold" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-0.5">
+                          {t(item.labelKey)}
+                        </p>
+                        <p className="text-anclora-navy dark:text-anclora-cream font-medium group-hover:text-anclora-gold transition-colors">
+                          {item.value}
+                        </p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+
+                {/* Office Hours */}
+                <div className="mt-8 pt-8 border-t border-anclora-navy/10 dark:border-white/10">
+                  <p className="text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-2">
+                    {t('contact.hours')}
+                  </p>
+                  <p className="text-anclora-navy dark:text-anclora-cream">
+                    {t('contact.weekdays')}
+                  </p>
+                  <p className="text-anclora-navy dark:text-anclora-cream">
+                    {t('contact.saturday')}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

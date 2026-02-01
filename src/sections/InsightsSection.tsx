@@ -1,0 +1,217 @@
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from 'react-i18next';
+import { ArrowRight, Send, CheckCircle } from 'lucide-react';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const articles = [
+  {
+    id: 1,
+    titleKey: 'insights.article1.title',
+    subtitleKey: 'insights.article1.subtitle',
+    image: '/images/insight-1.jpg',
+  },
+  {
+    id: 2,
+    titleKey: 'insights.article2.title',
+    subtitleKey: 'insights.article2.subtitle',
+    image: '/images/insight-2.jpg',
+  },
+  {
+    id: 3,
+    titleKey: 'insights.article3.title',
+    subtitleKey: 'insights.article3.subtitle',
+    image: '/images/insight-3.jpg',
+  },
+];
+
+export function InsightsSection() {
+  const { t } = useTranslation();
+  const sectionRef = useRef<HTMLElement>(null);
+  const headlineRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const newsletterRef = useRef<HTMLDivElement>(null);
+  
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const headline = headlineRef.current;
+    const cards = cardsRef.current.filter(Boolean);
+    const newsletter = newsletterRef.current;
+
+    if (!section || !headline || cards.length === 0 || !newsletter) return;
+
+    const ctx = gsap.context(() => {
+      // Headline reveal
+      gsap.fromTo(
+        headline,
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: headline,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+
+      // Cards stagger reveal
+      cards.forEach((card, index) => {
+        gsap.fromTo(
+          card,
+          { y: 60, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            delay: index * 0.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 85%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+      });
+
+      // Newsletter reveal
+      gsap.fromTo(
+        newsletter,
+        { y: 80, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: newsletter,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    }, section);
+
+    return () => ctx.revert();
+  }, [t]);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setIsSubscribed(true);
+      setTimeout(() => {
+        setIsSubscribed(false);
+        setEmail('');
+      }, 3000);
+    }
+  };
+
+  return (
+    <section
+      ref={sectionRef}
+      id="insights"
+      className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-24 lg:py-32"
+    >
+      <div className="w-full px-6 lg:px-12">
+        {/* Headline */}
+        <div ref={headlineRef} className="mb-12">
+          <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-4">
+            {t('insights.title')}
+          </h2>
+          <p className="text-anclora-navy/70 dark:text-anclora-text-muted leading-relaxed max-w-xl">
+            {t('insights.description')}
+          </p>
+        </div>
+
+        {/* Article Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {articles.map((article, index) => (
+            <div
+              key={article.id}
+              ref={(el) => { cardsRef.current[index] = el; }}
+              className="group cursor-pointer"
+            >
+              <div className="card-premium overflow-hidden h-[52vh] relative">
+                {/* Image */}
+                <div className="h-[65%] overflow-hidden">
+                  <img
+                    src={article.image}
+                    alt={t(article.titleKey)}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                
+                {/* Content */}
+                <div className="h-[35%] p-6 bg-anclora-teal-bg dark:bg-anclora-teal-bg flex flex-col justify-center">
+                  <h3 className="font-display text-xl font-semibold text-anclora-navy dark:text-anclora-cream mb-1 group-hover:text-anclora-gold transition-colors">
+                    {t(article.titleKey)}
+                  </h3>
+                  <p className="text-sm text-anclora-navy/70 dark:text-anclora-text-muted">
+                    {t(article.subtitleKey)}
+                  </p>
+                  <div className="mt-4 flex items-center gap-1 text-anclora-gold text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                    Read more
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Newsletter Panel */}
+        <div
+          ref={newsletterRef}
+          className="p-8 lg:p-12 bg-anclora-teal-bg dark:bg-anclora-teal-bg/70 rounded-2xl border border-anclora-navy/10 dark:border-white/10"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h3 className="font-display text-2xl lg:text-3xl font-semibold text-anclora-navy dark:text-anclora-cream mb-2">
+                {t('insights.newsletter.title')}
+              </h3>
+              <p className="text-anclora-navy/70 dark:text-anclora-text-muted">
+                {t('insights.newsletter.description')}
+              </p>
+            </div>
+
+            <div>
+              {isSubscribed ? (
+                <div className="flex items-center gap-3 text-anclora-gold">
+                  <CheckCircle className="w-6 h-6" />
+                  <span className="font-medium">{t('insights.newsletter.success')}</span>
+                </div>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex gap-3">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="input-anclora flex-1"
+                    placeholder="your@email.com"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="btn-primary flex items-center gap-2 whitespace-nowrap"
+                  >
+                    <Send className="w-4 h-4" />
+                    {t('insights.newsletter.cta')}
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

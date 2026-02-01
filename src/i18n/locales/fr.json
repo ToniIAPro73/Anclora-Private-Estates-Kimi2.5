@@ -1,0 +1,125 @@
+{
+  "nav": {
+    "properties": "Propriétés",
+    "invest": "Investir",
+    "valuation": "Évaluation",
+    "insights": "Analyses",
+    "contact": "Contact",
+    "bookCall": "Réserver un appel"
+  },
+  "hero": {
+    "eyebrow": "Propriété à la Une",
+    "title": "Villa Cala Llamp",
+    "subtitle": "Port d'Andratx · 6 ch · 520 m² · Vue sur la mer",
+    "description": "Une propriété méditerranéenne moderne avec vues panoramiques sur la côte, piscine à débordement et accès direct à la marina.",
+    "ctaPrimary": "Demander une visite privée",
+    "ctaSecondary": "Voir toutes les propriétés de Port d'Andratx",
+    "badge": "Nouveau"
+  },
+  "properties": {
+    "eyebrow": "Collection Curatée",
+    "title": "Trois maisons. Trois histoires.",
+    "description": "Propriétés sélectionnées avec un solide historique locatif, faible vacance et potentiel de plus-value clair.",
+    "cta": "Explorer le portfolio complet",
+    "villa1": "Cala Fornells · Villa",
+    "villa2": "Santa Ponsa · Moderne",
+    "villa3": "Palma Vieille Ville · Penthouse"
+  },
+  "investment": {
+    "eyebrow": "Thèse d'Investissement",
+    "title": "Pourquoi les Baléares surperforment.",
+    "description": "Offre limitée, demande mondiale et un marché locatif réglementé créent des revenus résilients et une appréciation à long terme.",
+    "metric1": "Croissance annuelle prix (5A)",
+    "metric2": "Occupation (saison)",
+    "metric3": "Volume transactions (2024)",
+    "cta": "Télécharger le rapport de marché"
+  },
+  "neighborhood": {
+    "eyebrow": "Quartier à la Une",
+    "title": "Palma Vieille Ville",
+    "description": "Rues pavées, boutiques de design et appartements historiques avec finitions modernes. Un choix privilégié pour la demande locative stable.",
+    "caption": "PHOTO: PLAÇA DE SANTA EULÀLIA",
+    "cta": "Voir les propriétés en Vieille Ville"
+  },
+  "valuation": {
+    "title": "Connaître la vraie valeur.",
+    "description": "Nous combinons les comparables locaux, le savoir-faire terrain et les signaux du marché—pour que vous ne payiez jamais trop cher.",
+    "service1": {
+      "title": "Évaluation Instantanée",
+      "description": "Une estimation basée sur les données en 24 heures."
+    },
+    "service2": {
+      "title": "Prévision Locative",
+      "description": "Revenus projetés + occupation par saison."
+    },
+    "service3": {
+      "title": "Impôts & Coûts",
+      "description": "Scénarios d'achat, de détention et de vente."
+    },
+    "form": {
+      "title": "Demander une évaluation",
+      "name": "Nom",
+      "email": "Email",
+      "address": "Adresse de la propriété",
+      "message": "Message (optionnel)",
+      "placeholderName": "Votre nom",
+      "placeholderEmail": "votre@email.com",
+      "placeholderAddress": "Localisation de la propriété",
+      "placeholderMessage": "Parlez-nous de votre propriété...",
+      "submit": "Envoyer la demande",
+      "success": "Demande envoyée !",
+      "successMessage": "Nous vous contacterons sous 24 heures."
+    }
+  },
+  "insights": {
+    "title": "Analyses de marché.",
+    "description": "Lectures courtes sur la réglementation, le financement et les tendances de quartiers.",
+    "article1": {
+      "title": "Règles Location 2026",
+      "subtitle": "Ce que les propriétaires doivent savoir"
+    },
+    "article2": {
+      "title": "Financement Non-Résidents",
+      "subtitle": "Banques, taux et documentation"
+    },
+    "article3": {
+      "title": "Tendances de Quartiers",
+      "subtitle": "Où la demande croît"
+    },
+    "newsletter": {
+      "title": "Le Briefing",
+      "description": "Un email par mois. Pas de bruit. Juste des analyses qui comptent.",
+      "cta": "S'abonner",
+      "success": "Abonné !"
+    }
+  },
+  "contact": {
+    "title": "Trouvons votre prochaine maison.",
+    "description": "Dites-nous ce que vous cherchez. Nous présélectionnerons des propriétés, organiserons des visites et ferons les calculs.",
+    "cta": "Réserver un appel",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "office": "Bureau",
+    "hours": "Heures d'ouverture",
+    "weekdays": "Lundi – Vendredi: 9:00 – 18:00",
+    "saturday": "Samedi: 10:00 – 14:00"
+  },
+  "footer": {
+    "description": "Immobilier de luxe et conseil en investissement dans les Îles Baléares. Nous connectons les investisseurs exigeants avec des propriétés exceptionnelles.",
+    "quickLinks": "Liens rapides",
+    "legal": "Légal",
+    "contact": "Contact",
+    "privacy": "Politique de Confidentialité",
+    "cookies": "Politique des Cookies",
+    "terms": "Conditions Générales",
+    "legalNotice": "Mentions Légales",
+    "ethics": "Code d'Éthique",
+    "rights": "Tous droits réservés."
+  },
+  "language": {
+    "es": "Español",
+    "en": "English",
+    "fr": "Français",
+    "de": "Deutsch"
+  }
+}
