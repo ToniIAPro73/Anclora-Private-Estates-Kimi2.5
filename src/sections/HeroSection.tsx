@@ -1,114 +1,112 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, ChevronRight } from 'lucide-react';
+import { Search, ChevronDown } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function HeroSection() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
-  const mediaCardRef = useRef<HTMLDivElement>(null);
-  const textPanelRef = useRef<HTMLDivElement>(null);
-  const ctaRowRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const heroBgRef = useRef<HTMLDivElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const widgetRef = useRef<HTMLDivElement>(null);
+  const [propertyType, setPropertyType] = useState('any');
+  const [location, setLocation] = useState('all');
+  const [priceRange, setPriceRange] = useState('2m');
 
   useEffect(() => {
     const section = sectionRef.current;
-    const mediaCard = mediaCardRef.current;
-    const textPanel = textPanelRef.current;
-    const ctaRow = ctaRowRef.current;
-    const headline = headlineRef.current;
+    const heroBg = heroBgRef.current;
+    const tagline = taglineRef.current;
+    const title = titleRef.current;
+    const widget = widgetRef.current;
 
-    if (!section || !mediaCard || !textPanel || !ctaRow || !headline) return;
+    if (!section || !heroBg || !tagline || !title || !widget) return;
 
     const ctx = gsap.context(() => {
-      // Initial load animation
-      const loadTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-      // Media card entrance
-      loadTl.fromTo(
-        mediaCard,
-        { x: '-18vw', opacity: 0, scale: 0.98 },
-        { x: 0, opacity: 1, scale: 1, duration: 0.9 }
+      // Hero background animation - blur to sharp
+      gsap.fromTo(
+        heroBg,
+        { scale: 1.15, filter: 'blur(20px) brightness(0.6)' },
+        { 
+          scale: 1.05, 
+          filter: 'blur(0px) brightness(0.85)', 
+          duration: 4, 
+          ease: 'power2.out' 
+        }
       );
 
-      // Text panel entrance
-      loadTl.fromTo(
-        textPanel,
-        { x: '10vw', opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.8 },
-        0.15
+      // Tagline animation
+      gsap.fromTo(
+        tagline,
+        { opacity: 0, filter: 'blur(10px)' },
+        { 
+          opacity: 1, 
+          filter: 'blur(0px)', 
+          duration: 2, 
+          delay: 1,
+          ease: 'power2.out' 
+        }
       );
 
-      // Headline words stagger
-      const words = headline.querySelectorAll('.word');
-      loadTl.fromTo(
-        words,
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, stagger: 0.03 },
-        0.25
+      // Title animation
+      gsap.fromTo(
+        title,
+        { opacity: 0, filter: 'blur(10px)', scale: 0.95 },
+        { 
+          opacity: 1, 
+          filter: 'blur(0px)', 
+          scale: 1,
+          duration: 2, 
+          delay: 3.5,
+          ease: 'power2.out' 
+        }
       );
 
-      // CTA row entrance
-      loadTl.fromTo(
-        ctaRow,
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5 },
-        0.55
+      // Widget animation
+      gsap.fromTo(
+        widget,
+        { opacity: 0, filter: 'blur(10px)', y: 20 },
+        { 
+          opacity: 1, 
+          filter: 'blur(0px)', 
+          y: 0,
+          duration: 2, 
+          delay: 3.5,
+          ease: 'power2.out' 
+        }
       );
 
-      // Scroll-driven exit animation
-      const scrollTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top top',
-          end: '+=130%',
-          pin: true,
-          scrub: 0.6,
-          onLeaveBack: () => {
-            // Reset all elements when scrolling back to top
-            gsap.set([mediaCard, textPanel, ctaRow], {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              scale: 1,
-            });
-          },
-        },
+      // Parallax effect on scroll
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          gsap.set(heroBg, {
+            scale: 1.05 + progress * 0.15,
+            y: progress * 100
+          });
+        }
       });
-
-      // ENTRANCE (0-30%): No animation, already visible from load
-      // SETTLE (30-70%): Static
-
-      // EXIT (70-100%)
-      scrollTl.fromTo(
-        mediaCard,
-        { x: 0, opacity: 1, scale: 1 },
-        { x: '-40vw', opacity: 0.25, scale: 0.96, ease: 'power2.in' },
-        0.7
-      );
-
-      scrollTl.fromTo(
-        textPanel,
-        { x: 0, opacity: 1 },
-        { x: '18vw', opacity: 0.2, ease: 'power2.in' },
-        0.7
-      );
-
-      scrollTl.fromTo(
-        ctaRow,
-        { y: 0, opacity: 1 },
-        { y: '10vh', opacity: 0, ease: 'power2.in' },
-        0.75
-      );
     }, section);
 
     return () => ctx.revert();
-  }, [t]); // Re-run when translation changes
+  }, []);
 
-  const scrollToProperties = () => {
+  const scrollToPhilosophy = () => {
+    const element = document.querySelector('#philosophy');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleSearch = () => {
     const element = document.querySelector('#properties');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -118,85 +116,111 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="section-pinned bg-anclora-cream dark:bg-anclora-teal z-10"
+      id="hero"
+      className="relative h-screen flex items-center justify-center text-center overflow-hidden"
     >
-      {/* Background vignette */}
-      <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-anclora-cream/40 dark:to-anclora-teal-dark/40 pointer-events-none" />
+      {/* Hero Background */}
+      <div 
+        ref={heroBgRef}
+        className="absolute inset-0 z-[-1]"
+        style={{
+          backgroundImage: 'url(/images/hero-villa.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      />
+      
+      {/* Hero Overlay */}
+      <div 
+        className="absolute inset-0 z-0"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(5, 7, 10, 0.4) 0%, rgba(5, 7, 10, 0.2) 50%, rgba(5, 7, 10, 0.6) 100%)'
+        }}
+      />
 
-      {/* Left Media Card */}
-      <div
-        ref={mediaCardRef}
-        className="absolute left-[6vw] top-[14vh] w-[52vw] h-[72vh] card-premium overflow-hidden"
-      >
-        <img
-          src="/images/hero-villa.jpg"
-          alt="Villa Cala Llamp"
-          className="w-full h-full object-cover"
-        />
-        {/* Badge */}
-        <div className="absolute top-6 left-6">
-          <span className="font-mono text-xs uppercase tracking-[0.14em] bg-anclora-gold text-anclora-teal dark:text-anclora-teal px-3 py-1.5 rounded">
-            {t('hero.badge')}
-          </span>
-        </div>
-        {/* Gradient overlay at bottom */}
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-anclora-teal/60 dark:from-anclora-teal/60 to-transparent" />
-      </div>
-
-      {/* Right Text Panel */}
-      <div
-        ref={textPanelRef}
-        className="absolute left-[62vw] top-[18vh] w-[32vw]"
-      >
-        {/* Eyebrow */}
-        <span className="text-eyebrow block mb-4">{t('hero.eyebrow')}</span>
-
-        {/* Headline */}
-        <h1
-          ref={headlineRef}
-          className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-4"
+      {/* Hero Content */}
+      <div className="relative z-10 w-full max-w-[1100px] px-[5%] flex flex-col items-center justify-center">
+        {/* Tagline */}
+        <p 
+          ref={taglineRef}
+          className="text-[1.1rem] text-white tracking-[8px] uppercase font-semibold mb-8"
+          style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
         >
-          <span className="word inline-block">Villa</span>{' '}
-          <span className="word inline-block">Cala</span>{' '}
-          <span className="word inline-block">Llamp</span>
+          {t('hero.tagline')}
+        </p>
+
+        {/* Main Title */}
+        <h1 
+          ref={titleRef}
+          className="font-['Playfair_Display'] text-[clamp(2rem,5vw,3.5rem)] font-bold max-w-[900px] leading-[1.3] tracking-[2px] mb-12"
+          style={{
+            background: 'linear-gradient(to bottom, #FFF 0%, #FFF 60%, #E6C96E 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}
+        >
+          {t('hero.title')}
         </h1>
 
-        {/* Subheadline */}
-        <p className="text-anclora-navy/70 dark:text-anclora-text-muted text-lg mb-4">
-          {t('hero.subtitle')}
-        </p>
-
-        {/* Body */}
-        <p className="text-anclora-navy/70 dark:text-anclora-text-muted leading-relaxed mb-6">
-          {t('hero.description')}
-        </p>
-
-        {/* Gold divider */}
-        <div className="w-28 h-0.5 bg-anclora-gold mb-8" />
-      </div>
-
-      {/* CTA Row */}
-      <div
-        ref={ctaRowRef}
-        className="absolute left-[62vw] top-[72vh] w-[32vw]"
-      >
-        <div className="flex flex-col sm:flex-row gap-4">
-          <button
-            onClick={scrollToProperties}
-            className="btn-primary flex items-center justify-center gap-2"
+        {/* Search Widget */}
+        <div ref={widgetRef} className="search-widget">
+          <div className="search-input-group">
+            <span className="search-label">{t('search.propertyType')}</span>
+            <select 
+              className="search-select"
+              value={propertyType}
+              onChange={(e) => setPropertyType(e.target.value)}
+            >
+              <option value="any">{t('search.anyType')}</option>
+              <option value="villa">Villa</option>
+              <option value="penthouse">Penthouse</option>
+              <option value="finca">Finca</option>
+            </select>
+          </div>
+          <div className="search-input-group">
+            <span className="search-label">{t('search.location')}</span>
+            <select 
+              className="search-select"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              <option value="all">{t('search.allMallorca')}</option>
+              <option value="palma">Palma</option>
+              <option value="andratx">Andratx</option>
+              <option value="calvia">Calvia</option>
+            </select>
+          </div>
+          <div className="search-input-group">
+            <span className="search-label">{t('search.priceRange')}</span>
+            <select 
+              className="search-select"
+              value={priceRange}
+              onChange={(e) => setPriceRange(e.target.value)}
+            >
+              <option value="2m">€2.000.000+</option>
+              <option value="5m">€5.000.000+</option>
+              <option value="10m">€10.000.000+</option>
+            </select>
+          </div>
+          <button 
+            onClick={handleSearch}
+            className="btn-anclora-premium !min-w-[180px] !h-[60px] !py-0"
           >
-            {t('hero.ctaPrimary')}
-            <ArrowRight className="w-4 h-4" />
-          </button>
-          <button
-            onClick={scrollToProperties}
-            className="text-anclora-gold hover:text-anclora-gold-light transition-colors flex items-center gap-1 text-sm font-medium"
-          >
-            {t('hero.ctaSecondary')}
-            <ChevronRight className="w-4 h-4" />
+            <Search className="w-[18px] h-[18px]" strokeWidth={2.5} />
+            {t('search.button')}
           </button>
         </div>
       </div>
+
+      {/* Hero Down Indicator */}
+      <button 
+        onClick={scrollToPhilosophy}
+        className="hero-down"
+      >
+        <span>{t('hero.discover')}</span>
+        <ChevronDown className="w-6 h-6" strokeWidth={2} />
+      </button>
     </section>
   );
 }

@@ -1,191 +1,183 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { MapPin, Phone, Mail, Linkedin, Instagram } from 'lucide-react';
+import { Phone, Mail, CheckSquare, BarChart3, FileText } from 'lucide-react';
 
 export function Footer() {
   const { t } = useTranslation();
-  const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle newsletter subscription
+    alert(t('newsletter.success'));
+    setEmail('');
+    setName('');
+  };
 
   return (
-    <footer className="bg-anclora-teal-dark dark:bg-anclora-teal-dark border-t border-white/10">
-      {/* Main Footer */}
-      <div className="w-full px-6 lg:px-12 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-          {/* Brand Column */}
-          <div className="lg:col-span-1">
-            <Link to="/" className="inline-block mb-6">
-              <span className="font-display text-2xl font-bold">
-                <span className="text-anclora-gold">ANCLORA</span>
-                <span className="text-anclora-cream"> PRIVATE ESTATES</span>
-              </span>
+    <footer className="premium-footer">
+      {/* Decorative Wave SVG */}
+      <div className="footer-wave-decoration">
+        <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="footer-wave-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#D4AF37', stopOpacity: 0 }} />
+              <stop offset="30%" style={{ stopColor: '#D4AF37', stopOpacity: 0.4 }} />
+              <stop offset="70%" style={{ stopColor: '#B9915F', stopOpacity: 0.3 }} />
+              <stop offset="100%" style={{ stopColor: '#D4AF37', stopOpacity: 0 }} />
+            </linearGradient>
+            <linearGradient id="footer-wave-gradient-2" x1="0%" y1="0%" x2="100%" y2="50%">
+              <stop offset="0%" style={{ stopColor: '#D4AF37', stopOpacity: 0 }} />
+              <stop offset="40%" style={{ stopColor: '#D4AF37', stopOpacity: 0.25 }} />
+              <stop offset="100%" style={{ stopColor: '#B9915F', stopOpacity: 0 }} />
+            </linearGradient>
+          </defs>
+          <path 
+            className="wave-path" 
+            d="M-50,450 Q150,350 300,400 T550,300 T800,350" 
+            stroke="url(#footer-wave-gradient)" 
+            strokeWidth="3" 
+            opacity="0.5"
+            fill="none"
+          />
+          <path 
+            className="wave-path" 
+            d="M-100,500 Q200,400 350,450 T600,350 T850,400" 
+            stroke="url(#footer-wave-gradient)" 
+            strokeWidth="1.5" 
+            opacity="0.35"
+            fill="none"
+          />
+          <path 
+            className="wave-path" 
+            d="M-80,550 Q180,480 320,520 T580,420 T820,480" 
+            stroke="url(#footer-wave-gradient-2)" 
+            strokeWidth="2" 
+            opacity="0.25"
+            fill="none"
+          />
+        </svg>
+      </div>
+
+      {/* Main Footer Content */}
+      <div className="footer-main-content">
+        {/* Left Column - Anclora Nexus Group Brand */}
+        <div className="footer-brand-column">
+          <img 
+            src="/logo-anclora-nexus-group.png" 
+            alt="Anclora Nexus Group" 
+            className="footer-logo-premium"
+          />
+          
+          <div className="footer-brand-text">ANCLORA NEXUS GROUP</div>
+          
+          <div className="footer-brand-slogan">
+            {t('footer.slogan')}
+          </div>
+
+          {/* Trust Icons */}
+          <div className="footer-trust-icons">
+            <div className="trust-item">
+              <div className="trust-icon-box">
+                <CheckSquare className="w-7 h-7" />
+              </div>
+              <span>GDPR</span>
+            </div>
+            <div className="trust-item">
+              <div className="trust-icon-box">
+                <BarChart3 className="w-7 h-7" />
+              </div>
+              <span>ISO 9001</span>
+            </div>
+            <div className="trust-item">
+              <div className="trust-icon-box">
+                <FileText className="w-7 h-7" />
+              </div>
+              <span>EU REG</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Center Column - Contact Info */}
+        <div className="footer-contact-column">
+          <h4 className="footer-section-title">{t('footer.contact')}</h4>
+
+          <a href="tel:+34971000000" className="footer-contact-item">
+            <Phone className="w-5 h-5" strokeWidth={2} />
+            +34 971 00 00 00
+          </a>
+          <a href="mailto:private@anclora.com" className="footer-contact-item">
+            <Mail className="w-5 h-5" strokeWidth={2} />
+            private@anclora.com
+          </a>
+        </div>
+
+        {/* Right Column - Newsletter */}
+        <div className="footer-newsletter-column">
+          <h4 className="footer-section-title">{t('newsletter.title')}</h4>
+
+          <p className="newsletter-description">
+            {t('newsletter.description')}
+          </p>
+
+          <form className="newsletter-form" onSubmit={handleSubscribe}>
+            <div className="newsletter-input-group">
+              <input 
+                type="text" 
+                className="newsletter-input" 
+                placeholder={t('newsletter.namePlaceholder')}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="newsletter-input-group">
+              <input 
+                type="email" 
+                className="newsletter-input" 
+                placeholder={t('newsletter.emailPlaceholder')}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="newsletter-submit">
+              {t('newsletter.submit')}
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Footer Bottom Bar */}
+      <div className="footer-bottom-bar">
+        <div className="footer-bottom-content">
+          {/* Legal Links */}
+          <div className="footer-legal-links">
+            <Link to="/legal/privacidad">
+              {t('footer.privacy')}
             </Link>
-            <p className="text-anclora-text-muted text-sm leading-relaxed mb-6">
-              {t('footer.description')}
-            </p>
-            <div className="flex gap-4">
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-anclora-cream/60 hover:text-anclora-gold hover:border-anclora-gold transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-anclora-cream/60 hover:text-anclora-gold hover:border-anclora-gold transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-            </div>
+            <Link to="/legal/cookies">
+              {t('footer.cookies')}
+            </Link>
+            <Link to="/legal/terminos">
+              {t('footer.terms')}
+            </Link>
+            <Link to="/legal/disclaimer">
+              {t('footer.legalNotice')}
+            </Link>
+            <Link to="/legal/codigo-etico">
+              {t('footer.ethics')}
+            </Link>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-display font-semibold text-anclora-cream mb-6">
-              {t('footer.quickLinks')}
-            </h4>
-            <ul className="space-y-3">
-              {[
-                { label: t('nav.properties'), href: '#properties' },
-                { label: t('nav.invest'), href: '#invest' },
-                { label: t('nav.valuation'), href: '#valuation' },
-                { label: t('nav.insights'), href: '#insights' },
-                { label: t('nav.contact'), href: '#contact' },
-              ].map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Disclaimer */}
+          <p className="footer-disclaimer">
+            {t('footer.disclaimer')}
+          </p>
 
-          {/* Legal */}
-          <div>
-            <h4 className="font-display font-semibold text-anclora-cream mb-6">
-              {t('footer.legal')}
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  to="/legal/privacidad"
-                  className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                >
-                  {t('footer.privacy')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/legal/cookies"
-                  className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                >
-                  {t('footer.cookies')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/legal/terminos"
-                  className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                >
-                  {t('footer.terms')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/legal/disclaimer"
-                  className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                >
-                  {t('footer.legalNotice')}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/legal/codigo-etico"
-                  className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                >
-                  {t('footer.ethics')}
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="font-display font-semibold text-anclora-cream mb-6">
-              {t('footer.contact')}
-            </h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-anclora-gold flex-shrink-0 mt-0.5" />
-                <span className="text-anclora-text-muted text-sm">
-                  Paseo del Borne, 15<br />
-                  07012 Palma de Mallorca<br />
-                  Islas Baleares, España
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-anclora-gold flex-shrink-0" />
-                <a
-                  href="tel:+34600000000"
-                  className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                >
-                  +34 600 000 000
-                </a>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-anclora-gold flex-shrink-0" />
-                <a
-                  href="mailto:hello@ancloraprivateestates.com"
-                  className="text-anclora-text-muted hover:text-anclora-gold transition-colors text-sm"
-                >
-                  hello@ancloraprivateestates.com
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Legal Bar */}
-      <div className="border-t border-white/5">
-        <div className="w-full px-6 lg:px-12 py-6">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
-            <div className="text-xs text-anclora-text-muted/60 text-center lg:text-left">
-              <p className="mb-1">
-                <strong className="text-anclora-cream/80">Anclora Private Estates S.L.</strong> | 
-                CIF: B-XXXXXXXX | 
-                Registro Mercantil de Palma de Mallorca
-              </p>
-              <p>
-                API (Agente de la Propiedad Inmobiliaria) Nº XXXX - Colegio API Baleares | 
-                Seguro de Responsabilidad Civil: 300.000€
-              </p>
-            </div>
-            <p className="text-xs text-anclora-text-muted/40">
-              © {currentYear} Anclora Private Estates. {t('footer.rights')}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Disclaimer */}
-      <div className="border-t border-white/5 bg-anclora-teal-dark/50">
-        <div className="w-full px-6 lg:px-12 py-6">
-          <p className="text-xs text-anclora-text-muted/50 leading-relaxed text-center lg:text-left">
-            <strong className="text-anclora-cream/60">Legal Notice:</strong> The information on this website 
-            is for informational purposes only and does not constitute legal, tax, or investment advice. 
-            Property photographs and renders may not exactly match reality. All prices are subject to change 
-            without notice. Anclora Private Estates is not responsible for errors or omissions in the 
-            published information. Please verify all information directly with our agents before making any decisions.
+          {/* Copyright */}
+          <p className="footer-copyright">
+            © {new Date().getFullYear()} <span>ANCLORA NEXUS GROUP</span> · ID: ANG-PRT-2026-EU
           </p>
         </div>
       </div>

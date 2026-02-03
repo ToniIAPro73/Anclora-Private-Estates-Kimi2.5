@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -14,9 +14,12 @@ import { ThemeProvider } from './context/ThemeContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
+import { SocialSidebar } from './components/SocialSidebar';
+import { FloatingControls } from './components/FloatingControls';
 
 // Sections
 import { HeroSection } from './sections/HeroSection';
+import { PhilosophySection } from './sections/PhilosophySection';
 import { PropertiesSection } from './sections/PropertiesSection';
 import { InvestmentSection } from './sections/InvestmentSection';
 import { NeighborhoodSection } from './sections/NeighborhoodSection';
@@ -49,6 +52,7 @@ function ScrollToTop() {
 // Main Home Page
 function HomePage() {
   const { i18n } = useTranslation();
+  const [cookieModalOpen, setCookieModalOpen] = useState(false);
 
   useEffect(() => {
     // Initialize global snap for pinned sections
@@ -98,24 +102,40 @@ function HomePage() {
       clearTimeout(timer);
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
-  }, [i18n.language]); // Re-run when language changes
+  }, [i18n.language]);
 
   return (
-    <main className="relative">
-      {/* Pinned Sections - z-index stacking */}
-      <HeroSection />
-      <PropertiesSection />
-      <InvestmentSection />
-      <NeighborhoodSection />
+    <>
+      {/* Social Sidebar - Only on home page */}
+      <SocialSidebar />
       
-      {/* Flowing Sections */}
-      <ValuationSection />
-      <InsightsSection />
-      <ContactSection />
+      {/* Floating Controls - Only on home page */}
+      <FloatingControls onOpenCookieModal={() => setCookieModalOpen(true)} />
       
-      {/* Footer */}
-      <Footer />
-    </main>
+      <main className="relative">
+        {/* Hero Section */}
+        <HeroSection />
+        
+        {/* Philosophy Section */}
+        <PhilosophySection />
+        
+        {/* Pinned Sections - z-index stacking */}
+        <PropertiesSection />
+        <InvestmentSection />
+        <NeighborhoodSection />
+        
+        {/* Flowing Sections */}
+        <ValuationSection />
+        <InsightsSection />
+        <ContactSection />
+        
+        {/* Footer */}
+        <Footer />
+      </main>
+      
+      {/* Cookie Banner/Modal */}
+      <CookieBanner isOpen={cookieModalOpen} onClose={() => setCookieModalOpen(false)} />
+    </>
   );
 }
 
@@ -143,9 +163,6 @@ function App() {
           <Route path="/legal/disclaimer" element={<DisclaimerPage />} />
           <Route path="/legal/codigo-etico" element={<EthicsPage />} />
         </Routes>
-        
-        {/* Cookie Banner */}
-        <CookieBanner />
       </BrowserRouter>
     </ThemeProvider>
   );

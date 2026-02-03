@@ -2,19 +2,38 @@
   "nav": {
     "properties": "Properties",
     "invest": "Invest",
-    "valuation": "Valuation",
+    "valuation": "Free Valuation",
     "insights": "Insights",
     "contact": "Contact",
-    "bookCall": "Book a call"
+    "bookCall": "Book a call",
+    "about": "About Us"
   },
   "hero": {
-    "eyebrow": "Featured Listing",
-    "title": "Villa Cala Llamp",
-    "subtitle": "Port d'Andratx · 6 beds · 520 m² · Sea views",
-    "description": "A modern Mediterranean estate with panoramic coastline views, infinity pool, and direct marina access.",
-    "ctaPrimary": "Request a private viewing",
-    "ctaSecondary": "See all Port d'Andratx listings",
-    "badge": "New"
+    "tagline": "ANCLORA PRIVATE ESTATES",
+    "title": "Exclusivity Elevated to an Art Form",
+    "discover": "Discover"
+  },
+  "search": {
+    "propertyType": "Property Type",
+    "location": "Location",
+    "priceRange": "Price Range",
+    "anyType": "Any type",
+    "allMallorca": "All Mallorca",
+    "button": "Search"
+  },
+  "philosophy": {
+    "trophy": {
+      "title": "Trophy Selection",
+      "description": "Exclusive access to unique real estate assets, selected under rigorous criteria of scarcity and appreciation potential."
+    },
+    "dataLab": {
+      "title": "Anclora Data Lab",
+      "description": "Institutional intelligence applied to the real estate sector. Predictive models that guarantee precise investment decisions."
+    },
+    "legal": {
+      "title": "Legal & Wealth",
+      "description": "Optimized fiscal and legal structuring for the preservation and growth of family and institutional wealth."
+    }
   },
   "properties": {
     "eyebrow": "Curated Collection",
@@ -109,17 +128,56 @@
     "quickLinks": "Quick Links",
     "legal": "Legal",
     "contact": "Contact",
-    "privacy": "Privacy Policy",
-    "cookies": "Cookie Policy",
-    "terms": "Terms & Conditions",
+    "privacy": "Privacy",
+    "cookies": "Cookies",
+    "terms": "Terms of Use",
     "legalNotice": "Legal Notice",
     "ethics": "Code of Ethics",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "slogan": "Where intelligence and heritage converge. Structure, vision and long-term control.",
+    "disclaimer": "Institutional Disclaimer: The information contained on this platform is strictly confidential and intended solely for qualified investment profiles. Anclora Nexus Group operates under the strictest EU regulations, applying analytical architecture to every asset selection."
   },
   "language": {
     "es": "Español",
     "en": "English",
     "fr": "Français",
     "de": "Deutsch"
+  },
+  "social": {
+    "followUs": "Follow Us"
+  },
+  "scroll": {
+    "up": "Up",
+    "down": "Down"
+  },
+  "newsletter": {
+    "title": "Subscribe to our newsletter",
+    "description": "Get early access to exclusive properties and premium investment opportunities.",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "Email",
+    "submit": "Subscribe",
+    "success": "Thank you for subscribing!"
+  },
+  "cookie": {
+    "title": "Privacy & Cookies",
+    "description": "At Anclora Private Estates we apply analytical architecture to ensure your investment experience is as flawless as our most prized luxury assets. We use essential technologies for the management of your institutional profile.",
+    "acceptAll": "Accept All",
+    "settings": "Settings",
+    "settingsTitle": "Cookie Settings",
+    "savePreferences": "Save Preferences",
+    "back": "Back",
+    "rejectAll": "Reject non-essential",
+    "necessary": {
+      "title": "Necessary Cookies",
+      "description": "Essential for the website to function. Cannot be disabled."
+    },
+    "analytics": {
+      "title": "Analytics Cookies",
+      "description": "Google Analytics - Helps us understand how you interact with the site."
+    },
+    "marketing": {
+      "title": "Marketing Cookies",
+      "description": "Meta Pixel - To show you relevant ads on social media."
+    }
   }
 }

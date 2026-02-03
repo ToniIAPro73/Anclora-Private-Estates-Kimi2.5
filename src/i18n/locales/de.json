@@ -2,19 +2,38 @@
   "nav": {
     "properties": "Immobilien",
     "invest": "Investieren",
-    "valuation": "Bewertung",
+    "valuation": "Immobilienbewertung",
     "insights": "Einblicke",
     "contact": "Kontakt",
-    "bookCall": "Anruf vereinbaren"
+    "bookCall": "Anruf vereinbaren",
+    "about": "Über Uns"
   },
   "hero": {
-    "eyebrow": "Empfohlene Immobilie",
-    "title": "Villa Cala Llamp",
-    "subtitle": "Port d'Andratx · 6 Zi · 520 m² · Meerblick",
-    "description": "Eine moderne mediterrane Villa mit panoramischem Küstenblick, Infinity-Pool und direktem Yachthafen-Zugang.",
-    "ctaPrimary": "Private Besichtigung anfragen",
-    "ctaSecondary": "Alle Immobilien in Port d'Andratx ansehen",
-    "badge": "Neu"
+    "tagline": "ANCLORA PRIVATE ESTATES",
+    "title": "Exklusivität zur Kunst erhoben",
+    "discover": "Entdecken"
+  },
+  "search": {
+    "propertyType": "Immobilientyp",
+    "location": "Standort",
+    "priceRange": "Preisspanne",
+    "anyType": "Alle Typen",
+    "allMallorca": "Ganz Mallorca",
+    "button": "Suche"
+  },
+  "philosophy": {
+    "trophy": {
+      "title": "Trophy-Auswahl",
+      "description": "Exklusiver Zugang zu einzigartigen Immobilienwerten, ausgewählt nach strengen Kriterien der Knappheit und des Wertsteigerungspotenzials."
+    },
+    "dataLab": {
+      "title": "Anclora Data Lab",
+      "description": "Institutionelle Intelligenz für den Immobiliensektor. Prädiktive Modelle, die präzise Investitionsentscheidungen garantieren."
+    },
+    "legal": {
+      "title": "Legal & Wealth",
+      "description": "Optimierte steuerliche und rechtliche Strukturierung für den Erhalt und das Wachstum von Familien- und Institutionsvermögen."
+    }
   },
   "properties": {
     "eyebrow": "Kuratierte Kollektion",
@@ -109,17 +128,56 @@
     "quickLinks": "Schnelllinks",
     "legal": "Rechtliches",
     "contact": "Kontakt",
-    "privacy": "Datenschutzrichtlinie",
-    "cookies": "Cookie-Richtlinie",
-    "terms": "Allgemeine Geschäftsbedingungen",
+    "privacy": "Datenschutz",
+    "cookies": "Cookies",
+    "terms": "Nutzungsbedingungen",
     "legalNotice": "Impressum",
-    "ethics": "Verhaltenskodex",
-    "rights": "Alle Rechte vorbehalten."
+    "ethics": "Ethikkodex",
+    "rights": "Alle Rechte vorbehalten.",
+    "slogan": "Wo Intelligenz und Erbe konvergieren. Struktur, Vision und langfristige Kontrolle.",
+    "disclaimer": "Institutioneller Haftungsausschluss: Die auf dieser Plattform enthaltenen Informationen sind streng vertraulich und ausschließlich für qualifizierte Investmentprofile bestimmt. Die Anclora Nexus Group arbeitet unter den strengsten EU-Vorschriften und wendet bei jeder Asset-Selektion eine analytische Architektur an."
   },
   "language": {
     "es": "Español",
     "en": "English",
     "fr": "Français",
     "de": "Deutsch"
+  },
+  "social": {
+    "followUs": "Folgen Sie uns"
+  },
+  "scroll": {
+    "up": "Hoch",
+    "down": "Runter"
+  },
+  "newsletter": {
+    "title": "Abonnieren Sie unseren Newsletter",
+    "description": "Erhalten Sie frühzeitigen Zugang zu exklusiven Immobilien und Premium-Investmentmöglichkeiten.",
+    "namePlaceholder": "Name",
+    "emailPlaceholder": "Email",
+    "submit": "Abonnieren",
+    "success": "Vielen Dank für Ihre Anmeldung!"
+  },
+  "cookie": {
+    "title": "Privatsphäre & Cookies",
+    "description": "Bei Anclora Private Estates wenden wir eine analytische Architektur an, um sicherzustellen, dass Ihr Investitionserlebnis so makellos ist wie unsere wertvollsten Luxusgüter. Wir setzen essenzielle Technologien für die Verwaltung Ihres institutionellen Profils ein.",
+    "acceptAll": "Alle Akzeptieren",
+    "settings": "Einstellungen",
+    "settingsTitle": "Cookie-Einstellungen",
+    "savePreferences": "Einstellungen Speichern",
+    "back": "Zurück",
+    "rejectAll": "Nicht-essenzielle ablehnen",
+    "necessary": {
+      "title": "Notwendige Cookies",
+      "description": "Essenziell für die Funktion der Website. Können nicht deaktiviert werden."
+    },
+    "analytics": {
+      "title": "Analyse-Cookies",
+      "description": "Google Analytics - Hilft uns zu verstehen, wie Sie mit der Website interagieren."
+    },
+    "marketing": {
+      "title": "Marketing-Cookies",
+      "description": "Meta Pixel - Um Ihnen relevante Werbung in sozialen Medien zu zeigen."
+    }
   }
 }

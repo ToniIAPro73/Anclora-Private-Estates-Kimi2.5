@@ -38,25 +38,47 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Anclora Brand Colors
+        // Anclora Private Estates Palette - Layout Base
         anclora: {
+          // Primary Colors
           teal: "#0B313F",
           "teal-dark": "#07252F",
           "teal-hover": "#124A50",
           "teal-bg": "#0F3F45",
+          // Gold Colors
           gold: "#D4AF37",
-          "gold-light": "#E5C76B",
+          "gold-light": "#E6C96E",
           "gold-dark": "#B8962F",
+          // Neutral Colors
           cream: "#F5F5F0",
           sand: "#B9915F",
           navy: "#2C3E50",
+          black: "#05070A",
+          // Text Colors
           "text-muted": "#B8C3C6",
+          "text-primary": "#F5F5F0",
+          "text-secondary": "rgba(245, 245, 240, 0.7)",
+        },
+        // Layout Base Colors
+        pe: {
+          navy: "#2C3E50",
+          gold: "#D4AF37",
+          "gold-light": "#E6C96E",
+          cream: "#F5F5F0",
+          bronze: "#B9915F",
+          black: "#05070A",
+          teal: "#0B313F",
+          "teal-hover": "#124A50",
+          "teal-bg": "#0F3F45",
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
         display: ['Montserrat', 'system-ui', 'sans-serif'],
         mono: ['IBM Plex Mono', 'monospace'],
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        outfit: ['Outfit', 'system-ui', 'sans-serif'],
+        playfair: ['Playfair Display', 'Georgia', 'serif'],
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -66,6 +88,8 @@ module.exports = {
         xs: "calc(var(--radius) - 6px)",
         "2xl": "28px",
         "3xl": "36px",
+        "full": "9999px",
+        "pill": "100px",
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
@@ -73,6 +97,15 @@ module.exports = {
         "card-hover": "0 32px 80px rgba(0,0,0,0.45)",
         "card-light": "0 24px 70px rgba(0,0,0,0.15)",
         "card-light-hover": "0 32px 80px rgba(0,0,0,0.2)",
+        gold: "0 15px 35px rgba(212, 175, 55, 0.2)",
+        "gold-hover": "0 20px 45px rgba(212, 175, 55, 0.3)",
+        "gold-lg": "0 25px 50px rgba(212, 175, 55, 0.25)",
+      },
+      transitionTimingFunction: {
+        'premium': 'cubic-bezier(0.19, 1, 0.22, 1)',
+      },
+      transitionDuration: {
+        'premium': '800ms',
       },
       keyframes: {
         "accordion-down": {
@@ -95,6 +128,24 @@ module.exports = {
           "0%, 100%": { boxShadow: "0 0 0 0 rgba(212, 175, 55, 0.4)" },
           "50%": { boxShadow: "0 0 0 10px rgba(212, 175, 55, 0)" },
         },
+        "bounce": {
+          "0%, 20%, 50%, 80%, 100%": { transform: "translateX(-50%) translateY(0)" },
+          "40%": { transform: "translateX(-50%) translateY(-10px)" },
+          "60%": { transform: "translateX(-50%) translateY(-5px)" },
+        },
+        "blur-in": {
+          "0%": { opacity: "0", filter: "blur(10px)" },
+          "100%": { opacity: "1", filter: "blur(0px)" },
+        },
+        "scale-in": {
+          "0%": { opacity: "0", transform: "scale(1.15)", filter: "blur(20px) brightness(0.6)" },
+          "100%": { opacity: "1", transform: "scale(1.05)", filter: "blur(0px) brightness(0.85)" },
+        },
+        "floating-pulse": {
+          "0%": { boxShadow: "0 10px 25px rgba(0,0,0,0.3), 0 0 0 0 rgba(212, 175, 55, 0.4)" },
+          "70%": { boxShadow: "0 10px 25px rgba(0,0,0,0.3), 0 0 0 12px rgba(212, 175, 55, 0)" },
+          "100%": { boxShadow: "0 10px 25px rgba(0,0,0,0.3), 0 0 0 0 rgba(212, 175, 55, 0)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -102,6 +153,15 @@ module.exports = {
         "caret-blink": "caret-blink 1.25s ease-out infinite",
         "float": "float 6s ease-in-out infinite",
         "pulse-gold": "pulse-gold 2s ease-in-out infinite",
+        "bounce": "bounce 2s infinite",
+        "blur-in": "blur-in 2s ease-out forwards",
+        "scale-in": "scale-in 4s cubic-bezier(0.165, 0.84, 0.44, 1) forwards",
+        "floating-pulse": "floating-pulse 3s infinite",
+      },
+      backgroundImage: {
+        'gold-gradient': 'linear-gradient(135deg, #D4AF37 0%, #E6C96E 100%)',
+        'teal-gradient': 'linear-gradient(180deg, #0B313F 0%, #07252F 100%)',
+        'hero-overlay': 'linear-gradient(to bottom, rgba(5, 7, 10, 0.4) 0%, rgba(5, 7, 10, 0.2) 50%, rgba(5, 7, 10, 0.6) 100%)',
       },
     },
   },
