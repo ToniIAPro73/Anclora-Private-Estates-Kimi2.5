@@ -120,14 +120,14 @@ export function ValuationSection() {
     <section
       ref={sectionRef}
       id="valuation"
-      className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-24 lg:py-32 z-50"
+      className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-10 lg:py-12 z-50"
     >
-      <div className="w-full px-6 lg:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+      <div className="w-full px-6 lg:pl-12 lg:pr-[190px]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-start">
           {/* Left Column */}
           <div className="lg:col-span-7">
             {/* Headline */}
-            <div ref={headlineRef} className="mb-12">
+            <div ref={headlineRef} className="mb-8">
               <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-6">
                 {t('valuation.title')}
               </h2>
@@ -137,18 +137,18 @@ export function ValuationSection() {
             </div>
 
             {/* Service Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {services.map((service, index) => (
                 <div
                   key={service.titleKey}
                   ref={(el) => { cardsRef.current[index] = el; }}
-                  className="p-6 bg-anclora-teal-bg dark:bg-anclora-teal-bg/50 rounded-2xl border border-anclora-navy/10 dark:border-white/10 hover:border-anclora-gold/30 transition-colors group"
+                  className="valuation-service-card p-5 group min-h-[230px]"
                 >
                   <service.icon className="w-8 h-8 text-anclora-gold mb-4 group-hover:scale-110 transition-transform" />
-                  <h3 className="font-display text-lg font-semibold text-anclora-navy dark:text-anclora-cream mb-2">
+                  <h3 className="font-display text-lg font-semibold text-anclora-cream mb-2">
                     {t(service.titleKey)}
                   </h3>
-                  <p className="text-sm text-anclora-navy/70 dark:text-anclora-text-muted leading-relaxed">
+                  <p className="text-sm text-anclora-text-muted leading-relaxed">
                     {t(service.descriptionKey)}
                   </p>
                 </div>
@@ -157,29 +157,30 @@ export function ValuationSection() {
           </div>
 
           {/* Right Column - Form */}
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-5 lg:pr-2">
             <div
+              id="valuation-form-card"
               ref={formRef}
-              className="p-8 bg-anclora-teal-bg dark:bg-anclora-teal-bg/70 rounded-2xl border border-anclora-navy/10 dark:border-white/10"
+              className="card-premium p-5 max-w-[680px] ml-auto"
             >
-              <h3 className="font-display text-2xl font-semibold text-anclora-navy dark:text-anclora-cream mb-6">
+              <h3 className="font-display text-2xl font-semibold text-anclora-cream mb-5">
                 {t('valuation.form.title')}
               </h3>
 
               {isSubmitted ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <CheckCircle className="w-16 h-16 text-anclora-gold mb-4" />
-                  <h4 className="font-display text-xl font-semibold text-anclora-navy dark:text-anclora-cream mb-2">
+                  <h4 className="font-display text-xl font-semibold text-anclora-cream mb-2">
                     {t('valuation.form.success')}
                   </h4>
-                  <p className="text-anclora-navy/70 dark:text-anclora-text-muted">
+                  <p className="text-anclora-text-muted">
                     {t('valuation.form.successMessage')}
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3">
                   <div>
-                    <label htmlFor="name" className="block text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-1.5">
+                    <label htmlFor="name" className="block text-sm text-anclora-text-muted mb-1.5">
                       {t('valuation.form.name')}
                     </label>
                     <input
@@ -194,7 +195,7 @@ export function ValuationSection() {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-1.5">
+                    <label htmlFor="email" className="block text-sm text-anclora-text-muted mb-1.5">
                       {t('valuation.form.email')}
                     </label>
                     <input
@@ -209,7 +210,7 @@ export function ValuationSection() {
                   </div>
 
                   <div>
-                    <label htmlFor="address" className="block text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-1.5">
+                    <label htmlFor="address" className="block text-sm text-anclora-text-muted mb-1.5">
                       {t('valuation.form.address')}
                     </label>
                     <input
@@ -224,25 +225,27 @@ export function ValuationSection() {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-1.5">
+                    <label htmlFor="message" className="block text-sm text-anclora-text-muted mb-1.5">
                       {t('valuation.form.message')}
                     </label>
                     <textarea
                       id="message"
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className="input-anclora w-full h-24 resize-none"
+                      className="input-anclora w-full h-16 resize-none"
                       placeholder={t('valuation.form.placeholderMessage')}
                     />
                   </div>
 
-                  <button
-                    type="submit"
-                    className="btn-primary w-full flex items-center justify-center gap-2 mt-6"
-                  >
-                    <Send className="w-4 h-4" />
-                    {t('valuation.form.submit')}
-                  </button>
+                  <div className="mt-4 flex justify-center max-sm:block">
+                    <button
+                      type="submit"
+                      className="btn-valuation inline-flex items-center justify-center gap-2 !min-w-[260px] !px-8 max-sm:w-full max-sm:!min-w-0"
+                    >
+                      <Send className="w-4 h-4" />
+                      {t('valuation.form.submit')}
+                    </button>
+                  </div>
                 </form>
               )}
             </div>

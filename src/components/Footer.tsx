@@ -65,11 +65,13 @@ export function Footer() {
       <div className="footer-main-content">
         {/* Left Column - Anclora Nexus Group Brand */}
         <div className="footer-brand-column">
-          <img 
-            src="/logo-anclora-nexus-group.png" 
-            alt="Anclora Nexus Group" 
-            className="footer-logo-premium"
-          />
+          <div className="footer-logo-container">
+            <img 
+              src="/logo-anclora-nexus-group.png" 
+              alt="Anclora Nexus Group" 
+              className="footer-logo-premium"
+            />
+          </div>
           
           <div className="footer-brand-text">ANCLORA NEXUS GROUP</div>
           

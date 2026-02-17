@@ -27,57 +27,62 @@ export function HeroSection() {
     if (!section || !heroBg || !tagline || !title || !widget) return;
 
     const ctx = gsap.context(() => {
-      // Hero background animation - blur to sharp
+      // Main Timeline for synchronized entrance
+      const tl = gsap.timeline();
+
+      // Hero background animation - persistent slow scale
       gsap.fromTo(
         heroBg,
-        { scale: 1.15, filter: 'blur(20px) brightness(0.6)' },
+        { scale: 1.15, filter: 'blur(30px) brightness(0.4)' },
         { 
           scale: 1.05, 
           filter: 'blur(0px) brightness(0.85)', 
-          duration: 4, 
-          ease: 'power2.out' 
+          duration: 5, 
+          ease: 'power3.out' 
         }
       );
 
-      // Tagline animation
-      gsap.fromTo(
+      // Tagline entrance - high blur to sharp
+      tl.fromTo(
         tagline,
-        { opacity: 0, filter: 'blur(10px)' },
-        { 
-          opacity: 1, 
-          filter: 'blur(0px)', 
-          duration: 2, 
-          delay: 1,
-          ease: 'power2.out' 
-        }
-      );
-
-      // Title animation
-      gsap.fromTo(
-        title,
-        { opacity: 0, filter: 'blur(10px)', scale: 0.95 },
-        { 
-          opacity: 1, 
-          filter: 'blur(0px)', 
-          scale: 1,
-          duration: 2, 
-          delay: 3.5,
-          ease: 'power2.out' 
-        }
-      );
-
-      // Widget animation
-      gsap.fromTo(
-        widget,
-        { opacity: 0, filter: 'blur(10px)', y: 20 },
+        { opacity: 0, filter: 'blur(15px)', y: 20 },
         { 
           opacity: 1, 
           filter: 'blur(0px)', 
           y: 0,
-          duration: 2, 
-          delay: 3.5,
-          ease: 'power2.out' 
-        }
+          duration: 2.5, 
+          ease: 'expo.out' 
+        },
+        "+=0.8"
+      );
+
+      // Title entrance - character-like reveal (represented by blur/opacity)
+      tl.fromTo(
+        title,
+        { opacity: 0, filter: 'blur(20px)', y: 30, scale: 0.98 },
+        { 
+          opacity: 1, 
+          filter: 'blur(0px)', 
+          y: 0,
+          scale: 1,
+          duration: 3, 
+          ease: 'expo.out' 
+        },
+        "-=1.8"
+      );
+
+      // Widget entrance - smooth slide up
+      tl.fromTo(
+        widget,
+        { opacity: 0, filter: 'blur(20px)', y: 40 },
+        { 
+          opacity: 1, 
+          filter: 'blur(0px)', 
+          y: 0,
+          duration: 2.5, 
+          ease: 'expo.out' 
+        },
+        "-=2.0"
       );
 
       // Parallax effect on scroll
@@ -85,12 +90,20 @@ export function HeroSection() {
         trigger: section,
         start: 'top top',
         end: 'bottom top',
-        scrub: true,
+        scrub: 1.5,
         onUpdate: (self) => {
           const progress = self.progress;
           gsap.set(heroBg, {
-            scale: 1.05 + progress * 0.15,
-            y: progress * 100
+            scale: 1.05 + progress * 0.1,
+            y: progress * 150
+          });
+          gsap.set([tagline, title], {
+            y: progress * 60,
+            opacity: 1 - progress * 1.2
+          });
+          gsap.set(widget, {
+            y: progress * 40,
+            opacity: 1 - progress * 1.5
           });
         }
       });
@@ -143,7 +156,7 @@ export function HeroSection() {
         {/* Tagline */}
         <p 
           ref={taglineRef}
-          className="text-[1.1rem] text-white tracking-[8px] uppercase font-semibold mb-8"
+          className="text-[1.1rem] text-[var(--pe-cream)] tracking-[8px] uppercase font-semibold mb-8"
           style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
         >
           {t('hero.tagline')}
@@ -152,7 +165,7 @@ export function HeroSection() {
         {/* Main Title */}
         <h1 
           ref={titleRef}
-          className="font-['Playfair_Display'] text-[clamp(2rem,5vw,3.5rem)] font-bold max-w-[900px] leading-[1.3] tracking-[2px] mb-12"
+          className="[font-family:var(--font-headlines)] text-[clamp(2rem,5vw,3.5rem)] font-bold max-w-[900px] leading-[1.3] tracking-[2px] mb-12"
           style={{
             background: 'linear-gradient(to bottom, #FFF 0%, #FFF 60%, #E6C96E 100%)',
             WebkitBackgroundClip: 'text',

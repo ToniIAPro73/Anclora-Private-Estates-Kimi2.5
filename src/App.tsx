@@ -70,23 +70,27 @@ function HomePage() {
         end: (st.end ?? st.start) / maxScroll,
         center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
       }));
+      let lastValue = 0;
 
       ScrollTrigger.create({
         snap: {
           snapTo: (value) => {
-            const inPinned = pinnedRanges.some(
+            const activeRange = pinnedRanges.find(
               (r) => value >= r.start - 0.02 && value <= r.end + 0.02
             );
-            if (!inPinned) return value;
+            if (!activeRange) return value;
 
-            const target = pinnedRanges.reduce(
-              (closest, r) =>
-                Math.abs(r.center - value) < Math.abs(closest - value)
-                  ? r.center
-                  : closest,
-              pinnedRanges[0]?.center ?? 0
-            );
-            return target;
+            // Avoid jitter: only snap near the section center and never against scroll direction.
+            const direction = value >= lastValue ? 1 : -1;
+            lastValue = value;
+
+            const distanceToCenter = activeRange.center - value;
+            if (Math.abs(distanceToCenter) > 0.06) return value;
+
+            if (direction > 0) {
+              return distanceToCenter > 0 ? activeRange.center : value;
+            }
+            return distanceToCenter < 0 ? activeRange.center : value;
           },
           duration: { min: 0.15, max: 0.35 },
           delay: 0,

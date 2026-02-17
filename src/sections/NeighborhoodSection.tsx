@@ -23,12 +23,14 @@ export function NeighborhoodSection() {
 
     const ctx = gsap.context(() => {
       const scrollTl = gsap.timeline({
+        defaults: { ease: 'none' },
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: '+=130%',
+          end: '+=140%',
           pin: true,
-          scrub: 0.6,
+          scrub: 1.1,
+          anticipatePin: 1,
         },
       });
 
@@ -36,49 +38,47 @@ export function NeighborhoodSection() {
       // Wide media card
       scrollTl.fromTo(
         mediaCard,
-        { x: '55vw', opacity: 0, scale: 0.98 },
-        { x: 0, opacity: 1, scale: 1, ease: 'none' },
+        { x: '24vw', y: '4vh', opacity: 0, scale: 0.98 },
+        { x: 0, y: 0, opacity: 1, scale: 1, duration: 0.22, ease: 'none' },
         0
       );
 
       // Headline block
       scrollTl.fromTo(
         headline,
-        { x: '-14vw', opacity: 0 },
-        { x: 0, opacity: 1, ease: 'none' },
-        0.06
+        { x: '-12vw', y: 0, opacity: 0 },
+        { x: 0, y: 0, opacity: 1, duration: 0.22, ease: 'none' },
+        0.03
       );
 
       // Caption
       scrollTl.fromTo(
         caption,
         { y: '4vh', opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
-        0.18
+        { y: 0, opacity: 1, duration: 0.18, ease: 'none' },
+        0.11
       );
 
       // SETTLE (30-70%): Static
 
       // EXIT (70-100%)
+      scrollTl.to(
+        headline,
+        { x: '-6vw', y: '-3vh', opacity: 0, duration: 0.26 },
+        0.66
+      );
+
       scrollTl.fromTo(
         mediaCard,
-        { x: 0, opacity: 1, scale: 1 },
-        { x: '28vw', opacity: 0.25, scale: 0.98, ease: 'power2.in' },
-        0.7
+        { x: 0, y: 0, opacity: 1, scale: 1 },
+        { x: '16vw', y: '-3vh', opacity: 0.22, scale: 0.985, duration: 0.24, ease: 'none' },
+        0.8
       );
 
-      scrollTl.fromTo(
-        headline,
-        { x: 0, opacity: 1 },
-        { x: '-10vw', opacity: 0.2, ease: 'power2.in' },
-        0.7
-      );
-
-      scrollTl.fromTo(
+      scrollTl.to(
         caption,
-        { opacity: 1 },
-        { opacity: 0, ease: 'power2.in' },
-        0.75
+        { x: '10vw', y: '-2vh', opacity: 0, duration: 0.24 },
+        0.83
       );
     }, section);
 

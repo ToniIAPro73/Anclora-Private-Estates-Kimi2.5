@@ -52,16 +52,18 @@ export function PropertiesSection() {
     const cards = cardsRef.current.filter(Boolean);
     const cta = ctaRef.current;
 
-    if (!section || !headline || cards.length === 0) return;
+    if (!section || !headline || cards.length === 0 || !cta) return;
 
     const ctx = gsap.context(() => {
       const scrollTl = gsap.timeline({
+        defaults: { ease: 'none' },
         scrollTrigger: {
           trigger: section,
           start: 'top top',
-          end: '+=130%',
+          end: '+=140%',
           pin: true,
-          scrub: 0.6,
+          scrub: 1.1,
+          anticipatePin: 1,
         },
       });
 
@@ -69,8 +71,8 @@ export function PropertiesSection() {
       // Headline block
       scrollTl.fromTo(
         headline,
-        { x: '-12vw', opacity: 0 },
-        { x: 0, opacity: 1, ease: 'none' },
+        { x: '-12vw', y: 0, opacity: 0 },
+        { x: 0, y: 0, opacity: 1, duration: 0.22, ease: 'none' },
         0
       );
 
@@ -78,47 +80,51 @@ export function PropertiesSection() {
       cards.forEach((card, index) => {
         scrollTl.fromTo(
           card,
-          { x: '40vw', y: '10vh', opacity: 0, rotate: 2 },
-          { x: 0, y: 0, opacity: 1, rotate: 0, ease: 'none' },
-          0.05 + index * 0.04
+          { x: '24vw', y: '6vh', opacity: 0, rotate: 1.2 },
+          { x: 0, y: 0, opacity: 1, rotate: 0, duration: 0.2, ease: 'none' },
+          0.04 + index * 0.03
         );
       });
 
       // CTA
       scrollTl.fromTo(
         cta,
-        { y: '6vh', opacity: 0 },
-        { y: 0, opacity: 1, ease: 'none' },
-        0.18
+        { y: '4vh', opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.18, ease: 'none' },
+        0.11
       );
 
       // SETTLE (30-70%): Static
 
       // EXIT (70-100%)
-      // Cards exit downward (right to left)
-      cards.reverse().forEach((card, index) => {
-        scrollTl.fromTo(
+      // Cards exit to the right and up for consistent behavior in both scroll directions.
+      const lateralExitByIndex = ['12vw', '16vw', '20vw'];
+      cards.forEach((card, index) => {
+        scrollTl.to(
           card,
-          { y: 0, opacity: 1 },
-          { y: '55vh', opacity: 0.25, ease: 'power2.in' },
-          0.7 + index * 0.03
+          {
+            x: lateralExitByIndex[index] ?? '24vw',
+            y: '-4vh',
+            opacity: 0,
+            rotate: 0.35,
+            duration: 0.28,
+          },
+          0.8 + index * 0.02
         );
       });
 
       // Headline exit
-      scrollTl.fromTo(
+      scrollTl.to(
         headline,
-        { x: 0, opacity: 1 },
-        { x: '-10vw', opacity: 0.2, ease: 'power2.in' },
-        0.7
+        { x: '-6vw', y: '-3vh', opacity: 0, duration: 0.26 },
+        0.66
       );
 
       // CTA exit
-      scrollTl.fromTo(
+      scrollTl.to(
         cta,
-        { y: 0, opacity: 1 },
-        { y: '8vh', opacity: 0, ease: 'power2.in' },
-        0.75
+        { x: '11vw', y: '-3vh', opacity: 0, duration: 0.24 },
+        0.83
       );
     }, section);
 
@@ -172,16 +178,16 @@ export function PropertiesSection() {
 
             {/* Content */}
             <div className="h-[45%] p-5 bg-anclora-teal-bg dark:bg-anclora-teal-bg flex flex-col">
-              <h3 className="font-display text-xl font-semibold text-anclora-navy dark:text-anclora-cream mb-2">
+              <h3 className="font-display text-xl font-semibold text-anclora-cream mb-2">
                 {property.name}
               </h3>
               
-              <div className="flex items-center gap-1 text-anclora-navy/70 dark:text-anclora-text-muted text-sm mb-4">
+              <div className="flex items-center gap-1 text-anclora-text-muted text-sm mb-4">
                 <MapPin className="w-3.5 h-3.5" />
                 <span>{property.location}</span>
               </div>
 
-              <div className="flex items-center gap-4 text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-4">
+              <div className="flex items-center gap-4 text-sm text-anclora-text-muted mb-4">
                 <div className="flex items-center gap-1">
                   <Bed className="w-4 h-4" />
                   <span>{property.beds}</span>
@@ -205,9 +211,9 @@ export function PropertiesSection() {
       {/* CTA */}
       <button
         ref={ctaRef}
-        className="absolute left-[44vw] top-[88vh] flex items-center gap-2 text-anclora-gold hover:text-anclora-gold-light transition-colors font-medium"
+        className="absolute left-[44vw] top-[87vh] btn-anclora-premium !px-8 !min-w-[240px]"
       >
-        {t('properties.cta')}
+        <span>{t('properties.cta')}</span>
         <ArrowRight className="w-4 h-4" />
       </button>
     </section>

@@ -66,7 +66,7 @@ export function PhilosophySection() {
     <section
       ref={sectionRef}
       id="philosophy"
-      className="py-24 lg:py-32 bg-[#05070A]"
+      className="py-24 lg:py-32 bg-[var(--pe-black)]"
     >
       <div className="max-w-[1400px] mx-auto px-[5%]">
         <div 
@@ -80,14 +80,14 @@ export function PhilosophySection() {
             >
               <div className="flex justify-center mb-6">
                 <card.icon 
-                  className="w-12 h-12 text-[#D4AF37]" 
+                  className="w-12 h-12 text-anclora-gold" 
                   strokeWidth={1.5}
                 />
               </div>
-              <h3 className="font-['Playfair_Display'] text-2xl lg:text-3xl italic text-[#D4AF37] mb-5">
+              <h3 className="[font-family:var(--font-headlines)] text-2xl lg:text-3xl italic text-anclora-gold mb-5">
                 {card.title}
               </h3>
-              <p className="text-[rgba(245,245,240,0.7)] text-base leading-relaxed">
+              <p className="text-anclora-text-muted text-base leading-relaxed">
                 {card.description}
               </p>
             </div>

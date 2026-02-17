@@ -122,10 +122,10 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
             {/* Necessary Cookies */}
             <div className="flex items-start justify-between p-4 bg-[rgba(255,255,255,0.03)] rounded-lg border border-[rgba(255,255,255,0.08)]">
               <div className="flex-1 text-left">
-                <h4 className="font-semibold text-sm mb-1 text-[#F5F5F0]">
+                <h4 className="font-semibold text-sm mb-1 text-[var(--pe-cream)]">
                   {t('cookie.necessary.title')}
                 </h4>
-                <p className="text-xs text-[rgba(245,245,240,0.6)]">
+                <p className="text-xs text-[var(--text-secondary)]">
                   {t('cookie.necessary.description')}
                 </p>
               </div>
@@ -134,7 +134,7 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
                   type="checkbox" 
                   checked={true} 
                   disabled
-                  className="w-5 h-5 accent-[#D4AF37] cursor-not-allowed"
+                  className="w-5 h-5 accent-[var(--anclora-gold)] cursor-not-allowed"
                 />
               </div>
             </div>
@@ -142,10 +142,10 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
             {/* Analytics Cookies */}
             <div className="flex items-start justify-between p-4 bg-[rgba(255,255,255,0.03)] rounded-lg border border-[rgba(255,255,255,0.08)]">
               <div className="flex-1 text-left">
-                <h4 className="font-semibold text-sm mb-1 text-[#F5F5F0]">
+                <h4 className="font-semibold text-sm mb-1 text-[var(--pe-cream)]">
                   {t('cookie.analytics.title')}
                 </h4>
-                <p className="text-xs text-[rgba(245,245,240,0.6)]">
+                <p className="text-xs text-[var(--text-secondary)]">
                   {t('cookie.analytics.description')}
                 </p>
               </div>
@@ -154,7 +154,7 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
                   type="checkbox" 
                   checked={preferences.analytics}
                   onChange={(e) => setPreferences({...preferences, analytics: e.target.checked})}
-                  className="w-5 h-5 accent-[#D4AF37] cursor-pointer"
+                  className="w-5 h-5 accent-[var(--anclora-gold)] cursor-pointer"
                 />
               </div>
             </div>
@@ -162,10 +162,10 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
             {/* Marketing Cookies */}
             <div className="flex items-start justify-between p-4 bg-[rgba(255,255,255,0.03)] rounded-lg border border-[rgba(255,255,255,0.08)]">
               <div className="flex-1 text-left">
-                <h4 className="font-semibold text-sm mb-1 text-[#F5F5F0]">
+                <h4 className="font-semibold text-sm mb-1 text-[var(--pe-cream)]">
                   {t('cookie.marketing.title')}
                 </h4>
-                <p className="text-xs text-[rgba(245,245,240,0.6)]">
+                <p className="text-xs text-[var(--text-secondary)]">
                   {t('cookie.marketing.description')}
                 </p>
               </div>
@@ -174,7 +174,7 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
                   type="checkbox" 
                   checked={preferences.marketing}
                   onChange={(e) => setPreferences({...preferences, marketing: e.target.checked})}
-                  className="w-5 h-5 accent-[#D4AF37] cursor-pointer"
+                  className="w-5 h-5 accent-[var(--anclora-gold)] cursor-pointer"
                 />
               </div>
             </div>
@@ -198,7 +198,7 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
           <div className="mt-4 text-center">
             <button 
               onClick={rejectAll}
-              className="text-xs text-[rgba(245,245,240,0.5)] hover:text-[#D4AF37] transition-colors"
+              className="text-xs text-[rgba(245,245,240,0.5)] hover:text-[var(--anclora-gold)] transition-colors"
             >
               {t('cookie.rejectAll')}
             </button>

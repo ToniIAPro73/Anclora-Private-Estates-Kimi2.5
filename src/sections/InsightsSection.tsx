@@ -152,10 +152,10 @@ export function InsightsSection() {
                 
                 {/* Content */}
                 <div className="h-[35%] p-6 bg-anclora-teal-bg dark:bg-anclora-teal-bg flex flex-col justify-center">
-                  <h3 className="font-display text-xl font-semibold text-anclora-navy dark:text-anclora-cream mb-1 group-hover:text-anclora-gold transition-colors">
+                  <h3 className="font-display text-xl font-semibold text-anclora-cream mb-1 group-hover:text-anclora-gold transition-colors">
                     {t(article.titleKey)}
                   </h3>
-                  <p className="text-sm text-anclora-navy/70 dark:text-anclora-text-muted">
+                  <p className="text-sm text-anclora-text-muted">
                     {t(article.subtitleKey)}
                   </p>
                   <div className="mt-4 flex items-center gap-1 text-anclora-gold text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
@@ -175,10 +175,10 @@ export function InsightsSection() {
         >
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <h3 className="font-display text-2xl lg:text-3xl font-semibold text-anclora-navy dark:text-anclora-cream mb-2">
+              <h3 className="font-display text-2xl lg:text-3xl font-semibold text-anclora-cream mb-2">
                 {t('insights.newsletter.title')}
               </h3>
-              <p className="text-anclora-navy/70 dark:text-anclora-text-muted">
+              <p className="text-anclora-text-muted">
                 {t('insights.newsletter.description')}
               </p>
             </div>

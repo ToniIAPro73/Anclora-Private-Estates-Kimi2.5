@@ -7,7 +7,7 @@ interface FloatingControlsProps {
 }
 
 export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [showScrollNav, setShowScrollNav] = useState(false);
   const [showUpButton, setShowUpButton] = useState(false);
   const [showDownButton, setShowDownButton] = useState(true);
@@ -41,24 +41,33 @@ export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
     }
   };
 
+  const contactLabelByLang: Record<string, string> = {
+    es: 'CONTACTAR',
+    en: 'CONTACT US',
+    de: 'KONTAKT',
+  };
+  const contactLabel = contactLabelByLang[i18n.language] ?? contactLabelByLang.es;
+
   return (
-    <div className="floating-controls">
-      {/* Cookie Button - Left */}
-      <button 
-        className="btn-cookie-trigger"
-        onClick={onOpenCookieModal}
-        title={t('cookie.settings')}
-      >
-        <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5">
-          <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" fill="#1a1a1a"/>
-          <circle cx="12" cy="17" r="1" fill="#1a1a1a"/>
-          <circle cx="12" cy="13" r="1" fill="#1a1a1a"/>
-          <circle cx="12" cy="9" r="1" fill="#1a1a1a"/>
-        </svg>
-      </button>
-      
-      {/* Right Stack - Scroll Nav + Contact */}
-      <div className="right-floating-stack">
+    <>
+      {/* Left Side: Cookie Control */}
+      <div className="floating-controls-left">
+        <button 
+          className="btn-cookie-trigger pointer-events-auto"
+          onClick={onOpenCookieModal}
+          title={t('cookie.settings')}
+        >
+          <svg viewBox="0 0 24 24" fill="none" className="w-[22px] h-[22px]">
+            <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" fill="var(--pe-black)"/>
+            <circle cx="12" cy="17" r="1.5" fill="var(--pe-black)"/>
+            <circle cx="12" cy="12" r="1.5" fill="var(--pe-black)"/>
+            <circle cx="12" cy="7" r="1.5" fill="var(--pe-black)"/>
+          </svg>
+        </button>
+      </div>
+
+      {/* Right Side: Scroll & Contact Stack */}
+      <div className="floating-controls-right">
         {/* Scroll Navigation */}
         <div className={`scroll-navigation ${showScrollNav ? 'visible' : ''}`}>
           <button 
@@ -79,13 +88,13 @@ export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
         
         {/* Contact Button */}
         <button 
-          className="btn-anclora-premium btn-contact-floating"
+          className="btn-anclora-premium btn-contact-floating pointer-events-auto"
           onClick={scrollToContact}
         >
           <MessageCircle className="w-[18px] h-[18px]" strokeWidth={2} />
-          <span>{t('nav.contact')}</span>
+          <span>{contactLabel}</span>
         </button>
       </div>
-    </div>
+    </>
   );
 }

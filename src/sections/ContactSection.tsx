@@ -108,7 +108,7 @@ export function ContactSection() {
                 <p className="text-anclora-text-muted leading-relaxed max-w-lg mb-6">
                   {t('contact.description')}
                 </p>
-                <button className="btn-primary flex items-center gap-2">
+                <button className="btn-anclora-premium flex items-center gap-2 !min-w-[200px]">
                   <Calendar className="w-4 h-4" />
                   {t('contact.cta')}
                   <ArrowRight className="w-4 h-4" />
@@ -124,7 +124,7 @@ export function ContactSection() {
               className="h-full flex flex-col justify-center"
             >
               <div className="p-8 bg-anclora-teal-bg dark:bg-anclora-teal-bg/70 rounded-2xl border border-anclora-navy/10 dark:border-white/10">
-                <h3 className="font-display text-2xl font-semibold text-anclora-navy dark:text-anclora-cream mb-8">
+                <h3 className="font-display text-2xl font-semibold text-anclora-cream mb-8">
                   {t('footer.contact')}
                 </h3>
 
@@ -139,10 +139,10 @@ export function ContactSection() {
                         <item.icon className="w-5 h-5 text-anclora-gold" />
                       </div>
                       <div>
-                        <p className="text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-0.5">
+                        <p className="text-sm text-anclora-text-muted mb-0.5">
                           {t(item.labelKey)}
                         </p>
-                        <p className="text-anclora-navy dark:text-anclora-cream font-medium group-hover:text-anclora-gold transition-colors">
+                        <p className="text-anclora-cream font-medium group-hover:text-anclora-gold transition-colors">
                           {item.value}
                         </p>
                       </div>
@@ -152,13 +152,13 @@ export function ContactSection() {
 
                 {/* Office Hours */}
                 <div className="mt-8 pt-8 border-t border-anclora-navy/10 dark:border-white/10">
-                  <p className="text-sm text-anclora-navy/70 dark:text-anclora-text-muted mb-2">
+                  <p className="text-sm text-anclora-text-muted mb-2">
                     {t('contact.hours')}
                   </p>
-                  <p className="text-anclora-navy dark:text-anclora-cream">
+                  <p className="text-anclora-cream">
                     {t('contact.weekdays')}
                   </p>
-                  <p className="text-anclora-navy dark:text-anclora-cream">
+                  <p className="text-anclora-cream">
                     {t('contact.saturday')}
                   </p>
                 </div>
