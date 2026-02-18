@@ -66,9 +66,15 @@ export function PhilosophySection() {
     <section
       ref={sectionRef}
       id="philosophy"
-      className="py-24 lg:py-32 bg-[var(--pe-black)]"
+      className="py-24 lg:py-32 philosophy-ambient-section"
     >
       <div className="max-w-[1400px] mx-auto px-[5%]">
+        <div className="text-center mb-14 lg:mb-16">
+          <h2 className="font-display text-4xl lg:text-5xl font-bold text-anclora-navy">
+            {t('philosophy.sectionTitle')}
+          </h2>
+        </div>
+
         <div 
           ref={cardsRef}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"

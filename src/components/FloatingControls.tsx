@@ -31,6 +31,11 @@ export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
   };
 
   const scrollToBottom = () => {
+    const footer = document.querySelector('#footer') as HTMLElement | null;
+    if (footer) {
+      footer.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
     window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
   };
 

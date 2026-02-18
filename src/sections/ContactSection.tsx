@@ -85,7 +85,7 @@ export function ContactSection() {
       id="contact"
       className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-24 lg:py-32"
     >
-      <div className="w-full px-6 lg:px-12">
+      <div className="w-full px-6 lg:pl-12 lg:pr-[136px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Contact Card */}
           <div className="lg:col-span-7">

@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const nexusLoginUrl = import.meta.env.VITE_ANCLORA_NEXUS_LOGIN_URL ?? 'https://nexus.anclora.group/login';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,21 +17,66 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen || isPartnerModalOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen, isPartnerModalOpen]);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false);
+        setIsPartnerModalOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
+    const performScroll = () => {
+      const element = document.querySelector(href);
+      if (!element) return;
+
+      const elementNode = element as HTMLElement;
+      const pinSpacer = elementNode.closest('.pin-spacer') as HTMLElement | null;
+      const anchorTop = pinSpacer
+        ? pinSpacer.offsetTop
+        : window.scrollY + elementNode.getBoundingClientRect().top;
+
       const headerHeight = isScrolled ? 70 : 90;
       const viewportAvailable = window.innerHeight - headerHeight;
-      const targetTop = window.scrollY + element.getBoundingClientRect().top;
+      const targetTop = anchorTop;
 
-      let top = targetTop - headerHeight;
+      let top = targetTop - headerHeight - 10;
+
+      if (href === '#contact') {
+        // Keep the exact same navigation behavior as the floating CONTACTAR button.
+        elementNode.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
       if (href === '#properties') {
-        // Pinned section: jump to its stable midpoint state.
-        top = targetTop + window.innerHeight * 0.48;
+        // Pinned section: use the actual ScrollTrigger range and jump into the stable zone.
+        const st = ScrollTrigger.getAll().find((trigger) => {
+          const triggerEl = trigger.vars.trigger as Element | undefined;
+          return triggerEl === elementNode;
+        });
+
+        if (st) {
+          const span = Math.max(0, (st.end ?? st.start) - st.start);
+          top = st.start + span * 0.42;
+        } else {
+          // Fallback if trigger is not available yet.
+          top = targetTop + window.innerHeight * 0.32;
+        }
       } else if (href === '#valuation') {
         // Center the valuation form card in visible viewport so bottom is never clipped.
         const formCard = document.querySelector('#valuation-form-card') as HTMLElement | null;
@@ -37,7 +85,26 @@ export function Navbar() {
           const centeredOffset = Math.max(0, (viewportAvailable - formCard.offsetHeight) / 2);
           top = formTop - headerHeight - centeredOffset;
         } else {
-          top = targetTop - headerHeight;
+          top = targetTop - headerHeight - 10;
+        }
+      } else if (href === '#insights') {
+        // Center the 3-card block in the visible viewport.
+        const cardsBlock = elementNode.querySelector('[data-insights-cards]') as HTMLElement | null;
+        if (cardsBlock) {
+          const cardsTop = window.scrollY + cardsBlock.getBoundingClientRect().top;
+          const centeredOffset = Math.max(0, (viewportAvailable - cardsBlock.offsetHeight) / 2);
+          top = cardsTop - headerHeight - centeredOffset - 6;
+        } else {
+          top = targetTop - headerHeight - 10;
+        }
+      } else if (href === '#about') {
+        // Land on the first meaningful content block instead of section padding.
+        const firstCard = elementNode.querySelector('.card-premium') as HTMLElement | null;
+        if (firstCard) {
+          const cardTop = window.scrollY + firstCard.getBoundingClientRect().top;
+          top = cardTop - headerHeight - 18;
+        } else {
+          top = targetTop - headerHeight - 10;
         }
       }
 
@@ -45,8 +112,25 @@ export function Navbar() {
         top: Math.max(0, top),
         behavior: 'auto',
       });
+    };
+
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+      requestAnimationFrame(() => requestAnimationFrame(performScroll));
+      return;
     }
-    setIsMobileMenuOpen(false);
+
+    performScroll();
+  };
+
+  const openAgentPortal = () => {
+    setIsMenuOpen(false);
+    window.location.href = nexusLoginUrl;
+  };
+
+  const openPartnerModal = () => {
+    setIsMenuOpen(false);
+    setIsPartnerModalOpen(true);
   };
 
   const currentLang = i18n.language;
@@ -73,7 +157,7 @@ export function Navbar() {
               <div 
                 className="flex items-center gap-2.5 cursor-pointer text-[var(--pe-cream)] hover:text-[var(--anclora-gold)] transition-[all] [transition-duration:800ms]"
                 style={{ transitionTimingFunction: 'cubic-bezier(0.19, 1, 0.22, 1)' }}
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                onClick={() => setIsMenuOpen((prev) => !prev)}
               >
                 <div className="relative w-6 h-[2px] bg-current">
                   <div className="absolute w-full h-[2px] bg-current -top-2 left-0" />
@@ -173,42 +257,64 @@ export function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div 
-          className="fixed inset-0 z-[999] bg-[rgba(5,7,10,0.98)] backdrop-blur-lg"
-          onClick={() => setIsMobileMenuOpen(false)}
-        >
-          <div className="flex flex-col items-center justify-center h-full gap-8">
-            <button 
-              onClick={() => scrollToSection('#properties')}
-              className="text-2xl font-semibold text-[var(--pe-cream)] hover:text-[var(--anclora-gold)] transition-colors"
-            >
-              {t('nav.properties')}
-            </button>
-            <button 
-              onClick={() => scrollToSection('#about')}
-              className="text-2xl font-semibold text-[var(--pe-cream)] hover:text-[var(--anclora-gold)] transition-colors"
-            >
-              {t('nav.about')}
-            </button>
-            <button 
-              onClick={() => scrollToSection('#valuation')}
-              className="text-2xl font-semibold text-[var(--pe-cream)] hover:text-[var(--anclora-gold)] transition-colors"
-            >
-              {t('nav.valuation')}
-            </button>
-            <button 
-              onClick={() => scrollToSection('#contact')}
-              className="text-2xl font-semibold text-[var(--pe-cream)] hover:text-[var(--anclora-gold)] transition-colors"
-            >
-              {t('nav.contact')}
-            </button>
-            <button 
-              onClick={() => scrollToSection('#contact')}
-              className="btn-anclora-premium mt-8"
-            >
-              {t('nav.bookCall')}
+      {isMenuOpen && (
+        <div className="premium-menu-overlay" onClick={() => setIsMenuOpen(false)}>
+          <div className="premium-menu-shell" onClick={(e) => e.stopPropagation()}>
+            <div className="premium-menu-header">
+              <button className="premium-menu-close-trigger" onClick={() => setIsMenuOpen(false)} aria-label="Close menu">
+                <span className="premium-menu-close-icon" aria-hidden>
+                  <i />
+                  <i />
+                </span>
+                <span>{t('menuOverlay.close')}</span>
+              </button>
+
+              <div className="premium-menu-brand">
+                <img src="/logo-anclora-private-estates-exp.png" alt="Anclora Private Estates" />
+              </div>
+
+              <div className="premium-menu-header-meta">
+                <span>{currentLang.toUpperCase()}</span>
+              </div>
+            </div>
+
+            <div className="premium-menu-grid">
+              <div className="premium-menu-column premium-menu-column-links">
+                <p className="premium-menu-eyebrow">{t('menuOverlay.explore')}</p>
+                <button className="premium-menu-link" onClick={() => scrollToSection('#hero')}>{t('nav.home')}</button>
+                <button className="premium-menu-link" onClick={() => scrollToSection('#properties')}>{t('nav.properties')}</button>
+                <button className="premium-menu-link" onClick={() => scrollToSection('#valuation')}>{t('nav.valuation')}</button>
+                <button className="premium-menu-link" onClick={() => scrollToSection('#insights')}>{t('nav.insights')}</button>
+                <button className="premium-menu-link" onClick={() => scrollToSection('#about')}>{t('nav.about')}</button>
+                <button className="premium-menu-link" onClick={() => scrollToSection('#contact')}>{t('nav.contact')}</button>
+              </div>
+
+              <div className="premium-menu-column premium-menu-column-private">
+                <p className="premium-menu-eyebrow">{t('menuOverlay.privateArea')}</p>
+                <p className="premium-menu-description">{t('menuOverlay.privateAreaDescription')}</p>
+
+                <button className="premium-private-card" onClick={openAgentPortal}>
+                  <span>{t('menuOverlay.agentPortalTitle')}</span>
+                  <small>{t('menuOverlay.agentPortalDescription')}</small>
+                </button>
+
+                <button className="premium-private-card" onClick={openPartnerModal}>
+                  <span>{t('menuOverlay.partnerPortalTitle')}</span>
+                  <small>{t('menuOverlay.partnerPortalDescription')}</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isPartnerModalOpen && (
+        <div className="premium-status-overlay" onClick={() => setIsPartnerModalOpen(false)}>
+          <div className="premium-status-card" onClick={(e) => e.stopPropagation()}>
+            <h3>{t('menuOverlay.partnerModalTitle')}</h3>
+            <p>{t('menuOverlay.partnerModalText')}</p>
+            <button className="btn-anclora-premium !min-w-[190px] !h-[50px] !text-[0.62rem]" onClick={() => setIsPartnerModalOpen(false)}>
+              {t('menuOverlay.partnerModalCta')}
             </button>
           </div>
         </div>

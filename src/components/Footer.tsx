@@ -17,7 +17,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="premium-footer">
+    <footer id="footer" className="premium-footer">
       {/* Decorative Wave SVG */}
       <div className="footer-wave-decoration">
         <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
@@ -63,17 +63,17 @@ export function Footer() {
 
       {/* Main Footer Content */}
       <div className="footer-main-content">
-        {/* Left Column - Anclora Nexus Group Brand */}
+        {/* Left Column - Anclora Group Brand */}
         <div className="footer-brand-column">
           <div className="footer-logo-container">
             <img 
-              src="/logo-anclora-nexus-group.png" 
-              alt="Anclora Nexus Group" 
+              src="/logo-anclora-group.png" 
+              alt="Anclora Group" 
               className="footer-logo-premium"
             />
           </div>
           
-          <div className="footer-brand-text">ANCLORA NEXUS GROUP</div>
+          <div className="footer-brand-text">ANCLORA GROUP</div>
           
           <div className="footer-brand-slogan">
             {t('footer.slogan')}
@@ -179,7 +179,7 @@ export function Footer() {
 
           {/* Copyright */}
           <p className="footer-copyright">
-            © {new Date().getFullYear()} <span>ANCLORA NEXUS GROUP</span> · ID: ANG-PRT-2026-EU
+            © {new Date().getFullYear()} <span>ANCLORA GROUP</span> · ID: ANG-PRT-2026-EU
           </p>
         </div>
       </div>

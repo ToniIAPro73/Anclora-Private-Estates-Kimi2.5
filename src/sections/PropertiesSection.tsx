@@ -62,7 +62,7 @@ export function PropertiesSection() {
           start: 'top top',
           end: '+=140%',
           pin: true,
-          scrub: 1.1,
+          scrub: 1.4,
           anticipatePin: 1,
         },
       });
@@ -80,18 +80,18 @@ export function PropertiesSection() {
       cards.forEach((card, index) => {
         scrollTl.fromTo(
           card,
-          { x: '24vw', y: '6vh', opacity: 0, rotate: 1.2 },
-          { x: 0, y: 0, opacity: 1, rotate: 0, duration: 0.2, ease: 'none' },
-          0.04 + index * 0.03
+          { x: '14vw', y: '3.5vh', opacity: 0, rotate: 0.45 },
+          { x: 0, y: 0, opacity: 1, rotate: 0, duration: 0.27, ease: 'none' },
+          0.05 + index * 0.035
         );
       });
 
       // CTA
       scrollTl.fromTo(
         cta,
-        { y: '4vh', opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.18, ease: 'none' },
-        0.11
+        { y: '2.5vh', opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.24, ease: 'none' },
+        0.125
       );
 
       // SETTLE (30-70%): Static

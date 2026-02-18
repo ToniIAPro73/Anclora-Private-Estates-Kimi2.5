@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight, Send, CheckCircle } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,18 +32,13 @@ export function InsightsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const newsletterRef = useRef<HTMLDivElement>(null);
-  
-  const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
     const headline = headlineRef.current;
     const cards = cardsRef.current.filter(Boolean);
-    const newsletter = newsletterRef.current;
 
-    if (!section || !headline || cards.length === 0 || !newsletter) return;
+    if (!section || !headline || cards.length === 0) return;
 
     const ctx = gsap.context(() => {
       // Headline reveal
@@ -83,37 +78,10 @@ export function InsightsSection() {
         );
       });
 
-      // Newsletter reveal
-      gsap.fromTo(
-        newsletter,
-        { y: 80, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: newsletter,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
     }, section);
 
     return () => ctx.revert();
   }, [t]);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setTimeout(() => {
-        setIsSubscribed(false);
-        setEmail('');
-      }, 3000);
-    }
-  };
 
   return (
     <section
@@ -121,7 +89,7 @@ export function InsightsSection() {
       id="insights"
       className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-24 lg:py-32"
     >
-      <div className="w-full px-6 lg:px-12">
+      <div className="w-full px-6 lg:pl-12 lg:pr-[136px]">
         {/* Headline */}
         <div ref={headlineRef} className="mb-12">
           <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-4">
@@ -133,7 +101,7 @@ export function InsightsSection() {
         </div>
 
         {/* Article Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div data-insights-cards className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {articles.map((article, index) => (
             <div
               key={article.id}
@@ -168,49 +136,6 @@ export function InsightsSection() {
           ))}
         </div>
 
-        {/* Newsletter Panel */}
-        <div
-          ref={newsletterRef}
-          className="p-8 lg:p-12 bg-anclora-teal-bg dark:bg-anclora-teal-bg/70 rounded-2xl border border-anclora-navy/10 dark:border-white/10"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <div>
-              <h3 className="font-display text-2xl lg:text-3xl font-semibold text-anclora-cream mb-2">
-                {t('insights.newsletter.title')}
-              </h3>
-              <p className="text-anclora-text-muted">
-                {t('insights.newsletter.description')}
-              </p>
-            </div>
-
-            <div>
-              {isSubscribed ? (
-                <div className="flex items-center gap-3 text-anclora-gold">
-                  <CheckCircle className="w-6 h-6" />
-                  <span className="font-medium">{t('insights.newsletter.success')}</span>
-                </div>
-              ) : (
-                <form onSubmit={handleSubscribe} className="flex gap-3">
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="input-anclora flex-1"
-                    placeholder="your@email.com"
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="btn-primary flex items-center gap-2 whitespace-nowrap"
-                  >
-                    <Send className="w-4 h-4" />
-                    {t('insights.newsletter.cta')}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

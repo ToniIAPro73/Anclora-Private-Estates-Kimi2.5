@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -25,6 +25,7 @@ import { InvestmentSection } from './sections/InvestmentSection';
 import { NeighborhoodSection } from './sections/NeighborhoodSection';
 import { ValuationSection } from './sections/ValuationSection';
 import { InsightsSection } from './sections/InsightsSection';
+import { AboutSection } from './sections/AboutSection';
 import { ContactSection } from './sections/ContactSection';
 
 // Legal Pages
@@ -53,10 +54,14 @@ function ScrollToTop() {
 function HomePage() {
   const { i18n } = useTranslation();
   const [cookieModalOpen, setCookieModalOpen] = useState(false);
+  const globalSnapRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     // Initialize global snap for pinned sections
     const setupGlobalSnap = () => {
+      globalSnapRef.current?.kill();
+      globalSnapRef.current = null;
+
       const pinned = ScrollTrigger.getAll()
         .filter((st) => st.vars.pin)
         .sort((a, b) => a.start - b.start);
@@ -72,7 +77,7 @@ function HomePage() {
       }));
       let lastValue = 0;
 
-      ScrollTrigger.create({
+      globalSnapRef.current = ScrollTrigger.create({
         snap: {
           snapTo: (value) => {
             const activeRange = pinnedRanges.find(
@@ -100,11 +105,18 @@ function HomePage() {
     };
 
     // Delay to ensure all ScrollTriggers are created
-    const timer = setTimeout(setupGlobalSnap, 100);
+    const currentY = window.scrollY;
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+      setupGlobalSnap();
+      // Keep the user's current section/position stable after i18n re-render.
+      window.scrollTo({ top: currentY, behavior: 'auto' });
+    }, 100);
 
     return () => {
       clearTimeout(timer);
-      ScrollTrigger.getAll().forEach((st) => st.kill());
+      globalSnapRef.current?.kill();
+      globalSnapRef.current = null;
     };
   }, [i18n.language]);
 
@@ -131,6 +143,7 @@ function HomePage() {
         {/* Flowing Sections */}
         <ValuationSection />
         <InsightsSection />
+        <AboutSection />
         <ContactSection />
         
         {/* Footer */}

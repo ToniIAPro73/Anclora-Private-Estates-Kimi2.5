@@ -120,7 +120,7 @@ export function ValuationSection() {
     <section
       ref={sectionRef}
       id="valuation"
-      className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-10 lg:py-12 z-50"
+      className="section-flowing -mt-px bg-anclora-cream dark:bg-anclora-teal py-10 lg:py-12 z-50"
     >
       <div className="w-full px-6 lg:pl-12 lg:pr-[190px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-10 items-start">

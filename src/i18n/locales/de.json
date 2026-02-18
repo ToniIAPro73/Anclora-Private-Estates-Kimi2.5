@@ -1,5 +1,6 @@
 {
   "nav": {
+    "home": "Start",
     "properties": "Immobilien",
     "invest": "Investieren",
     "valuation": "Immobilienbewertung",
@@ -22,6 +23,7 @@
     "button": "Suche"
   },
   "philosophy": {
+    "sectionTitle": "Investmentphilosophie",
     "trophy": {
       "title": "Trophy-Auswahl",
       "description": "Exklusiver Zugang zu einzigartigen Immobilienwerten, ausgewählt nach strengen Kriterien der Knappheit und des Wertsteigerungspotenzials."
@@ -123,6 +125,31 @@
     "weekdays": "Montag – Freitag: 9:00 – 18:00",
     "saturday": "Samstag: 10:00 – 14:00"
   },
+  "aboutSection": {
+    "eyebrow": "Über Uns",
+    "title": "Eine Immobilienplattform für das neue Marktparadigma.",
+    "description": "Anclora Private Estates verbindet Premium-Beratung mit angewandter Intelligenz: operatives CRM, prädiktive Analytik und durchgängige Umsetzung über den gesamten Immobilienzyklus.",
+    "description2": "Statt isolierter Tools arbeiten wir mit einem vernetzten Modell, in dem Daten, Prozesse und Entscheidungen in Echtzeit zusammenlaufen.",
+    "pillar1Title": "Intelligente Abläufe",
+    "pillar1Text": "Von der Lead-Qualifizierung bis zum Abschluss reduziert unsere Automatisierung Reibung und sichert Ausführungsqualität.",
+    "pillar2Title": "Prädiktive Insights",
+    "pillar2Text": "Wir nutzen Marktsignale, lokale Vergleichsdaten und Verhaltensmuster für Bewertung, Timing und Verhandlungsstrategie.",
+    "pillar3Title": "Vernetztes Ökosystem",
+    "pillar3Text": "Unser Modell ist für multigeschäftliche Koordination ausgelegt: Beratung, Vermittlung und Partnerarbeit unter einer gemeinsamen Datenlogik."
+  },
+  "menuOverlay": {
+    "close": "SCHLIESSEN",
+    "explore": "Entdecken",
+    "privateArea": "Privater Bereich",
+    "privateAreaDescription": "Zentraler Zugang zu den professionellen Anclora-Portalen je nach Profil und Berechtigungen.",
+    "agentPortalTitle": "Agenten-Portal",
+    "agentPortalDescription": "Zum Login von Anclora Nexus CRM.",
+    "partnerPortalTitle": "Partner-Portal",
+    "partnerPortalDescription": "Zugang für strategische Partner und Mitarbeitende.",
+    "partnerModalTitle": "Partner-Portal in Vorbereitung",
+    "partnerModalText": "Wir finalisieren aktuell die letzten Details, um diesen Zugang mit dem erwarteten Premium-Standard freizuschalten. Vielen Dank für Ihre Geduld.",
+    "partnerModalCta": "Verstanden"
+  },
   "footer": {
     "description": "Luxusimmobilien und Investment-Beratung auf den Balearen. Wir verbinden anspruchsvolle Investoren mit außergewöhnlichen Immobilien.",
     "quickLinks": "Schnelllinks",
@@ -135,7 +162,7 @@
     "ethics": "Ethikkodex",
     "rights": "Alle Rechte vorbehalten.",
     "slogan": "Wo Intelligenz und Erbe konvergieren. Struktur, Vision und langfristige Kontrolle.",
-    "disclaimer": "Institutioneller Haftungsausschluss: Die auf dieser Plattform enthaltenen Informationen sind streng vertraulich und ausschließlich für qualifizierte Investmentprofile bestimmt. Die Anclora Nexus Group arbeitet unter den strengsten EU-Vorschriften und wendet bei jeder Asset-Selektion eine analytische Architektur an."
+    "disclaimer": "Institutioneller Haftungsausschluss: Die auf dieser Plattform enthaltenen Informationen sind streng vertraulich und ausschließlich für qualifizierte Investmentprofile bestimmt. Die Anclora Group arbeitet unter den strengsten EU-Vorschriften und wendet bei jeder Asset-Selektion eine analytische Architektur an."
   },
   "language": {
     "es": "Español",

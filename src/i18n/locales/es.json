@@ -1,5 +1,6 @@
 {
   "nav": {
+    "home": "Inicio",
     "properties": "Propiedades",
     "invest": "Invertir",
     "valuation": "Valora tu Propiedad",
@@ -22,6 +23,7 @@
     "button": "Buscar"
   },
   "philosophy": {
+    "sectionTitle": "Filosofía de inversión",
     "trophy": {
       "title": "Selección Trofeo",
       "description": "Acceso exclusivo a activos inmobiliarios únicos, seleccionados bajo rigurosos criterios de escasez y potencial de revalorización."
@@ -123,6 +125,31 @@
     "weekdays": "Lunes – Viernes: 9:00 – 18:00",
     "saturday": "Sábado: 10:00 – 14:00"
   },
+  "aboutSection": {
+    "eyebrow": "Nosotros",
+    "title": "Una inmobiliaria diseñada para el nuevo ciclo del mercado.",
+    "description": "Anclora Private Estates integra asesoría premium, automatización operativa y analítica predictiva en una misma experiencia.",
+    "description2": "No trabajamos con herramientas aisladas: conectamos captación, valoración, seguimiento y cierre bajo una lógica de datos unificada y escalable.",
+    "pillar1Title": "Operación inteligente",
+    "pillar1Text": "Automatizamos tareas de alto volumen para que el equipo se enfoque en negociación, estrategia y servicio de alto valor.",
+    "pillar2Title": "Decisión basada en datos",
+    "pillar2Text": "Aplicamos comparables locales, señales de demanda y modelos predictivos para valorar mejor y reducir incertidumbre.",
+    "pillar3Title": "Ecosistema conectado",
+    "pillar3Text": "Unimos experiencia inmobiliaria, CRM y capa de IA para ofrecer una ejecución más rápida, coherente y profesional."
+  },
+  "menuOverlay": {
+    "close": "CERRAR",
+    "explore": "Explorar",
+    "privateArea": "Área Privada",
+    "privateAreaDescription": "Acceso centralizado a portales profesionales de Anclora según perfil y permisos.",
+    "agentPortalTitle": "Portal de Agente",
+    "agentPortalDescription": "Acceder al login de Anclora Nexus CRM.",
+    "partnerPortalTitle": "Portal de Partner",
+    "partnerPortalDescription": "Acceso para partners estratégicos y colaboradores.",
+    "partnerModalTitle": "Portal de Partner en preparación",
+    "partnerModalText": "Estamos ultimando los últimos detalles para habilitar este acceso con el nivel de calidad que merece. Le pedimos disculpas y agradecemos su confianza.",
+    "partnerModalCta": "Entendido"
+  },
   "footer": {
     "description": "Bienes raíces de lujo y asesoría de inversión en las Islas Baleares. Conectamos inversores exigentes con propiedades excepcionales.",
     "quickLinks": "Enlaces rápidos",
@@ -135,7 +162,7 @@
     "ethics": "Código Ético",
     "rights": "Todos los derechos reservados.",
     "slogan": "Donde la inteligencia y el patrimonio convergen. Estructura, visión y control a largo plazo.",
-    "disclaimer": "Disclaimer Institucional: La información contenida en esta plataforma es estrictamente confidencial y está dirigida únicamente a perfiles de inversión cualificados. Anclora Nexus Group opera bajo las normativas más estrictas de la UE, aplicando arquitectura analítica en cada selección de activos."
+    "disclaimer": "Disclaimer Institucional: La información contenida en esta plataforma es estrictamente confidencial y está dirigida únicamente a perfiles de inversión cualificados. Anclora Group opera bajo las normativas más estrictas de la UE, aplicando arquitectura analítica en cada selección de activos."
   },
   "language": {
     "es": "Español",
