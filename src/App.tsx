@@ -189,11 +189,20 @@ function HomePage() {
     // Delay to ensure all ScrollTriggers are created
     const currentY = window.scrollY;
     const activeSection = getActiveSection();
+    const storedAnchor = sessionStorage.getItem('anclora:lang-anchor');
+    const storedYRaw = sessionStorage.getItem('anclora:lang-y');
+    const storedY = storedYRaw ? Number(storedYRaw) : currentY;
+    const fallbackY = Number.isFinite(storedY) ? storedY : currentY;
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
       setupGlobalSnap();
       // Keep user's current section stable after i18n re-render.
-      restoreSection(activeSection, currentY);
+      const anchorSection = storedAnchor
+        ? (document.querySelector(storedAnchor) as HTMLElement | null)
+        : null;
+      restoreSection(anchorSection ?? activeSection, fallbackY);
+      sessionStorage.removeItem('anclora:lang-anchor');
+      sessionStorage.removeItem('anclora:lang-y');
     }, 100);
 
     return () => {

@@ -37,6 +37,33 @@ export function Navbar() {
   }, []);
 
   const changeLanguage = (lang: string) => {
+    if (lang === i18n.language) return;
+
+    const activePinned = ScrollTrigger.getAll().find((trigger) => {
+      if (!trigger.vars.pin) return false;
+      const end = trigger.end ?? trigger.start;
+      return window.scrollY >= trigger.start && window.scrollY <= end;
+    });
+
+    let activeSection: HTMLElement | null = null;
+    const pinnedTriggerEl = activePinned?.vars.trigger as HTMLElement | undefined;
+    if (pinnedTriggerEl instanceof HTMLElement) {
+      activeSection = pinnedTriggerEl;
+    } else {
+      const centerElement = document.elementFromPoint(
+        window.innerWidth * 0.5,
+        window.innerHeight * 0.5
+      ) as HTMLElement | null;
+      activeSection = centerElement?.closest('section, footer') as HTMLElement | null;
+    }
+
+    if (activeSection?.id) {
+      sessionStorage.setItem('anclora:lang-anchor', `#${activeSection.id}`);
+    } else {
+      sessionStorage.removeItem('anclora:lang-anchor');
+    }
+    sessionStorage.setItem('anclora:lang-y', String(window.scrollY));
+
     i18n.changeLanguage(lang);
   };
 
