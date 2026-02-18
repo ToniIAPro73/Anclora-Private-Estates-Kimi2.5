@@ -153,7 +153,8 @@ export function Navbar() {
         if (cardsBlock) {
           const cardsTop = window.scrollY + cardsBlock.getBoundingClientRect().top;
           const centeredOffset = Math.max(0, (viewportAvailable - cardsBlock.offsetHeight) / 2);
-          top = cardsTop - headerHeight - centeredOffset - 6;
+          // Keep a bit more top breathing room so title + cards remain fully visible.
+          top = cardsTop - headerHeight - centeredOffset + 24;
         } else {
           top = targetTop - headerHeight - 10;
         }
@@ -343,6 +344,7 @@ export function Navbar() {
                 <p className="premium-menu-eyebrow">{t('menuOverlay.explore')}</p>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#hero')}>{t('nav.home')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#properties')}>{t('nav.properties')}</button>
+                <button className="premium-menu-link" onClick={() => scrollToSection('#invest')}>{t('nav.invest')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#valuation')}>{t('nav.valuation')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#insights')}>{t('nav.insights')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#about')}>{t('nav.about')}</button>

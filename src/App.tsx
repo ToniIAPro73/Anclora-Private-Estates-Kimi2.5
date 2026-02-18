@@ -143,7 +143,8 @@ function HomePage() {
           const viewportAvailable = window.innerHeight - headerHeight;
           const cardsTop = window.scrollY + cardsBlock.getBoundingClientRect().top;
           const centeredOffset = Math.max(0, (viewportAvailable - cardsBlock.offsetHeight) / 2);
-          top = cardsTop - headerHeight - centeredOffset - 6;
+          // Match menu navigation position for insights.
+          top = cardsTop - headerHeight - centeredOffset + 24;
         }
       } else if (section.id === 'about') {
         const firstCard = section.querySelector('.card-premium') as HTMLElement | null;
