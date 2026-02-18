@@ -123,7 +123,7 @@ export function Navbar() {
         return;
       }
 
-      if (href === '#properties') {
+      if (href === '#properties' || href === '#invest' || href === '#neighborhood') {
         // Pinned section: use the actual ScrollTrigger range and jump into the stable zone.
         const st = ScrollTrigger.getAll().find((trigger) => {
           const triggerEl = trigger.vars.trigger as Element | undefined;
@@ -344,11 +344,28 @@ export function Navbar() {
                 <p className="premium-menu-eyebrow">{t('menuOverlay.explore')}</p>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#hero')}>{t('nav.home')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#properties')}>{t('nav.properties')}</button>
-                <button className="premium-menu-link" onClick={() => scrollToSection('#invest')}>{t('nav.invest')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#valuation')}>{t('nav.valuation')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#insights')}>{t('nav.insights')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#about')}>{t('nav.about')}</button>
                 <button className="premium-menu-link" onClick={() => scrollToSection('#contact')}>{t('nav.contact')}</button>
+
+                <div className="premium-menu-subsections">
+                  <p className="premium-menu-subheading">{t('nav.invest')}</p>
+                  <div className="premium-menu-subgrid">
+                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#philosophy')}>
+                      {t('philosophy.sectionTitle')}
+                    </button>
+                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#properties')}>
+                      {t('properties.eyebrow')}
+                    </button>
+                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#invest')}>
+                      {t('investment.eyebrow')}
+                    </button>
+                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#neighborhood')}>
+                      {t('neighborhood.eyebrow')}
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div className="premium-menu-column premium-menu-column-private">

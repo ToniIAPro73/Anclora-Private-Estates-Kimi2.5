@@ -88,6 +88,7 @@ export function NeighborhoodSection() {
   return (
     <section
       ref={sectionRef}
+      id="neighborhood"
       className="section-pinned bg-anclora-cream dark:bg-anclora-teal z-40"
     >
       {/* Left Headline Block */}
