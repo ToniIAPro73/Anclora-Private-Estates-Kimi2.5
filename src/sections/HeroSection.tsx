@@ -137,7 +137,7 @@ export function HeroSection() {
         ref={heroBgRef}
         className="absolute inset-0 z-[-1]"
         style={{
-          backgroundImage: 'url(/images/hero-villa.jpg)',
+          backgroundImage: 'url(/images/hero-villa-dia.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

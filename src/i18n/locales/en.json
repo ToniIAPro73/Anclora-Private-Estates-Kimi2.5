@@ -123,7 +123,31 @@
     "office": "Office",
     "hours": "Office Hours",
     "weekdays": "Monday – Friday: 9:00 – 18:00",
-    "saturday": "Saturday: 10:00 – 14:00"
+    "saturday": "Saturday: 10:00 – 14:00",
+    "form": {
+      "eyebrow": "Contact form",
+      "title": "Tell us about your search",
+      "description": "Share your criteria and we will reach out with a tailored first proposal.",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone number",
+      "email": "Email",
+      "interest": "I'm interested in",
+      "message": "Message",
+      "placeholderFirstName": "Enter your first name",
+      "placeholderLastName": "Enter your last name",
+      "placeholderPhone": "Example: +34 600 000 000",
+      "placeholderEmail": "Example: you@email.com",
+      "placeholderInterest": "Property type, area, or investment profile",
+      "placeholderMessage": "Briefly describe what you are looking for",
+      "newsletter": "I want to receive Anclora's monthly briefing.",
+      "privacy": "I have read and accept the Privacy Policy.",
+      "privacyRequired": "You must accept the Privacy Policy before submitting.",
+      "submit": "Submit",
+      "sending": "Sending...",
+      "success": "Thank you. We have received your request and an Anclora Nexus advisor will contact you shortly.",
+      "error": "We couldn't submit your form. Please try again in a few minutes."
+    }
   },
   "aboutSection": {
     "eyebrow": "About Us",

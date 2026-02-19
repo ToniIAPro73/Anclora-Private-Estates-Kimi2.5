@@ -129,6 +129,8 @@ function HomePage() {
         }
       } else if (exactOffset !== null) {
         top = sectionTop + exactOffset;
+      } else if (section.id === 'philosophy') {
+        top = sectionTop - headerHeight + 120;
       } else if (section.id === 'valuation') {
         const formCard = document.querySelector('#valuation-form-card') as HTMLElement | null;
         if (formCard) {
@@ -268,12 +270,13 @@ function HomePage() {
       <main className="relative">
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Pinned Sections - z-index stacking */}
+        <PropertiesSection />
         
         {/* Philosophy Section */}
         <PhilosophySection />
-        
-        {/* Pinned Sections - z-index stacking */}
-        <PropertiesSection />
+
         <InvestmentSection />
         <NeighborhoodSection />
         

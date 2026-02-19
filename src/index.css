@@ -610,7 +610,7 @@
     gap: 12px;
     border: none;
     background: transparent;
-    color: #151f27;
+    color: #000000;
     font-size: 1.15rem;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -619,14 +619,16 @@
   }
 
   .premium-menu-close-trigger:hover {
-    opacity: 0.8;
+    opacity: 1;
+    color: #000000;
+    text-shadow: none;
   }
 
   .premium-menu-close-icon {
     position: relative;
     width: 40px;
     height: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.82);
+    border: 2px solid #000000;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -636,7 +638,7 @@
     position: absolute;
     width: 24px;
     height: 1.7px;
-    background: rgba(255, 255, 255, 0.88);
+    background: #000000;
   }
 
   .premium-menu-close-icon i:first-child {
@@ -668,11 +670,12 @@
 
   .premium-menu-header-meta {
     justify-self: end;
-    color: #13212b;
+    color: #000000;
     font-size: 0.9rem;
     font-weight: 600;
     letter-spacing: 0.2em;
     text-transform: uppercase;
+    text-shadow: none;
   }
 
   .premium-menu-grid {

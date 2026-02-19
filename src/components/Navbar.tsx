@@ -147,6 +147,9 @@ export function Navbar() {
         } else {
           top = targetTop - headerHeight - 10;
         }
+      } else if (href === '#philosophy') {
+        // Push a bit deeper to avoid showing Hero strip at the top.
+        top = targetTop - headerHeight + 120;
       } else if (href === '#insights') {
         // Center the 3-card block in the visible viewport.
         const cardsBlock = elementNode.querySelector('[data-insights-cards]') as HTMLElement | null;
@@ -247,7 +250,7 @@ export function Navbar() {
                 }}
               >
                 <img 
-                  src="/logo-anclora-private-estate&exp.png" 
+                  src="/logo-anclora-private-estates-exp.png" 
                   alt="Anclora Private Estates" 
                   className={`transition-[all] [transition-duration:800ms] object-contain group-hover:scale-[1.05] group-hover:brightness-[1.2] ${
                     isScrolled ? 'h-[45px]' : 'h-[55px]'
@@ -354,9 +357,6 @@ export function Navbar() {
                   <div className="premium-menu-subgrid">
                     <button className="premium-menu-sub-link" onClick={() => scrollToSection('#philosophy')}>
                       {t('philosophy.sectionTitle')}
-                    </button>
-                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#properties')}>
-                      {t('properties.eyebrow')}
                     </button>
                     <button className="premium-menu-sub-link" onClick={() => scrollToSection('#invest')}>
                       {t('investment.eyebrow')}

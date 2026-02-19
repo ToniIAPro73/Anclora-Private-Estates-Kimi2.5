@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
-import { MapPin, Phone, Mail, ArrowRight, Calendar } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight, Calendar, Send, CheckCircle, AlertTriangle } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,13 +32,32 @@ export function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const contactCardRef = useRef<HTMLDivElement>(null);
   const detailsRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const nexusPublicLeadUrl =
+    import.meta.env.VITE_ANCLORA_NEXUS_PUBLIC_LEAD_URL ??
+    'https://nexus.anclora.group/api/public/cta/lead';
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    phone: '',
+    email: '',
+    interest: '',
+    message: '',
+    newsletter: false,
+    privacyAccepted: false,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
     const section = sectionRef.current;
     const contactCard = contactCardRef.current;
     const details = detailsRef.current;
+    const form = formRef.current;
 
-    if (!section || !contactCard || !details) return;
+    if (!section || !contactCard || !details || !form) return;
 
     const ctx = gsap.context(() => {
       // Contact card reveal
@@ -74,10 +93,91 @@ export function ContactSection() {
           },
         }
       );
+
+      gsap.fromTo(
+        form,
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: form,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
     }, section);
 
     return () => ctx.revert();
   }, [t]);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!formData.privacyAccepted) {
+      setSubmitStatus('error');
+      setSubmitError(t('contact.form.privacyRequired'));
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setSubmitError('');
+
+    try {
+      const fullName = `${formData.firstName} ${formData.lastName}`.trim();
+      const payload = {
+        name: fullName || formData.firstName || 'Web Contact',
+        email: formData.email || undefined,
+        phone: formData.phone || undefined,
+        property_interest: formData.interest || undefined,
+        message: formData.message || undefined,
+        notes: {
+          message: formData.message || null,
+          newsletter_opt_in: formData.newsletter,
+        },
+        source: 'web-cta',
+        source_system: 'cta_web',
+        source_channel: 'website',
+        source_detail: 'private-estates-contact-form',
+        source_url: window.location.href,
+        source_referrer: document.referrer || undefined,
+      };
+
+      const response = await fetch(nexusPublicLeadUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body?.detail || t('contact.form.error'));
+      }
+
+      setSubmitStatus('success');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        phone: '',
+        email: '',
+        interest: '',
+        message: '',
+        newsletter: false,
+        privacyAccepted: false,
+      });
+    } catch (error) {
+      setSubmitStatus('error');
+      setSubmitError(error instanceof Error ? error.message : t('contact.form.error'));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section
@@ -165,6 +265,156 @@ export function ContactSection() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div ref={formRef} className="mt-10 lg:mt-14">
+          <div className="card-premium p-6 lg:p-8">
+            <div className="mb-6">
+              <p className="text-eyebrow mb-3">{t('contact.form.eyebrow')}</p>
+              <h3 className="font-display text-3xl lg:text-4xl font-semibold text-anclora-cream mb-3">
+                {t('contact.form.title')}
+              </h3>
+              <p className="text-anclora-text-muted leading-relaxed">
+                {t('contact.form.description')}
+              </p>
+            </div>
+
+            {submitStatus === 'success' ? (
+              <div className="rounded-xl border border-anclora-gold/30 bg-anclora-gold/10 p-5 flex items-start gap-3">
+                <CheckCircle className="w-5 h-5 text-anclora-gold mt-0.5" />
+                <p className="text-anclora-cream">{t('contact.form.success')}</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-5">
+                <div>
+                  <label htmlFor="firstName" className="block text-sm text-anclora-text-muted mb-1.5">
+                    {t('contact.form.firstName')}
+                  </label>
+                  <input
+                    id="firstName"
+                    type="text"
+                    className="input-anclora"
+                    value={formData.firstName}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, firstName: e.target.value }))}
+                    placeholder={t('contact.form.placeholderFirstName')}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="lastName" className="block text-sm text-anclora-text-muted mb-1.5">
+                    {t('contact.form.lastName')}
+                  </label>
+                  <input
+                    id="lastName"
+                    type="text"
+                    className="input-anclora"
+                    value={formData.lastName}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, lastName: e.target.value }))}
+                    placeholder={t('contact.form.placeholderLastName')}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="phone" className="block text-sm text-anclora-text-muted mb-1.5">
+                    {t('contact.form.phone')}
+                  </label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    className="input-anclora"
+                    value={formData.phone}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, phone: e.target.value }))}
+                    placeholder={t('contact.form.placeholderPhone')}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm text-anclora-text-muted mb-1.5">
+                    {t('contact.form.email')}
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    className="input-anclora"
+                    value={formData.email}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                    placeholder={t('contact.form.placeholderEmail')}
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="interest" className="block text-sm text-anclora-text-muted mb-1.5">
+                    {t('contact.form.interest')}
+                  </label>
+                  <input
+                    id="interest"
+                    type="text"
+                    className="input-anclora"
+                    value={formData.interest}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, interest: e.target.value }))}
+                    placeholder={t('contact.form.placeholderInterest')}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm text-anclora-text-muted mb-1.5">
+                    {t('contact.form.message')}
+                  </label>
+                  <textarea
+                    id="message"
+                    className="input-anclora h-28 resize-none"
+                    value={formData.message}
+                    onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
+                    placeholder={t('contact.form.placeholderMessage')}
+                  />
+                </div>
+
+                <div className="lg:col-span-2 space-y-2.5 mt-1">
+                  <label className="flex items-start gap-2.5 text-sm text-anclora-text-muted cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 accent-[var(--anclora-gold)]"
+                      checked={formData.newsletter}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, newsletter: e.target.checked }))}
+                    />
+                    <span>{t('contact.form.newsletter')}</span>
+                  </label>
+
+                  <label className="flex items-start gap-2.5 text-sm text-anclora-text-muted cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5 accent-[var(--anclora-gold)]"
+                      checked={formData.privacyAccepted}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, privacyAccepted: e.target.checked }))}
+                    />
+                    <span>{t('contact.form.privacy')}</span>
+                  </label>
+                </div>
+
+                {submitStatus === 'error' && (
+                  <div className="lg:col-span-2 rounded-xl border border-red-400/25 bg-red-500/10 p-4 flex items-start gap-2.5">
+                    <AlertTriangle className="w-4 h-4 text-red-300 mt-0.5" />
+                    <p className="text-sm text-red-100">{submitError || t('contact.form.error')}</p>
+                  </div>
+                )}
+
+                <div className="lg:col-span-2 pt-2">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="btn-anclora-premium inline-flex items-center gap-2 !min-w-[220px] disabled:opacity-70 disabled:cursor-not-allowed"
+                  >
+                    <Send className="w-4 h-4" />
+                    {isSubmitting ? t('contact.form.sending') : t('contact.form.submit')}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>

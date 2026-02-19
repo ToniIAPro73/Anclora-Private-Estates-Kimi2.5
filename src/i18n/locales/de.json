@@ -123,7 +123,31 @@
     "office": "Büro",
     "hours": "Bürozeiten",
     "weekdays": "Montag – Freitag: 9:00 – 18:00",
-    "saturday": "Samstag: 10:00 – 14:00"
+    "saturday": "Samstag: 10:00 – 14:00",
+    "form": {
+      "eyebrow": "Kontaktformular",
+      "title": "Sprechen wir über Ihre Suche",
+      "description": "Teilen Sie uns Ihre Kriterien mit, und wir melden uns mit einem personalisierten Erstvorschlag.",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "phone": "Telefon",
+      "email": "E-Mail",
+      "interest": "Ich interessiere mich für",
+      "message": "Nachricht",
+      "placeholderFirstName": "Geben Sie Ihren Vornamen ein",
+      "placeholderLastName": "Geben Sie Ihren Nachnamen ein",
+      "placeholderPhone": "Beispiel: +34 600 000 000",
+      "placeholderEmail": "Beispiel: you@email.com",
+      "placeholderInterest": "Objekttyp, Lage oder Anlageprofil",
+      "placeholderMessage": "Beschreiben Sie kurz, wonach Sie suchen",
+      "newsletter": "Ich möchte Ancloras monatliches Briefing erhalten.",
+      "privacy": "Ich habe die Datenschutzerklärung gelesen und akzeptiert.",
+      "privacyRequired": "Sie müssen die Datenschutzerklärung akzeptieren, bevor Sie senden.",
+      "submit": "Senden",
+      "sending": "Wird gesendet...",
+      "success": "Vielen Dank. Wir haben Ihre Anfrage erhalten und ein Anclora-Nexus-Berater wird Sie in Kürze kontaktieren.",
+      "error": "Das Formular konnte nicht gesendet werden. Bitte versuchen Sie es in einigen Minuten erneut."
+    }
   },
   "aboutSection": {
     "eyebrow": "Über Uns",

@@ -102,7 +102,31 @@
     "office": "Bureau",
     "hours": "Heures d'ouverture",
     "weekdays": "Lundi – Vendredi: 9:00 – 18:00",
-    "saturday": "Samedi: 10:00 – 14:00"
+    "saturday": "Samedi: 10:00 – 14:00",
+    "form": {
+      "eyebrow": "Formulaire de contact",
+      "title": "Parlons de votre recherche",
+      "description": "Partagez vos critères et nous vous contacterons avec une première proposition personnalisée.",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "phone": "Téléphone",
+      "email": "Email",
+      "interest": "Je m'intéresse à",
+      "message": "Message",
+      "placeholderFirstName": "Entrez votre prénom",
+      "placeholderLastName": "Entrez votre nom",
+      "placeholderPhone": "Exemple : +34 600 000 000",
+      "placeholderEmail": "Exemple : you@email.com",
+      "placeholderInterest": "Type de bien, zone ou profil d'investissement",
+      "placeholderMessage": "Décrivez brièvement ce que vous recherchez",
+      "newsletter": "Je souhaite recevoir le briefing mensuel d'Anclora.",
+      "privacy": "J'ai lu et j'accepte la Politique de confidentialité.",
+      "privacyRequired": "Vous devez accepter la Politique de confidentialité avant l'envoi.",
+      "submit": "Envoyer",
+      "sending": "Envoi en cours...",
+      "success": "Merci. Nous avons reçu votre demande et un conseiller Anclora Nexus vous contactera prochainement.",
+      "error": "Le formulaire n'a pas pu être envoyé. Veuillez réessayer dans quelques minutes."
+    }
   },
   "footer": {
     "description": "Immobilier de luxe et conseil en investissement dans les Îles Baléares. Nous connectons les investisseurs exigeants avec des propriétés exceptionnelles.",

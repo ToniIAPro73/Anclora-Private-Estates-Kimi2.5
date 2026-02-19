@@ -123,7 +123,31 @@
     "office": "Oficina",
     "hours": "Horario de oficina",
     "weekdays": "Lunes – Viernes: 9:00 – 18:00",
-    "saturday": "Sábado: 10:00 – 14:00"
+    "saturday": "Sábado: 10:00 – 14:00",
+    "form": {
+      "eyebrow": "Formulario de contacto",
+      "title": "Hablemos de su búsqueda",
+      "description": "Comparta su preferencia y le contactaremos con una propuesta inicial personalizada.",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "phone": "Teléfono de contacto",
+      "email": "Correo electrónico",
+      "interest": "Estoy interesado en",
+      "message": "Mensaje",
+      "placeholderFirstName": "Escriba su nombre",
+      "placeholderLastName": "Escriba sus apellidos",
+      "placeholderPhone": "Ejemplo: +34 600 000 000",
+      "placeholderEmail": "Ejemplo: you@email.com",
+      "placeholderInterest": "Tipo de propiedad, zona o inversión",
+      "placeholderMessage": "Describa brevemente lo que busca",
+      "newsletter": "Deseo recibir el briefing mensual de Anclora.",
+      "privacy": "He leído y acepto la Política de Privacidad.",
+      "privacyRequired": "Debe aceptar la Política de Privacidad para enviar el formulario.",
+      "submit": "Enviar",
+      "sending": "Enviando...",
+      "success": "Gracias. Hemos recibido su solicitud y un asesor de Anclora Nexus le contactará en breve.",
+      "error": "No se pudo enviar el formulario. Inténtelo de nuevo en unos minutos."
+    }
   },
   "aboutSection": {
     "eyebrow": "Nosotros",
