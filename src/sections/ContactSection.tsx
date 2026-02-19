@@ -561,6 +561,7 @@ export function ContactSection() {
                       className="mt-0.5 accent-[var(--anclora-gold)]"
                       checked={formData.privacyAccepted}
                       onChange={(e) => setFormData((prev) => ({ ...prev, privacyAccepted: e.target.checked }))}
+                      required
                     />
                     <span>{t('contact.form.privacy')}</span>
                   </label>
@@ -578,6 +579,7 @@ export function ContactSection() {
                     type="submit"
                     disabled={
                       isSubmitting ||
+                      !formData.privacyAccepted ||
                       (captchaProvider === 'recaptcha' && (!recaptchaSiteKey || !captchaToken)) ||
                       (captchaProvider === 'altcha' && !altchaChallengeUrl)
                     }
