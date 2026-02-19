@@ -166,7 +166,7 @@ export function ContactSection() {
         api.ready(() => {
           recaptchaWidgetIdRef.current = api.render(container, {
             sitekey: recaptchaSiteKey,
-            theme: 'light',
+            theme: 'dark',
             callback: (token) => setCaptchaToken(token),
             'expired-callback': () => setCaptchaToken(''),
             'error-callback': () => setCaptchaToken(''),
