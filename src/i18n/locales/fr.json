@@ -133,6 +133,21 @@
       "error": "Le formulaire n'a pas pu être envoyé. Veuillez réessayer dans quelques minutes."
     }
   },
+  "menuOverlay": {
+    "close": "FERMER",
+    "explore": "Explorer",
+    "privateArea": "Espace Privé",
+    "privateAreaDescription": "Accès centralisé aux portails professionnels Anclora selon le profil et les permissions.",
+    "agentPortalTitle": "Portail Agent",
+    "agentPortalDescription": "Accéder au login Anclora Nexus CRM.",
+    "partnerPortalTitle": "Portail Partenaire",
+    "partnerPortalDescription": "Accès pour partenaires stratégiques et collaborateurs.",
+    "dataLabPortalTitle": "Anclora Data Lab",
+    "dataLabPortalDescription": "Accès au laboratoire d'intelligence d'Anclora.",
+    "partnerModalTitle": "Portail en préparation",
+    "partnerModalText": "Nous travaillons pour activer cet accès au plus vite. Pour l'instant, seul le Portail Agent (Anclora Nexus) est opérationnel.",
+    "partnerModalCta": "Compris"
+  },
   "footer": {
     "description": "Immobilier de luxe et conseil en investissement dans les Îles Baléares. Nous connectons les investisseurs exigeants avec des propriétés exceptionnelles.",
     "quickLinks": "Liens rapides",

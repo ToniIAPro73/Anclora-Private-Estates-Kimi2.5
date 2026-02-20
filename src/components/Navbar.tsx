@@ -381,6 +381,11 @@ export function Navbar() {
                   <span>{t('menuOverlay.partnerPortalTitle')}</span>
                   <small>{t('menuOverlay.partnerPortalDescription')}</small>
                 </button>
+
+                <button className="premium-private-card" onClick={openPartnerModal}>
+                  <span>{t('menuOverlay.dataLabPortalTitle')}</span>
+                  <small>{t('menuOverlay.dataLabPortalDescription')}</small>
+                </button>
               </div>
             </div>
           </div>

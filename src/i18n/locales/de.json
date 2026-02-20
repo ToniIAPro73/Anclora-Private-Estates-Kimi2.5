@@ -175,8 +175,10 @@
     "agentPortalDescription": "Zum Login von Anclora Nexus CRM.",
     "partnerPortalTitle": "Partner-Portal",
     "partnerPortalDescription": "Zugang für strategische Partner und Mitarbeitende.",
-    "partnerModalTitle": "Partner-Portal in Vorbereitung",
-    "partnerModalText": "Wir finalisieren aktuell die letzten Details, um diesen Zugang mit dem erwarteten Premium-Standard freizuschalten. Vielen Dank für Ihre Geduld.",
+    "dataLabPortalTitle": "Anclora Data Lab",
+    "dataLabPortalDescription": "Zugang zum Intelligence-Lab von Anclora.",
+    "partnerModalTitle": "Portal in Vorbereitung",
+    "partnerModalText": "Wir arbeiten daran, diesen Zugang schnellstmöglich freizuschalten. Derzeit ist nur das Agenten-Portal (Anclora Nexus) aktiv.",
     "partnerModalCta": "Verstanden"
   },
   "footer": {
