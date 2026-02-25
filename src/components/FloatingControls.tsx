@@ -66,6 +66,7 @@ export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
           className="btn-cookie-trigger pointer-events-auto"
           onClick={onOpenCookieModal}
           title={t('cookie.settings')}
+          aria-label={t('cookie.settings')}
         >
           <svg viewBox="0 0 24 24" fill="none" className="w-[22px] h-[22px]">
             <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" fill="var(--pe-black)"/>
@@ -84,6 +85,7 @@ export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
             className={`btn-scroll ${!showUpButton ? 'hidden' : ''}`}
             onClick={scrollToTop}
             title={t('scroll.up')}
+            aria-label={t('scroll.up')}
           >
             <ChevronUp className="w-4 h-4" strokeWidth={2.5} />
           </button>
@@ -91,6 +93,7 @@ export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
             className={`btn-scroll ${!showDownButton ? 'hidden' : ''}`}
             onClick={scrollToBottom}
             title={t('scroll.down')}
+            aria-label={t('scroll.down')}
           >
             <ChevronDown className="w-4 h-4" strokeWidth={2.5} />
           </button>
@@ -100,6 +103,7 @@ export function FloatingControls({ onOpenCookieModal }: FloatingControlsProps) {
         <button 
           className="btn-anclora-premium btn-contact-floating pointer-events-auto"
           onClick={scrollToContact}
+          aria-label={contactLabel}
         >
           <MessageCircle className="w-[18px] h-[18px]" strokeWidth={2} />
           <span>{contactLabel}</span>

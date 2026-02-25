@@ -16,6 +16,18 @@ export function HeroSection() {
   const [propertyType, setPropertyType] = useState('any');
   const [location, setLocation] = useState('all');
   const [priceRange, setPriceRange] = useState('2m');
+  const [isLowPerformanceMode, setIsLowPerformanceMode] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)').matches;
+  });
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)');
+    const updateMode = () => setIsLowPerformanceMode(mediaQuery.matches);
+    updateMode();
+    mediaQuery.addEventListener('change', updateMode);
+    return () => mediaQuery.removeEventListener('change', updateMode);
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -25,6 +37,8 @@ export function HeroSection() {
     const widget = widgetRef.current;
 
     if (!section || !heroBg || !tagline || !title || !widget) return;
+
+    if (isLowPerformanceMode) return;
 
     const ctx = gsap.context(() => {
       // Main Timeline for synchronized entrance
@@ -110,7 +124,7 @@ export function HeroSection() {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [isLowPerformanceMode]);
 
   const scrollToPhilosophy = () => {
     const element = document.querySelector('#philosophy');
@@ -137,7 +151,7 @@ export function HeroSection() {
         ref={heroBgRef}
         className="absolute inset-0 z-[-1]"
         style={{
-          backgroundImage: 'url(/images/hero-villa-dia.png)',
+          backgroundImage: `url(${isLowPerformanceMode ? '/images/hero-villa-atardecer.jpg' : '/images/hero-villa-dia.png'})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -180,10 +194,13 @@ export function HeroSection() {
         <div ref={widgetRef} className="search-widget">
           <div className="search-input-group">
             <span className="search-label">{t('search.propertyType')}</span>
-            <select 
+            <label htmlFor="hero-property-type" className="sr-only">{t('search.propertyType')}</label>
+            <select
+              id="hero-property-type"
               className="search-select"
               value={propertyType}
               onChange={(e) => setPropertyType(e.target.value)}
+              aria-label={t('search.propertyType')}
             >
               <option value="any">{t('search.anyType')}</option>
               <option value="villa">Villa</option>
@@ -193,10 +210,13 @@ export function HeroSection() {
           </div>
           <div className="search-input-group">
             <span className="search-label">{t('search.location')}</span>
-            <select 
+            <label htmlFor="hero-location" className="sr-only">{t('search.location')}</label>
+            <select
+              id="hero-location"
               className="search-select"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
+              aria-label={t('search.location')}
             >
               <option value="all">{t('search.allMallorca')}</option>
               <option value="palma">Palma</option>
@@ -206,10 +226,13 @@ export function HeroSection() {
           </div>
           <div className="search-input-group">
             <span className="search-label">{t('search.priceRange')}</span>
-            <select 
+            <label htmlFor="hero-price-range" className="sr-only">{t('search.priceRange')}</label>
+            <select
+              id="hero-price-range"
               className="search-select"
               value={priceRange}
               onChange={(e) => setPriceRange(e.target.value)}
+              aria-label={t('search.priceRange')}
             >
               <option value="2m">€2.000.000+</option>
               <option value="5m">€5.000.000+</option>

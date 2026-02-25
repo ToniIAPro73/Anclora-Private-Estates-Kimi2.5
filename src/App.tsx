@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -12,30 +12,48 @@ import { ThemeProvider } from './context/ThemeContext';
 
 // Components
 import { Navbar } from './components/Navbar';
-import { Footer } from './components/Footer';
 import { CookieBanner } from './components/CookieBanner';
-import { SocialSidebar } from './components/SocialSidebar';
-import { FloatingControls } from './components/FloatingControls';
+const Footer = lazy(() => import('./components/Footer').then((module) => ({ default: module.Footer })));
+const SocialSidebar = lazy(() =>
+  import('./components/SocialSidebar').then((module) => ({ default: module.SocialSidebar }))
+);
+const FloatingControls = lazy(() =>
+  import('./components/FloatingControls').then((module) => ({ default: module.FloatingControls }))
+);
 
 // Sections
 import { HeroSection } from './sections/HeroSection';
-import { PhilosophySection } from './sections/PhilosophySection';
-import { PropertiesSection } from './sections/PropertiesSection';
-import { InvestmentSection } from './sections/InvestmentSection';
-import { NeighborhoodSection } from './sections/NeighborhoodSection';
-import { ValuationSection } from './sections/ValuationSection';
-import { InsightsSection } from './sections/InsightsSection';
-import { AboutSection } from './sections/AboutSection';
-import { ContactSection } from './sections/ContactSection';
+const PhilosophySection = lazy(() =>
+  import('./sections/PhilosophySection').then((module) => ({ default: module.PhilosophySection }))
+);
+const PropertiesSection = lazy(() =>
+  import('./sections/PropertiesSection').then((module) => ({ default: module.PropertiesSection }))
+);
+const InvestmentSection = lazy(() =>
+  import('./sections/InvestmentSection').then((module) => ({ default: module.InvestmentSection }))
+);
+const NeighborhoodSection = lazy(() =>
+  import('./sections/NeighborhoodSection').then((module) => ({ default: module.NeighborhoodSection }))
+);
+const ValuationSection = lazy(() =>
+  import('./sections/ValuationSection').then((module) => ({ default: module.ValuationSection }))
+);
+const InsightsSection = lazy(() =>
+  import('./sections/InsightsSection').then((module) => ({ default: module.InsightsSection }))
+);
+const AboutSection = lazy(() => import('./sections/AboutSection').then((module) => ({ default: module.AboutSection })));
+const ContactSection = lazy(() =>
+  import('./sections/ContactSection').then((module) => ({ default: module.ContactSection }))
+);
 
 // Legal Pages
-import { 
-  PrivacyPage, 
-  CookiesPage, 
-  TermsPage, 
-  DisclaimerPage, 
-  EthicsPage 
-} from './pages/legal';
+const PrivacyPage = lazy(() => import('./pages/legal/PrivacyPage').then((module) => ({ default: module.PrivacyPage })));
+const CookiesPage = lazy(() => import('./pages/legal/CookiesPage').then((module) => ({ default: module.CookiesPage })));
+const TermsPage = lazy(() => import('./pages/legal/TermsPage').then((module) => ({ default: module.TermsPage })));
+const DisclaimerPage = lazy(() =>
+  import('./pages/legal/DisclaimerPage').then((module) => ({ default: module.DisclaimerPage }))
+);
+const EthicsPage = lazy(() => import('./pages/legal/EthicsPage').then((module) => ({ default: module.EthicsPage })));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,7 +72,30 @@ function ScrollToTop() {
 function HomePage() {
   const { i18n } = useTranslation();
   const [cookieModalOpen, setCookieModalOpen] = useState(false);
+  const [showDeferredSections, setShowDeferredSections] = useState(false);
   const globalSnapRef = useRef<ScrollTrigger | null>(null);
+
+  useEffect(() => {
+    const revealDeferredSections = () => {
+      setShowDeferredSections(true);
+      window.removeEventListener('scroll', revealDeferredSections);
+      window.removeEventListener('touchstart', revealDeferredSections);
+      window.removeEventListener('keydown', revealDeferredSections);
+    };
+
+    const timer = window.setTimeout(revealDeferredSections, 1200);
+
+    window.addEventListener('scroll', revealDeferredSections, { passive: true });
+    window.addEventListener('touchstart', revealDeferredSections, { passive: true });
+    window.addEventListener('keydown', revealDeferredSections);
+
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener('scroll', revealDeferredSections);
+      window.removeEventListener('touchstart', revealDeferredSections);
+      window.removeEventListener('keydown', revealDeferredSections);
+    };
+  }, []);
 
   useEffect(() => {
     const getActiveSection = () => {
@@ -262,32 +303,44 @@ function HomePage() {
   return (
     <>
       {/* Social Sidebar - Only on home page */}
-      <SocialSidebar />
+      {showDeferredSections && (
+        <Suspense fallback={null}>
+          <SocialSidebar />
+        </Suspense>
+      )}
       
       {/* Floating Controls - Only on home page */}
-      <FloatingControls onOpenCookieModal={() => setCookieModalOpen(true)} />
+      {showDeferredSections && (
+        <Suspense fallback={null}>
+          <FloatingControls onOpenCookieModal={() => setCookieModalOpen(true)} />
+        </Suspense>
+      )}
       
       <main className="relative">
         {/* Hero Section */}
         <HeroSection />
 
-        {/* Pinned Sections - z-index stacking */}
-        <PropertiesSection />
-        
-        {/* Philosophy Section */}
-        <PhilosophySection />
+        {showDeferredSections && (
+          <Suspense fallback={null}>
+            {/* Pinned Sections - z-index stacking */}
+            <PropertiesSection />
+            
+            {/* Philosophy Section */}
+            <PhilosophySection />
 
-        <InvestmentSection />
-        <NeighborhoodSection />
-        
-        {/* Flowing Sections */}
-        <ValuationSection />
-        <InsightsSection />
-        <AboutSection />
-        <ContactSection />
-        
-        {/* Footer */}
-        <Footer />
+            <InvestmentSection />
+            <NeighborhoodSection />
+            
+            {/* Flowing Sections */}
+            <ValuationSection />
+            <InsightsSection />
+            <AboutSection />
+            <ContactSection />
+            
+            {/* Footer */}
+            <Footer />
+          </Suspense>
+        )}
       </main>
       
       {/* Cookie Banner/Modal */}
@@ -312,14 +365,16 @@ function App() {
         </Routes>
         
         {/* Main Routes */}
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/legal/privacidad" element={<PrivacyPage />} />
-          <Route path="/legal/cookies" element={<CookiesPage />} />
-          <Route path="/legal/terminos" element={<TermsPage />} />
-          <Route path="/legal/disclaimer" element={<DisclaimerPage />} />
-          <Route path="/legal/codigo-etico" element={<EthicsPage />} />
-        </Routes>
+        <Suspense fallback={null}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/legal/privacidad" element={<PrivacyPage />} />
+            <Route path="/legal/cookies" element={<CookiesPage />} />
+            <Route path="/legal/terminos" element={<TermsPage />} />
+            <Route path="/legal/disclaimer" element={<DisclaimerPage />} />
+            <Route path="/legal/codigo-etico" element={<EthicsPage />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </ThemeProvider>
   );
