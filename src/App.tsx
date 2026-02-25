@@ -1,7 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
 
 // i18n initialization
@@ -12,7 +10,9 @@ import { ThemeProvider } from './context/ThemeContext';
 
 // Components
 import { Navbar } from './components/Navbar';
-import { CookieBanner } from './components/CookieBanner';
+const CookieBanner = lazy(() =>
+  import('./components/CookieBanner').then((module) => ({ default: module.CookieBanner }))
+);
 const Footer = lazy(() => import('./components/Footer').then((module) => ({ default: module.Footer })));
 const SocialSidebar = lazy(() =>
   import('./components/SocialSidebar').then((module) => ({ default: module.SocialSidebar }))
@@ -55,8 +55,6 @@ const DisclaimerPage = lazy(() =>
 );
 const EthicsPage = lazy(() => import('./pages/legal/EthicsPage').then((module) => ({ default: module.EthicsPage })));
 
-gsap.registerPlugin(ScrollTrigger);
-
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -72,8 +70,14 @@ function ScrollToTop() {
 function HomePage() {
   const { i18n } = useTranslation();
   const [cookieModalOpen, setCookieModalOpen] = useState(false);
+  const [mountCookieBanner, setMountCookieBanner] = useState(false);
   const [showDeferredSections, setShowDeferredSections] = useState(false);
-  const globalSnapRef = useRef<ScrollTrigger | null>(null);
+  const globalSnapRef = useRef<{ kill: () => void } | null>(null);
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setMountCookieBanner(true), 1300);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const revealDeferredSections = () => {
@@ -98,6 +102,10 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
+    let scrollTriggerApi: any = null;
+    let timerId: number | null = null;
+    let isDisposed = false;
+
     const getActiveSection = () => {
       const footer = document.querySelector('#footer') as HTMLElement | null;
       if (footer) {
@@ -154,8 +162,8 @@ function HomePage() {
       const sectionTop = window.scrollY + section.getBoundingClientRect().top;
       let top = sectionTop - headerHeight - 10;
 
-      if (section.classList.contains('section-pinned')) {
-        const st = ScrollTrigger.getAll().find((trigger) => {
+      if (section.classList.contains('section-pinned') && scrollTriggerApi) {
+        const st = scrollTriggerApi.getAll().find((trigger: any) => {
           const triggerEl = trigger.vars.trigger as Element | undefined;
           return triggerEl === section;
         });
@@ -202,29 +210,32 @@ function HomePage() {
 
     // Initialize global snap for pinned sections
     const setupGlobalSnap = () => {
+      if (!scrollTriggerApi) return;
+
       globalSnapRef.current?.kill();
       globalSnapRef.current = null;
 
-      const pinned = ScrollTrigger.getAll()
-        .filter((st) => st.vars.pin)
-        .sort((a, b) => a.start - b.start);
+      const pinned = scrollTriggerApi
+        .getAll()
+        .filter((st: any) => st.vars.pin)
+        .sort((a: any, b: any) => a.start - b.start);
       
-      const maxScroll = ScrollTrigger.maxScroll(window);
+      const maxScroll = scrollTriggerApi.maxScroll(window);
       
       if (!maxScroll || pinned.length === 0) return;
 
-      const pinnedRanges = pinned.map((st) => ({
+      const pinnedRanges = pinned.map((st: any) => ({
         start: st.start / maxScroll,
         end: (st.end ?? st.start) / maxScroll,
         center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,
       }));
       let lastValue = 0;
 
-      globalSnapRef.current = ScrollTrigger.create({
+      globalSnapRef.current = scrollTriggerApi.create({
         snap: {
-          snapTo: (value) => {
+          snapTo: (value: number) => {
             const activeRange = pinnedRanges.find(
-              (r) => value >= r.start - 0.02 && value <= r.end + 0.02
+              (r: { start: number; end: number; center: number }) => value >= r.start - 0.02 && value <= r.end + 0.02
             );
             if (!activeRange) return value;
 
@@ -264,8 +275,15 @@ function HomePage() {
         ? Math.min(1, Math.max(0, storedPinnedProgress))
         : null;
     const fallbackY = Number.isFinite(storedY) ? storedY : currentY;
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
+    const initScroll = async () => {
+      const module = await import('gsap/ScrollTrigger');
+      if (isDisposed) return;
+      scrollTriggerApi = module.ScrollTrigger;
+
+      timerId = window.setTimeout(() => {
+      if (scrollTriggerApi) {
+        scrollTriggerApi.refresh();
+      }
       // Keep user's current section stable after i18n re-render.
       const anchorSection = storedAnchor
         ? (document.querySelector(storedAnchor) as HTMLElement | null)
@@ -285,7 +303,9 @@ function HomePage() {
       sessionStorage.removeItem('anclora:lang-y');
       sessionStorage.removeItem('anclora:lang-offset');
       sessionStorage.removeItem('anclora:lang-pinned-progress');
-    }, 100);
+      }, 100);
+    };
+    void initScroll();
 
     const failsafe = window.setTimeout(() => {
       document.documentElement.removeAttribute('data-lang-switching');
@@ -293,7 +313,8 @@ function HomePage() {
     }, 1500);
 
     return () => {
-      clearTimeout(timer);
+      isDisposed = true;
+      if (timerId !== null) clearTimeout(timerId);
       clearTimeout(failsafe);
       globalSnapRef.current?.kill();
       globalSnapRef.current = null;
@@ -344,7 +365,11 @@ function HomePage() {
       </main>
       
       {/* Cookie Banner/Modal */}
-      <CookieBanner isOpen={cookieModalOpen} onClose={() => setCookieModalOpen(false)} />
+      {mountCookieBanner && (
+        <Suspense fallback={null}>
+          <CookieBanner isOpen={cookieModalOpen} onClose={() => setCookieModalOpen(false)} />
+        </Suspense>
+      )}
     </>
   );
 }

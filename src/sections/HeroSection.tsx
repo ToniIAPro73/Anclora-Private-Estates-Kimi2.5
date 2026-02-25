@@ -1,10 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
 import { Search, ChevronDown } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function HeroSection() {
   const { t } = useTranslation();
@@ -39,8 +35,19 @@ export function HeroSection() {
     if (!section || !heroBg || !tagline || !title || !widget) return;
 
     if (isLowPerformanceMode) return;
+    let isCancelled = false;
+    let cleanup: (() => void) | undefined;
 
-    const ctx = gsap.context(() => {
+    const mountAnimations = async () => {
+      const gsapModule = await import('gsap');
+      const scrollTriggerModule = await import('gsap/ScrollTrigger');
+      if (isCancelled) return;
+
+      const { gsap } = gsapModule;
+      const { ScrollTrigger } = scrollTriggerModule;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const ctx = gsap.context(() => {
       // Main Timeline for synchronized entrance
       const tl = gsap.timeline();
 
@@ -100,7 +107,7 @@ export function HeroSection() {
       );
 
       // Parallax effect on scroll
-      ScrollTrigger.create({
+        ScrollTrigger.create({
         trigger: section,
         start: 'top top',
         end: 'bottom top',
@@ -120,10 +127,17 @@ export function HeroSection() {
             opacity: 1 - progress * 1.5
           });
         }
-      });
-    }, section);
+        });
+      }, section);
 
-    return () => ctx.revert();
+      cleanup = () => ctx.revert();
+    };
+
+    void mountAnimations();
+    return () => {
+      isCancelled = true;
+      cleanup?.();
+    };
   }, [isLowPerformanceMode]);
 
   const scrollToPhilosophy = () => {

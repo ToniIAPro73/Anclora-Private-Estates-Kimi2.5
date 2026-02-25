@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.innerWidth <= 768;
+  });
   const nexusLoginUrl = import.meta.env.VITE_ANCLORA_NEXUS_LOGIN_URL ?? 'https://nexus.anclora.group/login';
 
   useEffect(() => {
@@ -36,7 +39,18 @@ export function Navbar() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const changeLanguage = (lang: string) => {
+  useEffect(() => {
+    const onResize = () => setIsMobileViewport(window.innerWidth <= 768);
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const getScrollTrigger = async () => {
+    const module = await import('gsap/ScrollTrigger');
+    return module.ScrollTrigger;
+  };
+
+  const changeLanguage = async (lang: string) => {
     if (lang === i18n.language) return;
 
     const footer = document.querySelector('#footer') as HTMLElement | null;
@@ -56,6 +70,7 @@ export function Navbar() {
       }
     }
 
+    const ScrollTrigger = await getScrollTrigger();
     const activePinned = ScrollTrigger.getAll().find((trigger) => {
       if (!trigger.vars.pin) return false;
       const end = trigger.end ?? trigger.start;
@@ -101,7 +116,7 @@ export function Navbar() {
   };
 
   const scrollToSection = (href: string) => {
-    const performScroll = () => {
+    const performScroll = async () => {
       const element = document.querySelector(href);
       if (!element) return;
 
@@ -125,6 +140,7 @@ export function Navbar() {
 
       if (href === '#properties' || href === '#invest' || href === '#neighborhood') {
         // Pinned section: use the actual ScrollTrigger range and jump into the stable zone.
+        const ScrollTrigger = await getScrollTrigger();
         const st = ScrollTrigger.getAll().find((trigger) => {
           const triggerEl = trigger.vars.trigger as Element | undefined;
           return triggerEl === elementNode;
@@ -180,11 +196,11 @@ export function Navbar() {
 
     if (isMenuOpen) {
       setIsMenuOpen(false);
-      requestAnimationFrame(() => requestAnimationFrame(performScroll));
+      requestAnimationFrame(() => requestAnimationFrame(() => { void performScroll(); }));
       return;
     }
 
-    performScroll();
+    void performScroll();
   };
 
   const openAgentPortal = () => {
@@ -249,17 +265,25 @@ export function Navbar() {
                   padding: isScrolled ? '4px 12px' : '6px 14px'
                 }}
               >
-                <img 
-                  src="/logo-anclora-private-estates-exp.png" 
-                  alt="Anclora Private Estates" 
-                  className={`transition-[all] [transition-duration:800ms] object-contain group-hover:scale-[1.05] group-hover:brightness-[1.2] ${
-                    isScrolled ? 'h-[45px]' : 'h-[55px]'
-                  }`}
-                  style={{ 
-                    filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.5))',
-                    transitionTimingFunction: 'cubic-bezier(0.19, 1, 0.22, 1)'
-                  }}
-                />
+                {isMobileViewport ? (
+                  <span className="font-semibold tracking-[0.08em] text-[var(--pe-cream)] text-[0.92rem]">
+                    ANCLORA PRIVATE ESTATES
+                  </span>
+                ) : (
+                  <img
+                    src="/logo-anclora-private-estates-exp.png"
+                    alt="Anclora Private Estates"
+                    loading="eager"
+                    decoding="async"
+                    className={`transition-[all] [transition-duration:800ms] object-contain group-hover:scale-[1.05] group-hover:brightness-[1.2] ${
+                      isScrolled ? 'h-[45px]' : 'h-[55px]'
+                    }`}
+                    style={{
+                      filter: 'drop-shadow(0 2px 10px rgba(0,0,0,0.5))',
+                      transitionTimingFunction: 'cubic-bezier(0.19, 1, 0.22, 1)',
+                    }}
+                  />
+                )}
               </a>
             </div>
 
