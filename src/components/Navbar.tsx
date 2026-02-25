@@ -232,7 +232,7 @@ export function Navbar() {
         <div className="w-full h-full px-[5%] flex items-center">
           <div className="w-full flex items-center justify-between">
             {/* Left Section - Menu Toggle + Valuation Button */}
-            <div className="flex items-center gap-6 flex-shrink-0">
+            <div className="flex items-center gap-3 md:gap-6 flex-shrink-0">
               {/* Menu Toggle */}
               <div 
                 className="flex items-center gap-2.5 cursor-pointer text-[var(--pe-cream)] hover:text-[var(--anclora-gold)] transition-[all] [transition-duration:800ms]"
@@ -243,7 +243,7 @@ export function Navbar() {
                   <div className="absolute w-full h-[2px] bg-current -top-2 left-0" />
                   <div className="absolute w-full h-[2px] bg-current -bottom-2 left-0" />
                 </div>
-                <span className="text-[0.75rem] font-bold tracking-[2px] uppercase">MENU</span>
+                <span className="text-[0.7rem] md:text-[0.75rem] font-bold tracking-[2px] uppercase">MENU</span>
               </div>
 
               {/* Valuation Button */}
@@ -256,7 +256,7 @@ export function Navbar() {
             </div>
 
             {/* Center - Logo */}
-            <div className="flex-1 flex justify-center">
+            <div className="flex-1 flex justify-center px-2">
               <a 
                 href="#" 
                 className="logo-container-premium group"
@@ -266,7 +266,7 @@ export function Navbar() {
                 }}
               >
                 {isMobileViewport ? (
-                  <span className="font-semibold tracking-[0.08em] text-[var(--pe-cream)] text-[0.92rem]">
+                  <span className="font-semibold tracking-[0.06em] text-[var(--pe-cream)] text-[0.58rem] sm:text-[0.72rem] text-center leading-tight whitespace-nowrap">
                     ANCLORA PRIVATE ESTATES
                   </span>
                 ) : (
@@ -288,7 +288,7 @@ export function Navbar() {
             </div>
 
             {/* Right Section - Nav Links + Language */}
-            <div className="flex items-center gap-[30px] flex-shrink-0">
+            <div className="hidden md:flex items-center gap-[30px] flex-shrink-0">
               {/* Desktop Navigation */}
               <nav className="hidden lg:block">
                 <ul className="flex gap-6 list-none">
@@ -363,6 +363,29 @@ export function Navbar() {
 
               <div className="premium-menu-header-meta">
                 <span>{currentLang.toUpperCase()}</span>
+              </div>
+            </div>
+
+            <div className="md:hidden mb-4">
+              <div className="lang-switcher w-full justify-center">
+                <button
+                  className={`lang-btn ${currentLang === 'es' ? 'active' : ''}`}
+                  onClick={() => changeLanguage('es')}
+                >
+                  ES
+                </button>
+                <button
+                  className={`lang-btn ${currentLang === 'en' ? 'active' : ''}`}
+                  onClick={() => changeLanguage('en')}
+                >
+                  EN
+                </button>
+                <button
+                  className={`lang-btn ${currentLang === 'de' ? 'active' : ''}`}
+                  onClick={() => changeLanguage('de')}
+                >
+                  DE
+                </button>
               </div>
             </div>
 

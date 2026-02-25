@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
@@ -12,8 +12,17 @@ export function NeighborhoodSection() {
   const headlineRef = useRef<HTMLDivElement>(null);
   const mediaCardRef = useRef<HTMLDivElement>(null);
   const captionRef = useRef<HTMLParagraphElement>(null);
+  const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth <= 1024);
 
   useEffect(() => {
+    const onResize = () => setIsMobileLayout(window.innerWidth <= 1024);
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobileLayout) return;
+
     const section = sectionRef.current;
     const headline = headlineRef.current;
     const mediaCard = mediaCardRef.current;
@@ -83,7 +92,7 @@ export function NeighborhoodSection() {
     }, section);
 
     return () => ctx.revert();
-  }, [t]);
+  }, [isMobileLayout, t]);
 
   return (
     <section
@@ -91,49 +100,79 @@ export function NeighborhoodSection() {
       id="neighborhood"
       className="section-pinned bg-anclora-cream dark:bg-anclora-teal z-40"
     >
-      {/* Left Headline Block */}
-      <div
-        ref={headlineRef}
-        className="absolute left-[6vw] top-[16vh] w-[34vw]"
-      >
-        <span className="text-eyebrow block mb-4">{t('neighborhood.eyebrow')}</span>
-        <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-6">
-          Palma<br />Old Town
-        </h2>
-        <p className="text-anclora-navy/70 dark:text-anclora-text-muted leading-relaxed mb-8">
-          {t('neighborhood.description')}
-        </p>
+      {isMobileLayout ? (
+        <div className="relative h-auto px-5 pt-24 pb-10">
+          <span className="text-eyebrow block mb-3">{t('neighborhood.eyebrow')}</span>
+          <h2 className="font-display text-4xl font-bold text-anclora-navy dark:text-anclora-cream leading-[1.06] mb-4">
+            Palma<br />Old Town
+          </h2>
+          <p className="text-anclora-navy/75 dark:text-anclora-text-muted leading-relaxed mb-5">
+            {t('neighborhood.description')}
+          </p>
 
-        {/* Gold divider */}
-        <div className="w-28 h-0.5 bg-anclora-gold mb-8" />
+          <div className="card-premium overflow-hidden mb-5">
+            <img
+              src="/images/oldtown-palma.jpg"
+              alt="Palma Old Town"
+              className="w-full h-72 object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
 
-        {/* CTA */}
-        <button className="flex items-center gap-2 text-anclora-gold hover:text-anclora-gold-light transition-colors font-medium">
-          {t('neighborhood.cta')}
-          <ArrowRight className="w-4 h-4" />
-        </button>
-      </div>
+          <p className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-anclora-navy/70 dark:text-anclora-text-muted mb-6">
+            {t('neighborhood.caption')}
+          </p>
 
-      {/* Wide Media Card */}
-      <div
-        ref={mediaCardRef}
-        className="absolute left-[44vw] top-[16vh] w-[50vw] h-[68vh] card-premium overflow-hidden"
-      >
-        <img
-          src="/images/oldtown-palma.jpg"
-          alt="Palma Old Town"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-anclora-teal/60 dark:from-anclora-teal/60 via-transparent to-transparent" />
-      </div>
+          <button className="inline-flex items-center gap-2 text-anclora-gold hover:text-anclora-gold-light transition-colors font-medium">
+            {t('neighborhood.cta')}
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      ) : (
+        <>
+          {/* Left Headline Block */}
+          <div
+            ref={headlineRef}
+            className="absolute left-[6vw] top-[16vh] w-[34vw]"
+          >
+            <span className="text-eyebrow block mb-4">{t('neighborhood.eyebrow')}</span>
+            <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-6">
+              Palma<br />Old Town
+            </h2>
+            <p className="text-anclora-navy/70 dark:text-anclora-text-muted leading-relaxed mb-8">
+              {t('neighborhood.description')}
+            </p>
 
-      {/* Caption */}
-      <p
-        ref={captionRef}
-        className="absolute left-[44vw] top-[86vh] font-mono text-xs uppercase tracking-[0.14em] text-anclora-navy/60 dark:text-anclora-text-muted"
-      >
-        {t('neighborhood.caption')}
-      </p>
+            <div className="w-28 h-0.5 bg-anclora-gold mb-8" />
+
+            <button className="flex items-center gap-2 text-anclora-gold hover:text-anclora-gold-light transition-colors font-medium">
+              {t('neighborhood.cta')}
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Wide Media Card */}
+          <div
+            ref={mediaCardRef}
+            className="absolute left-[44vw] top-[16vh] w-[50vw] h-[68vh] card-premium overflow-hidden"
+          >
+            <img
+              src="/images/oldtown-palma.jpg"
+              alt="Palma Old Town"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-anclora-teal/60 dark:from-anclora-teal/60 via-transparent to-transparent" />
+          </div>
+
+          <p
+            ref={captionRef}
+            className="absolute left-[44vw] top-[86vh] font-mono text-xs uppercase tracking-[0.14em] text-anclora-navy/60 dark:text-anclora-text-muted"
+          >
+            {t('neighborhood.caption')}
+          </p>
+        </>
+      )}
     </section>
   );
 }

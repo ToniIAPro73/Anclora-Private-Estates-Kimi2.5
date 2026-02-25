@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTranslation } from 'react-i18next';
@@ -45,8 +45,17 @@ export function PropertiesSection() {
   const headlineRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const ctaRef = useRef<HTMLButtonElement>(null);
+  const [isMobileLayout, setIsMobileLayout] = useState(() => window.innerWidth <= 1024);
 
   useEffect(() => {
+    const onResize = () => setIsMobileLayout(window.innerWidth <= 1024);
+    window.addEventListener('resize', onResize, { passive: true });
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  useEffect(() => {
+    if (isMobileLayout) return;
+
     const section = sectionRef.current;
     const headline = headlineRef.current;
     const cards = cardsRef.current.filter(Boolean);
@@ -129,7 +138,7 @@ export function PropertiesSection() {
     }, section);
 
     return () => ctx.revert();
-  }, [t]);
+  }, [isMobileLayout, t]);
 
   return (
     <section
@@ -137,85 +146,147 @@ export function PropertiesSection() {
       id="properties"
       className="section-pinned bg-anclora-cream dark:bg-anclora-teal z-20"
     >
-      {/* Left Headline Block */}
-      <div
-        ref={headlineRef}
-        className="absolute left-[6vw] top-[16vh] w-[34vw]"
-      >
-        <span className="text-eyebrow block mb-4">{t('properties.eyebrow')}</span>
-        <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-6">
-          {t('properties.title').split('.')[0]}.<br />{t('properties.title').split('.')[1]}.
-        </h2>
-        <p className="text-anclora-navy/70 dark:text-anclora-text-muted leading-relaxed max-w-md">
-          {t('properties.description')}
-        </p>
-      </div>
-
-      {/* Property Cards */}
-      <div className="absolute left-[44vw] top-[16vh] w-[50vw] h-[68vh] flex gap-[1.6vw]">
-        {properties.map((property, index) => (
-          <div
-            key={property.id}
-            ref={(el) => { cardsRef.current[index] = el; }}
-            className="w-[15.3vw] h-full card-premium group cursor-pointer overflow-hidden"
-          >
-            {/* Image */}
-            <div className="relative h-[55%] overflow-hidden">
-              <img
-                src={property.image}
-                alt={property.name}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-anclora-teal/80 dark:from-anclora-teal/80 via-transparent to-transparent" />
-              
-              {/* Type badge */}
-              <div className="absolute top-4 left-4">
-                <span className="font-mono text-xs uppercase tracking-[0.14em] bg-anclora-teal-dark/80 dark:bg-anclora-teal-dark/80 text-anclora-cream px-2.5 py-1 rounded backdrop-blur-sm">
-                  {t(property.typeKey)}
-                </span>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="h-[45%] p-5 bg-anclora-teal-bg dark:bg-anclora-teal-bg flex flex-col">
-              <h3 className="font-display text-xl font-semibold text-anclora-cream mb-2">
-                {property.name}
-              </h3>
-              
-              <div className="flex items-center gap-1 text-anclora-text-muted text-sm mb-4">
-                <MapPin className="w-3.5 h-3.5" />
-                <span>{property.location}</span>
-              </div>
-
-              <div className="flex items-center gap-4 text-sm text-anclora-text-muted mb-4">
-                <div className="flex items-center gap-1">
-                  <Bed className="w-4 h-4" />
-                  <span>{property.beds}</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Maximize className="w-4 h-4" />
-                  <span>{property.sqm} m²</span>
-                </div>
-              </div>
-
-              <div className="mt-auto">
-                <span className="font-display text-2xl font-bold text-anclora-gold">
-                  {property.price}
-                </span>
-              </div>
-            </div>
+      {isMobileLayout ? (
+        <div className="relative h-auto px-5 pt-24 pb-10">
+          <div className="mb-8">
+            <span className="text-eyebrow block mb-3">{t('properties.eyebrow')}</span>
+            <h2 className="font-display text-4xl font-bold text-anclora-navy dark:text-anclora-cream leading-[1.05] mb-4">
+              {t('properties.title').split('.')[0]}.<br />{t('properties.title').split('.')[1]}.
+            </h2>
+            <p className="text-anclora-navy/75 dark:text-anclora-text-muted leading-relaxed">
+              {t('properties.description')}
+            </p>
           </div>
-        ))}
-      </div>
 
-      {/* CTA */}
-      <button
-        ref={ctaRef}
-        className="absolute left-[44vw] top-[87vh] btn-anclora-premium !px-8 !min-w-[240px]"
-      >
-        <span>{t('properties.cta')}</span>
-        <ArrowRight className="w-4 h-4" />
-      </button>
+          <div className="space-y-4">
+            {properties.map((property) => (
+              <article key={property.id} className="card-premium overflow-hidden">
+                <div className="relative h-52 overflow-hidden">
+                  <img
+                    src={property.image}
+                    alt={property.name}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-anclora-teal/80 via-transparent to-transparent" />
+                  <div className="absolute top-3 left-3">
+                    <span className="font-mono text-[0.62rem] uppercase tracking-[0.14em] bg-anclora-teal-dark/85 text-anclora-cream px-2.5 py-1 rounded">
+                      {t(property.typeKey)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-anclora-teal-bg">
+                  <h3 className="font-display text-[1.45rem] font-semibold text-anclora-cream mb-1">{property.name}</h3>
+                  <div className="flex items-center gap-1 text-anclora-text-muted text-sm mb-3">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>{property.location}</span>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-anclora-text-muted mb-3">
+                    <div className="flex items-center gap-1">
+                      <Bed className="w-4 h-4" />
+                      <span>{property.beds}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Maximize className="w-4 h-4" />
+                      <span>{property.sqm} m²</span>
+                    </div>
+                  </div>
+                  <span className="font-display text-2xl font-bold text-anclora-gold">{property.price}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <button className="btn-anclora-premium w-full !min-w-0 !h-[56px] !mt-7 !px-6">
+            <span>{t('properties.cta')}</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      ) : (
+        <>
+          {/* Left Headline Block */}
+          <div
+            ref={headlineRef}
+            className="absolute left-[6vw] top-[16vh] w-[34vw]"
+          >
+            <span className="text-eyebrow block mb-4">{t('properties.eyebrow')}</span>
+            <h2 className="font-display text-4xl lg:text-5xl xl:text-6xl font-bold text-anclora-navy dark:text-anclora-cream leading-tight mb-6">
+              {t('properties.title').split('.')[0]}.<br />{t('properties.title').split('.')[1]}.
+            </h2>
+            <p className="text-anclora-navy/70 dark:text-anclora-text-muted leading-relaxed max-w-md">
+              {t('properties.description')}
+            </p>
+          </div>
+
+          {/* Property Cards */}
+          <div className="absolute left-[44vw] top-[16vh] w-[50vw] h-[68vh] flex gap-[1.6vw]">
+            {properties.map((property, index) => (
+              <div
+                key={property.id}
+                ref={(el) => { cardsRef.current[index] = el; }}
+                className="w-[15.3vw] h-full card-premium group cursor-pointer overflow-hidden"
+              >
+                {/* Image */}
+                <div className="relative h-[55%] overflow-hidden">
+                  <img
+                    src={property.image}
+                    alt={property.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-anclora-teal/80 dark:from-anclora-teal/80 via-transparent to-transparent" />
+                  
+                  {/* Type badge */}
+                  <div className="absolute top-4 left-4">
+                    <span className="font-mono text-xs uppercase tracking-[0.14em] bg-anclora-teal-dark/80 dark:bg-anclora-teal-dark/80 text-anclora-cream px-2.5 py-1 rounded backdrop-blur-sm">
+                      {t(property.typeKey)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="h-[45%] p-5 bg-anclora-teal-bg dark:bg-anclora-teal-bg flex flex-col">
+                  <h3 className="font-display text-xl font-semibold text-anclora-cream mb-2">
+                    {property.name}
+                  </h3>
+                  
+                  <div className="flex items-center gap-1 text-anclora-text-muted text-sm mb-4">
+                    <MapPin className="w-3.5 h-3.5" />
+                    <span>{property.location}</span>
+                  </div>
+
+                  <div className="flex items-center gap-4 text-sm text-anclora-text-muted mb-4">
+                    <div className="flex items-center gap-1">
+                      <Bed className="w-4 h-4" />
+                      <span>{property.beds}</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Maximize className="w-4 h-4" />
+                      <span>{property.sqm} m²</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-auto">
+                    <span className="font-display text-2xl font-bold text-anclora-gold">
+                      {property.price}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <button
+            ref={ctaRef}
+            className="absolute left-[44vw] top-[87vh] btn-anclora-premium !px-8 !min-w-[240px]"
+          >
+            <span>{t('properties.cta')}</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </>
+      )}
     </section>
   );
 }

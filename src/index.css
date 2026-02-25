@@ -475,7 +475,10 @@
   }
 
   .captcha-widget-frame {
-    display: inline-flex;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    overflow-x: auto;
     padding: 10px;
     border-radius: 12px;
     border: 1px solid rgba(97, 148, 143, 0.28);
@@ -489,6 +492,7 @@
 
   .captcha-widget-frame iframe {
     border-radius: 8px;
+    max-width: 100%;
   }
 
   .btn-primary {
@@ -1499,6 +1503,21 @@
   }
 
   @media (max-width: 992px) {
+    .section-pinned {
+      height: auto;
+      min-height: auto;
+      overflow: visible;
+    }
+
+    .btn-anclora-premium {
+      min-width: 0;
+      letter-spacing: 2px;
+    }
+
+    .btn-valuation {
+      min-width: 0;
+    }
+
     .search-widget {
       flex-direction: column;
       border-radius: 24px;
@@ -1553,6 +1572,21 @@
   }
 
   @media (max-width: 768px) {
+    .site-header {
+      height: 72px !important;
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .lang-switcher {
+      padding: 3px;
+    }
+
+    .lang-btn {
+      font-size: 0.66rem;
+      padding: 5px 12px;
+    }
+
     .btn-valuation {
       display: none;
     }
@@ -1592,6 +1626,13 @@
 
     .btn-contact-floating span {
       display: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .captcha-widget-frame iframe {
+      transform: scale(0.88);
+      transform-origin: center;
     }
   }
 }
