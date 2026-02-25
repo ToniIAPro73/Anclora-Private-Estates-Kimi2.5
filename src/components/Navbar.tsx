@@ -11,7 +11,10 @@ export function Navbar() {
     if (typeof window === 'undefined') return false;
     return window.innerWidth <= 768;
   });
-  const nexusLoginUrl = import.meta.env.VITE_ANCLORA_NEXUS_LOGIN_URL ?? 'https://nexus.anclora.group/login';
+  const nexusLoginUrl =
+    import.meta.env.VITE_ANCLORA_NEXUS_LOGIN_URL ??
+    import.meta.env.VITE_NEXUS_LOGIN_URL ??
+    'https://nexus.anclora.group/login';
 
   useEffect(() => {
     const handleScroll = () => {

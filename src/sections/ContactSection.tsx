@@ -57,13 +57,21 @@ export function ContactSection() {
   const contactCardRef = useRef<HTMLDivElement>(null);
   const detailsRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const recaptchaSiteKey =
+    import.meta.env.VITE_RECAPTCHA_SITE_KEY ??
+    import.meta.env.VITE_RECAPTCHA_SITEKEY ??
+    import.meta.env.VITE_RECAPTCHA_KEY ??
+    '';
   const nexusPublicLeadUrl =
     import.meta.env.VITE_ANCLORA_NEXUS_PUBLIC_LEAD_URL ??
+    import.meta.env.VITE_NEXUS_PUBLIC_LEAD_URL ??
     'https://nexus.anclora.group/api/public/cta/lead';
-  const captchaProviderRaw = (import.meta.env.VITE_CONTACT_CAPTCHA_PROVIDER ?? 'none').toLowerCase();
+  const captchaProviderRaw = (
+    import.meta.env.VITE_CONTACT_CAPTCHA_PROVIDER ??
+    (recaptchaSiteKey ? 'recaptcha' : 'none')
+  ).toLowerCase();
   const captchaProvider: CaptchaProvider =
     captchaProviderRaw === 'recaptcha' || captchaProviderRaw === 'altcha' ? captchaProviderRaw : 'none';
-  const recaptchaSiteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY ?? '';
   const altchaChallengeUrl = import.meta.env.VITE_ALTCHA_CHALLENGE_URL ?? '';
 
   const [formData, setFormData] = useState({
