@@ -87,14 +87,11 @@ function HomePage() {
       window.removeEventListener('keydown', revealDeferredSections);
     };
 
-    const timer = window.setTimeout(revealDeferredSections, 1200);
-
     window.addEventListener('scroll', revealDeferredSections, { passive: true });
     window.addEventListener('touchstart', revealDeferredSections, { passive: true });
     window.addEventListener('keydown', revealDeferredSections);
 
     return () => {
-      window.clearTimeout(timer);
       window.removeEventListener('scroll', revealDeferredSections);
       window.removeEventListener('touchstart', revealDeferredSections);
       window.removeEventListener('keydown', revealDeferredSections);
@@ -219,10 +216,18 @@ function HomePage() {
         .getAll()
         .filter((st: any) => st.vars.pin)
         .sort((a: any, b: any) => a.start - b.start);
-      
-      const maxScroll = scrollTriggerApi.maxScroll(window);
-      
-      if (!maxScroll || pinned.length === 0) return;
+
+      if (pinned.length === 0) return;
+
+      let maxScroll = 0;
+      try {
+        maxScroll = scrollTriggerApi.maxScroll(window);
+      } catch {
+        const root = document.documentElement;
+        maxScroll = Math.max(0, root.scrollHeight - window.innerHeight);
+      }
+
+      if (!Number.isFinite(maxScroll) || maxScroll <= 0) return;
 
       const pinnedRanges = pinned.map((st: any) => ({
         start: st.start / maxScroll,
