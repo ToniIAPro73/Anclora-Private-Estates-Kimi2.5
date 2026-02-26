@@ -216,8 +216,8 @@ export function Navbar() {
       let top = targetTop - headerHeight - 10;
 
       if (href === '#contact') {
-        // Contact should land a bit deeper so the section starts closer to the header.
-        jumpTo(targetTop - headerHeight + 48);
+        // Target framing based on approved visual reference.
+        jumpTo(targetTop - headerHeight + 56);
         return;
       }
 
@@ -250,8 +250,8 @@ export function Navbar() {
         // Push a bit deeper to avoid showing Hero strip at the top.
         top = targetTop - headerHeight + 120;
       } else if (href === '#insights') {
-        // Keep Insights heading fully visible (avoid clipping title at the top).
-        top = targetTop - headerHeight + 28;
+        // Target framing based on approved visual reference.
+        top = targetTop - headerHeight + 36;
       } else if (href === '#about') {
         // Land on the first meaningful content block instead of section padding.
         const firstCard = elementNode.querySelector('.card-premium') as HTMLElement | null;
