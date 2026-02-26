@@ -102,7 +102,11 @@ export function InsightsSection() {
         </div>
 
         {/* Article Cards */}
-        <div data-insights-cards className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div
+          data-insights-cards
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
+          style={{ transform: 'translateY(-17px)' }}
+        >
           {articles.map((article, index) => (
             <div
               key={article.id}
