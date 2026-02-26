@@ -602,8 +602,8 @@
     align-items: flex-start;
     justify-content: center;
     padding-top: 0;
-    background: rgba(6, 16, 22, 0.28);
-    backdrop-filter: blur(4px);
+    background: rgba(6, 16, 22, 0.16);
+    backdrop-filter: blur(2px);
   }
 
   .premium-menu-shell {
@@ -611,7 +611,7 @@
     width: 100%;
     min-height: 100vh;
     background:
-      linear-gradient(rgba(244, 245, 243, 0.9), rgba(244, 245, 243, 0.9)),
+      linear-gradient(rgba(244, 245, 243, 0.78), rgba(244, 245, 243, 0.78)),
       url('/fondo-pantalla-menu-0.png');
     background-size: cover;
     background-position: center;
