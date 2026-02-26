@@ -402,7 +402,7 @@ export function Navbar() {
                   alt={t('menuOverlay.brand')}
                   loading="eager"
                   decoding="async"
-                  className="h-[88px] w-auto object-contain"
+                  className="h-[104px] w-auto object-contain"
                 />
               </div>
 
