@@ -217,7 +217,7 @@ export function Navbar() {
 
       if (href === '#contact') {
         // Target framing based on approved visual reference.
-        jumpTo(targetTop - headerHeight + 56);
+        jumpTo(targetTop - headerHeight + 86);
         return;
       }
 
@@ -251,7 +251,7 @@ export function Navbar() {
         top = targetTop - headerHeight + 120;
       } else if (href === '#insights') {
         // Target framing based on approved visual reference.
-        top = targetTop - headerHeight + 36;
+        top = targetTop - headerHeight + 120;
       } else if (href === '#about') {
         // Land on the first meaningful content block instead of section padding.
         const firstCard = elementNode.querySelector('.card-premium') as HTMLElement | null;
