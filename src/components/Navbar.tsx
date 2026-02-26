@@ -419,6 +419,10 @@ export function Navbar() {
                   loading="eager"
                   decoding="async"
                   className="h-[124px] w-auto object-contain"
+                  style={{
+                    filter:
+                      'brightness(0) saturate(100%) invert(12%) sepia(26%) saturate(534%) hue-rotate(168deg) brightness(95%) contrast(91%)',
+                  }}
                 />
               </div>
 
