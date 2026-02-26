@@ -12,15 +12,35 @@ interface CookieBannerProps {
   onClose?: () => void;
 }
 
+function getStoredPreferences(): CookiePreferences {
+  const defaults: CookiePreferences = {
+    necessary: true,
+    analytics: false,
+    marketing: false,
+  };
+
+  if (typeof window === 'undefined') return defaults;
+
+  const consent = localStorage.getItem('cookie-consent');
+  if (!consent) return defaults;
+
+  try {
+    const saved = JSON.parse(consent) as Partial<CookiePreferences>;
+    return {
+      necessary: true,
+      analytics: !!saved.analytics,
+      marketing: !!saved.marketing,
+    };
+  } catch {
+    return defaults;
+  }
+}
+
 export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerProps = {}) {
   const { t } = useTranslation();
   const [isInternalOpen, setIsInternalOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [preferences, setPreferences] = useState<CookiePreferences>({
-    necessary: true,
-    analytics: false,
-    marketing: false,
-  });
+  const [preferences, setPreferences] = useState<CookiePreferences>(() => getStoredPreferences());
 
   const isOpen = externalIsOpen !== undefined ? externalIsOpen : isInternalOpen;
   const setIsOpen = externalIsOpen !== undefined 
@@ -36,13 +56,6 @@ export function CookieBanner({ isOpen: externalIsOpen, onClose }: CookieBannerPr
         setIsInternalOpen(true);
       }, 1500);
       return () => clearTimeout(timer);
-    } else if (consent) {
-      try {
-        const saved = JSON.parse(consent);
-        setPreferences(saved);
-      } catch {
-        // Invalid JSON, will show banner
-      }
     }
   }, [externalIsOpen]);
 

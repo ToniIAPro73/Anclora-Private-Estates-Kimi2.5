@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ensureLanguageResources } from '../i18n';
+import { buildMenuGroups } from './menuOverlayConfig';
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const [activeMenuGroup, setActiveMenuGroup] = useState<string | null>(null);
   const [isMobileViewport, setIsMobileViewport] = useState(() => {
     if (typeof window === 'undefined') return false;
     return window.innerWidth <= 768;
@@ -36,6 +38,7 @@ export function Navbar() {
       if (event.key === 'Escape') {
         setIsMenuOpen(false);
         setIsPartnerModalOpen(false);
+        setActiveMenuGroup(null);
       }
     };
 
@@ -212,15 +215,38 @@ export function Navbar() {
 
   const openAgentPortal = () => {
     setIsMenuOpen(false);
+    setActiveMenuGroup(null);
     window.location.href = nexusLoginUrl;
   };
 
   const openPartnerModal = () => {
     setIsMenuOpen(false);
+    setActiveMenuGroup(null);
     setIsPartnerModalOpen(true);
   };
 
+  useEffect(() => {
+    if (!isMenuOpen) {
+      setActiveMenuGroup(null);
+    }
+  }, [isMenuOpen]);
+
   const currentLang = i18n.language;
+  const menuGroups = buildMenuGroups(t, {
+    toHome: () => scrollToSection('#hero'),
+    toProperties: () => scrollToSection('#properties'),
+    toAbout: () => scrollToSection('#about'),
+    toContact: () => scrollToSection('#contact'),
+    toPhilosophy: () => scrollToSection('#philosophy'),
+    toInvest: () => scrollToSection('#invest'),
+    toNeighborhood: () => scrollToSection('#neighborhood'),
+    toValuation: () => scrollToSection('#valuation'),
+    toInsights: () => scrollToSection('#insights'),
+    openAgentPortal,
+    openPartnerModal,
+  });
+
+  const activeGroup = menuGroups.find((group) => group.id === activeMenuGroup) ?? null;
 
   return (
     <>
@@ -365,82 +391,92 @@ export function Navbar() {
               </button>
 
               <div className="premium-menu-brand">
-                <img src="/logo-anclora-private-estates-exp.png" alt="Anclora Private Estates" />
+                <span>{t('menuOverlay.brand')}</span>
               </div>
 
               <div className="premium-menu-header-meta">
-                <span>{currentLang.toUpperCase()}</span>
+                <span>{t('menuOverlay.label')}</span>
               </div>
             </div>
 
-            <div className="md:hidden mb-4">
-              <div className="lang-switcher w-full justify-center">
-                <button
-                  className={`lang-btn ${currentLang === 'es' ? 'active' : ''}`}
-                  onClick={() => changeLanguage('es')}
-                >
-                  ES
-                </button>
-                <button
-                  className={`lang-btn ${currentLang === 'en' ? 'active' : ''}`}
-                  onClick={() => changeLanguage('en')}
-                >
-                  EN
-                </button>
-                <button
-                  className={`lang-btn ${currentLang === 'de' ? 'active' : ''}`}
-                  onClick={() => changeLanguage('de')}
-                >
-                  DE
-                </button>
-              </div>
-            </div>
+            <div className="premium-menu-content">
+              {!activeGroup && (
+                <>
+                  <ul className="premium-menu-list" role="list">
+                    {menuGroups.map((group) => (
+                      <li key={group.id}>
+                        <button
+                          className="premium-menu-row"
+                          onClick={() => setActiveMenuGroup(group.id)}
+                          aria-label={group.label}
+                        >
+                          <span>{group.label}</span>
+                          <span className="premium-menu-row-arrow" aria-hidden>&rsaquo;</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
 
-            <div className="premium-menu-grid">
-              <div className="premium-menu-column premium-menu-column-links">
-                <p className="premium-menu-eyebrow">{t('menuOverlay.explore')}</p>
-                <button className="premium-menu-link" onClick={() => scrollToSection('#hero')}>{t('nav.home')}</button>
-                <button className="premium-menu-link" onClick={() => scrollToSection('#properties')}>{t('nav.properties')}</button>
-                <button className="premium-menu-link" onClick={() => scrollToSection('#valuation')}>{t('nav.valuation')}</button>
-                <button className="premium-menu-link" onClick={() => scrollToSection('#insights')}>{t('nav.insights')}</button>
-                <button className="premium-menu-link" onClick={() => scrollToSection('#about')}>{t('nav.about')}</button>
-                <button className="premium-menu-link" onClick={() => scrollToSection('#contact')}>{t('nav.contact')}</button>
+                  <div className="premium-menu-footer">
+                    <div className="premium-menu-utilities">
+                      <button className="premium-menu-utility-link" onClick={() => scrollToSection('#valuation')}>
+                        {t('menuOverlay.utility.valuation')}
+                      </button>
+                      <button className="premium-menu-utility-link" onClick={() => scrollToSection('#contact')}>
+                        {t('menuOverlay.utility.contact')}
+                      </button>
+                    </div>
 
-                <div className="premium-menu-subsections">
-                  <p className="premium-menu-subheading">{t('nav.invest')}</p>
-                  <div className="premium-menu-subgrid">
-                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#philosophy')}>
-                      {t('philosophy.sectionTitle')}
-                    </button>
-                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#invest')}>
-                      {t('investment.eyebrow')}
-                    </button>
-                    <button className="premium-menu-sub-link" onClick={() => scrollToSection('#neighborhood')}>
-                      {t('neighborhood.eyebrow')}
-                    </button>
+                    <div className="lang-switcher premium-menu-lang-switcher">
+                      <button
+                        className={`lang-btn ${currentLang === 'es' ? 'active' : ''}`}
+                        onClick={() => changeLanguage('es')}
+                      >
+                        ES
+                      </button>
+                      <button
+                        className={`lang-btn ${currentLang === 'en' ? 'active' : ''}`}
+                        onClick={() => changeLanguage('en')}
+                      >
+                        EN
+                      </button>
+                      <button
+                        className={`lang-btn ${currentLang === 'de' ? 'active' : ''}`}
+                        onClick={() => changeLanguage('de')}
+                      >
+                        DE
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </div>
+                </>
+              )}
 
-              <div className="premium-menu-column premium-menu-column-private">
-                <p className="premium-menu-eyebrow">{t('menuOverlay.privateArea')}</p>
-                <p className="premium-menu-description">{t('menuOverlay.privateAreaDescription')}</p>
+              {activeGroup && (
+                <>
+                  <div className="premium-menu-subheader">
+                    <button
+                      className="premium-menu-back"
+                      onClick={() => setActiveMenuGroup(null)}
+                      aria-label={t('menuOverlay.back')}
+                    >
+                      <span aria-hidden>&larr;</span>
+                      <span>{t('menuOverlay.back')}</span>
+                    </button>
+                    <span className="premium-menu-subtitle">{activeGroup.label}</span>
+                  </div>
 
-                <button className="premium-private-card" onClick={openAgentPortal}>
-                  <span>{t('menuOverlay.agentPortalTitle')}</span>
-                  <small>{t('menuOverlay.agentPortalDescription')}</small>
-                </button>
-
-                <button className="premium-private-card" onClick={openPartnerModal}>
-                  <span>{t('menuOverlay.partnerPortalTitle')}</span>
-                  <small>{t('menuOverlay.partnerPortalDescription')}</small>
-                </button>
-
-                <button className="premium-private-card" onClick={openPartnerModal}>
-                  <span>{t('menuOverlay.dataLabPortalTitle')}</span>
-                  <small>{t('menuOverlay.dataLabPortalDescription')}</small>
-                </button>
-              </div>
+                  <ul className="premium-menu-list premium-menu-sublist" role="list">
+                    {activeGroup.items.map((item) => (
+                      <li key={item.label}>
+                        <button className="premium-menu-row premium-menu-row-detail" onClick={item.action}>
+                          <span className="premium-menu-row-main">{item.label}</span>
+                          {item.description && <small className="premium-menu-row-description">{item.description}</small>}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </div>
           </div>
         </div>

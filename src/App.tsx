@@ -55,6 +55,29 @@ const DisclaimerPage = lazy(() =>
 );
 const EthicsPage = lazy(() => import('./pages/legal/EthicsPage').then((module) => ({ default: module.EthicsPage })));
 
+type ScrollTriggerInstance = {
+  start: number;
+  end?: number;
+  vars: {
+    pin?: boolean;
+    trigger?: Element;
+  };
+};
+
+type ScrollTriggerApi = {
+  getAll: () => ScrollTriggerInstance[];
+  maxScroll: (target: Window) => number;
+  create: (config: {
+    snap: {
+      snapTo: (value: number) => number;
+      duration: { min: number; max: number };
+      delay: number;
+      ease: string;
+    };
+  }) => { kill: () => void };
+  refresh: () => void;
+};
+
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -99,7 +122,7 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    let scrollTriggerApi: any = null;
+    let scrollTriggerApi: ScrollTriggerApi | null = null;
     let timerId: number | null = null;
     let isDisposed = false;
 
@@ -160,7 +183,7 @@ function HomePage() {
       let top = sectionTop - headerHeight - 10;
 
       if (section.classList.contains('section-pinned') && scrollTriggerApi) {
-        const st = scrollTriggerApi.getAll().find((trigger: any) => {
+        const st = scrollTriggerApi.getAll().find((trigger) => {
           const triggerEl = trigger.vars.trigger as Element | undefined;
           return triggerEl === section;
         });
@@ -214,8 +237,8 @@ function HomePage() {
 
       const pinned = scrollTriggerApi
         .getAll()
-        .filter((st: any) => st.vars.pin)
-        .sort((a: any, b: any) => a.start - b.start);
+        .filter((st) => st.vars.pin)
+        .sort((a, b) => a.start - b.start);
 
       if (pinned.length === 0) return;
 
@@ -229,7 +252,7 @@ function HomePage() {
 
       if (!Number.isFinite(maxScroll) || maxScroll <= 0) return;
 
-      const pinnedRanges = pinned.map((st: any) => ({
+      const pinnedRanges = pinned.map((st) => ({
         start: st.start / maxScroll,
         end: (st.end ?? st.start) / maxScroll,
         center: (st.start + ((st.end ?? st.start) - st.start) * 0.5) / maxScroll,

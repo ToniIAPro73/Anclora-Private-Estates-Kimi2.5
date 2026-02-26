@@ -135,7 +135,19 @@
   },
   "menuOverlay": {
     "close": "FERMER",
+    "back": "Retour",
+    "label": "Menu principal",
+    "brand": "ANCLORA PRIVATE ESTATES",
     "explore": "Explorer",
+    "groups": {
+      "discover": "Collection",
+      "invest": "Investissement",
+      "privateArea": "Espace privé"
+    },
+    "utility": {
+      "valuation": "Valoriser le bien",
+      "contact": "Contact"
+    },
     "privateArea": "Espace Privé",
     "privateAreaDescription": "Accès centralisé aux portails professionnels Anclora selon le profil et les permissions.",
     "agentPortalTitle": "Portail Agent",
