@@ -89,7 +89,7 @@ export function InsightsSection() {
       id="insights"
       className="section-flowing bg-anclora-cream dark:bg-anclora-teal py-24 lg:py-32"
     >
-      <div className="w-full px-6 lg:pl-12 lg:pr-[136px]">
+      <div className="w-full px-6 lg:pl-12 lg:pr-[136px]" style={{ transform: 'translateY(-12px)' }}>
         {/* Headline */}
         <div ref={headlineRef} className="mb-12">
           <p className="text-eyebrow mb-4">{t('nav.insights')}</p>
