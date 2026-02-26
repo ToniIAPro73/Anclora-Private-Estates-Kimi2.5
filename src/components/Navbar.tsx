@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ensureLanguageResources } from '../i18n';
 import { buildMenuGroups } from './menuOverlayConfig';
 
 export function Navbar() {
+  const pendingScrollTargetKey = 'anclora:pending-scroll-target';
   const { t, i18n } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
   const [activeMenuGroup, setActiveMenuGroup] = useState<string | null>(null);
+  const scrollToSectionRef = useRef<(href: string) => void>(() => {});
   const [isMobileViewport, setIsMobileViewport] = useState(() => {
     if (typeof window === 'undefined') return false;
     return window.innerWidth <= 768;
@@ -51,6 +53,18 @@ export function Navbar() {
     window.addEventListener('resize', onResize, { passive: true });
     return () => window.removeEventListener('resize', onResize);
   }, []);
+
+  useEffect(() => {
+    const handleDeferredSectionsMounted = () => {
+      const pendingHref = sessionStorage.getItem(pendingScrollTargetKey);
+      if (!pendingHref) return;
+      sessionStorage.removeItem(pendingScrollTargetKey);
+      scrollToSectionRef.current(pendingHref);
+    };
+
+    window.addEventListener('anclora:deferred-sections-mounted', handleDeferredSectionsMounted);
+    return () => window.removeEventListener('anclora:deferred-sections-mounted', handleDeferredSectionsMounted);
+  }, [pendingScrollTargetKey]);
 
   const getScrollTrigger = async () => {
     const module = await import('gsap/ScrollTrigger');
@@ -154,7 +168,12 @@ export function Navbar() {
       };
 
       const element = await resolveElement();
-      if (!element) return;
+      if (!element) {
+        sessionStorage.setItem(pendingScrollTargetKey, href);
+        return;
+      }
+
+      sessionStorage.removeItem(pendingScrollTargetKey);
 
       const elementNode = element as HTMLElement;
       const pinSpacer = elementNode.closest('.pin-spacer') as HTMLElement | null;
@@ -238,6 +257,8 @@ export function Navbar() {
 
     void performScroll();
   };
+
+  scrollToSectionRef.current = scrollToSection;
 
   const openAgentPortal = () => {
     setIsMenuOpen(false);
