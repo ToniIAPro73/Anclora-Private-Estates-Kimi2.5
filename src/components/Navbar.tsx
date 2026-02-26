@@ -149,7 +149,24 @@ export function Navbar() {
   const scrollToSection = (href: string) => {
     const performScroll = async () => {
       const jumpTo = (y: number) => {
-        window.scrollTo(0, Math.max(0, y));
+        const targetY = Math.max(0, y);
+        const root = document.documentElement;
+        const body = document.body;
+        const previousRootBehavior = root.style.scrollBehavior;
+        const previousBodyBehavior = body.style.scrollBehavior;
+
+        // Force instant jump even when global CSS sets `scroll-behavior: smooth`.
+        root.style.scrollBehavior = 'auto';
+        body.style.scrollBehavior = 'auto';
+
+        window.scrollTo({ top: targetY, left: 0, behavior: 'auto' });
+        root.scrollTop = targetY;
+        body.scrollTop = targetY;
+
+        requestAnimationFrame(() => {
+          root.style.scrollBehavior = previousRootBehavior;
+          body.style.scrollBehavior = previousBodyBehavior;
+        });
       };
 
       const resolveElement = async () => {
