@@ -423,7 +423,7 @@ export function Navbar() {
               </div>
 
               <div className="premium-menu-header-meta">
-                <div className="lang-switcher premium-menu-lang-switcher">
+                <div className="lang-switcher">
                   <button
                     className={`lang-btn ${currentLang === 'es' ? 'active' : ''}`}
                     onClick={() => changeLanguage('es')}
