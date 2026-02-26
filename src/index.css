@@ -610,7 +610,12 @@
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background: #f4f5f3;
+    background:
+      linear-gradient(rgba(244, 245, 243, 0.9), rgba(244, 245, 243, 0.9)),
+      url('/fondo-pantalla-menu-2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     border-top: none;
     box-shadow: none;
     padding: 0;
