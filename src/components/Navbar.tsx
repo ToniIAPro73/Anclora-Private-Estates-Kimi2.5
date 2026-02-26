@@ -127,7 +127,23 @@ export function Navbar() {
 
   const scrollToSection = (href: string) => {
     const performScroll = async () => {
-      const element = document.querySelector(href);
+      const resolveElement = async () => {
+        for (let attempt = 0; attempt < 24; attempt += 1) {
+          const target = document.querySelector(href) as HTMLElement | null;
+          if (target) return target;
+
+          // Ask HomePage to mount deferred sections before retrying.
+          if (attempt === 0) {
+            window.dispatchEvent(new Event('anclora:reveal-deferred-sections'));
+          }
+
+          await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+        }
+
+        return null;
+      };
+
+      const element = await resolveElement();
       if (!element) return;
 
       const elementNode = element as HTMLElement;
