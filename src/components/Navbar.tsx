@@ -216,8 +216,8 @@ export function Navbar() {
       let top = targetTop - headerHeight - 10;
 
       if (href === '#contact') {
-        // Force an immediate jump to avoid animated traversal across pinned sections.
-        jumpTo(targetTop - headerHeight - 10);
+        // Contact should land a bit deeper so the section starts closer to the header.
+        jumpTo(targetTop - headerHeight + 48);
         return;
       }
 
@@ -250,16 +250,8 @@ export function Navbar() {
         // Push a bit deeper to avoid showing Hero strip at the top.
         top = targetTop - headerHeight + 120;
       } else if (href === '#insights') {
-        // Center the 3-card block in the visible viewport.
-        const cardsBlock = elementNode.querySelector('[data-insights-cards]') as HTMLElement | null;
-        if (cardsBlock) {
-          const cardsTop = window.scrollY + cardsBlock.getBoundingClientRect().top;
-          const centeredOffset = Math.max(0, (viewportAvailable - cardsBlock.offsetHeight) / 2);
-          // Keep a bit more top breathing room so title + cards remain fully visible.
-          top = cardsTop - headerHeight - centeredOffset + 24;
-        } else {
-          top = targetTop - headerHeight - 10;
-        }
+        // Keep Insights heading fully visible (avoid clipping title at the top).
+        top = targetTop - headerHeight + 28;
       } else if (href === '#about') {
         // Land on the first meaningful content block instead of section padding.
         const firstCard = elementNode.querySelector('.card-premium') as HTMLElement | null;
