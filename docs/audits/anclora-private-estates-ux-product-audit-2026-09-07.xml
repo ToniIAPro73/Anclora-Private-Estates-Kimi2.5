@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<UX_PRODUCT_AUDIT xmlns="urn:aos:ux-product-experience-review:v1.3.0" date="2026-09-07">
+  <META>
+    <SKILL_VERSION>1.3.0</SKILL_VERSION>
+    <SKILL_SOURCE_PATH>/Users/michaelmcmullen/.claude/skills/ux-product-experience-review/SKILL.md</SKILL_SOURCE_PATH>
+    <REPO>~/Developer/anclora/anclora-private-estates</REPO>
+    <BRANCH>development</BRANCH>
+    <LOCAL_HEAD>39605bcfbfbbf8c3c2b051f6da3029052220e6b9</LOCAL_HEAD>
+    <WORKTREE_STATUS>clean</WORKTREE_STATUS>
+    <PRODUCTION_URL>https://anclora-private-estates.vercel.app</PRODUCTION_URL>
+    <DEPLOYMENT_CODE_DRIFT>FALSE</DEPLOYMENT_CODE_DRIFT>
+  </META>
+
+  <STATUS value="PASS_WITH_GAPS">
+    <REASON>Auditoria con evidencia MEASURED_BROWSER real (agent-browser/Chrome-CDP) sobre produccion, combinada con MEASURED_CODE del repositorio. Se degrada por cobertura parcial de viewports (2 de 7 con captura visual completa), i18n visual profundo solo en ES/EN/DE (resto smoke estructural), formulario de Contact SAFETY_BLOCKED para envio real, y skills AOS compuestos aplicados con criterio manual en vez de como procesos independientes.</REASON>
+  </STATUS>
+
+  <INPUT>
+    <REPO_PATH>~/Developer/anclora/anclora-private-estates</REPO_PATH>
+    <URL>https://anclora-private-estates.vercel.app</URL>
+    <MODE>AUDIT_WITH_REPO_CONTEXT</MODE>
+    <LOCALES>es,ca,de,en,sv,fr,it,da,nl,no,pt</LOCALES>
+    <VIEWPORTS>390x844,430x932,768x1024,1024x768,1366x768,1440x900,1728x1117</VIEWPORTS>
+  </INPUT>
+
+  <PRODUCT_MODEL>
+    <TYPE>Sitio editorial de marketing inmobiliario ultra-premium (SPA + 5 paginas legales)</TYPE>
+    <STACK>Vite 7, React 19, TypeScript, React Router 7, i18next/react-i18next (11 locales), GSAP 3 + ScrollTrigger, Radix UI</STACK>
+    <PROMISE>Exclusividad elevada a obra de arte</PROMISE>
+    <SECTIONS order="dom">Hero,Properties,Philosophy,Investment,Neighborhood,Valuation,Insights,About,Contact,Footer</SECTIONS>
+    <LEGAL_ROUTES>/legal/privacidad,/legal/cookies,/legal/terminos,/legal/disclaimer,/legal/codigo-etico</LEGAL_ROUTES>
+    <NOT_PRESENT>backend de propiedades, CRM, autenticacion, favoritos, mapa interactivo, portal de usuario, ruta de listado/detalle de propiedades</NOT_PRESENT>
+  </PRODUCT_MODEL>
+
+  <PRODUCT_PROMISE_VS_EXPERIENCE>
+    <ITEM promise="Exclusividad elevada a obra de arte" fulfilled="true">Tipografia Cardo/Fraunces, acabado gold/navy y composicion editorial cumplen la promesa visualmente.</ITEM>
+    <ITEM promise="Descubre propiedades facilmente" fulfilled="false">Solo 3 propiedades hardcodeadas, sin catalogo ni ruta de detalle navegable (ver F-01).</ITEM>
+    <ITEM promise="Entiende el valor diferencial de Mallorca" fulfilled="partial">Cifras de inversion solidas pero no localizadas (F-05).</ITEM>
+    <ITEM promise="Muevete con naturalidad hacia contacto/tasacion" fulfilled="false">Formulario de Contacto roto en produccion por reCAPTCHA (F-02, CRITICAL).</ITEM>
+  </PRODUCT_PROMISE_VS_EXPERIENCE>
+
+  <USER_TYPES>
+    <USER_TYPE id="FIRST_TIME_USER">Comprador/inversor HNW internacional</USER_TYPE>
+    <USER_TYPE id="RETURNING_USER">Vuelve a revisar propiedad o tasacion</USER_TYPE>
+    <USER_TYPE id="OWNER_SELLER">Entra via FREE VALUATION</USER_TYPE>
+    <USER_TYPE id="CRAWLER_SEO">Relevante por carga diferida de secciones (F-13)</USER_TYPE>
+  </USER_TYPES>
+
+  <CRITICAL_USER_JOURNEYS>
+    <JOURNEY id="J1" type="PRIMARY_JOURNEY" user_type="FIRST_TIME_USER" criticality="CORE">
+      <GOAL>Descubrir propiedades reales</GOAL>
+      <RESULT status="INCOMPLETE">Solo 3 ejemplos, sin catalogo ni ruta de destino para SEARCH/EXPLORE PORTFOLIO (MEASURED_CODE: src/App.tsx:301-310)</RESULT>
+    </JOURNEY>
+    <JOURNEY id="J2" type="PRIMARY_JOURNEY" user_type="OWNER_SELLER" criticality="CORE">
+      <GOAL>Solicitar tasacion gratuita</GOAL>
+      <RESULT status="WORKS_SIMULATED">Envio simulado sin red real (setTimeout); UX funcional, sin lead real generado</RESULT>
+    </JOURNEY>
+    <JOURNEY id="J3" type="PRIMARY_JOURNEY" user_type="FIRST_TIME_USER" criticality="CORE">
+      <GOAL>Contactar / dejar lead comercial</GOAL>
+      <RESULT status="BROKEN">MEASURED_BROWSER: widget reCAPTCHA muestra "ERROR for site owner: Invalid site key"; SUBMIT permanece deshabilitado</RESULT>
+    </JOURNEY>
+    <JOURNEY id="J4" type="RECOVERY_JOURNEY" user_type="ALL" criticality="FREQUENT">
+      <GOAL>Cambiar idioma en scroll profundo sin perder contexto</GOAL>
+      <RESULT status="EXCELLENT">scrollY identico (9672) antes/despues del cambio ES-&gt;DE; sin overflow en texto aleman</RESULT>
+    </JOURNEY>
+  </CRITICAL_USER_JOURNEYS>
+
+  <SCREEN_MAP>
+    <SCREEN name="Home/Hero" primary_action="SEARCH/DISCOVER" issues="F-01"/>
+    <SCREEN name="Properties" primary_action="EXPLORE FULL PORTFOLIO" issues="F-01"/>
+    <SCREEN name="Philosophy" primary_action="none" issues="none"/>
+    <SCREEN name="Investment" primary_action="Download market report" issues="F-05"/>
+    <SCREEN name="Neighborhood" primary_action="See Old Town listings" issues="F-05"/>
+    <SCREEN name="Valuation" primary_action="SEND REQUEST" issues="simulated backend"/>
+    <SCREEN name="Insights" primary_action="none" issues="F-05"/>
+    <SCREEN name="About" primary_action="none" issues="none"/>
+    <SCREEN name="Contact" primary_action="SUBMIT" issues="F-02"/>
+    <SCREEN name="Footer" primary_action="SUBSCRIBE" issues="F-06,F-07"/>
+    <SCREEN name="/legal/*" primary_action="none" issues="F-08"/>
+    <SCREEN name="unknown route" primary_action="none" issues="F-09"/>
+  </SCREEN_MAP>
+
+  <UX_SCORECARD>
+    <DIMENSION name="Clarity" score="GOOD"/>
+    <DIMENSION name="Efficiency" score="FAIR"/>
+    <DIMENSION name="Consistency" score="FAIR"/>
+    <DIMENSION name="Feedback" score="FAIR"/>
+    <DIMENSION name="Error Recovery" score="POOR"/>
+    <DIMENSION name="Cognitive Load" score="GOOD"/>
+    <DIMENSION name="Navigation" score="GOOD"/>
+    <DIMENSION name="Onboarding" score="GOOD"/>
+    <DIMENSION name="Accessibility" score="FAIR"/>
+    <DIMENSION name="Responsive Task Completion" score="GOOD"/>
+    <DIMENSION name="Visual Hierarchy" score="EXCELLENT"/>
+    <DIMENSION name="Application Shell" score="GOOD"/>
+    <DIMENSION name="Viewport Economy" score="GOOD"/>
+  </UX_SCORECARD>
+
+  <UI_SCORECARD>
+    <DIMENSION name="Action Hierarchy" score="GOOD"/>
+    <DIMENSION name="Component Coherence" score="GOOD"/>
+    <DIMENSION name="Content Legibility" score="EXCELLENT"/>
+    <DIMENSION name="State Clarity" score="FAIR"/>
+    <DIMENSION name="Theme Coherence" score="UNKNOWN"/>
+    <DIMENSION name="Data Density" score="GOOD"/>
+    <DIMENSION name="Modal Ergonomics" score="GOOD"/>
+    <DIMENSION name="Form Ergonomics" score="GOOD"/>
+    <DIMENSION name="Spatial Hierarchy" score="EXCELLENT"/>
+    <DIMENSION name="Premium Visual Quality" score="EXCELLENT"/>
+    <DIMENSION name="Modernity and Product Polish" score="GOOD"/>
+  </UI_SCORECARD>
+
+  <WHAT_WORKS_WELL>
+    <ITEM>Restauracion exacta de scroll cross-idioma, incluso en secciones GSAP pinned</ITEM>
+    <ITEM>Navegacion por clic en navbar fluida y precisa</ITEM>
+    <ITEM>Navegacion nativa por teclado (End) sin artefactos</ITEM>
+    <ITEM>Boton SUBMIT deshabilitado hasta validacion completa en Contact</ITEM>
+    <ITEM>Datos de contacto alternativos visibles junto al formulario</ITEM>
+    <ITEM>Tipografia editorial Cardo/Fraunces y acabado gold/navy coherente</ITEM>
+    <ITEM>Aleman no rompe layout en desktop ni mobile</ITEM>
+    <ITEM>prefers-reduced-motion implementado en Hero con imagen alternativa mas ligera</ITEM>
+  </WHAT_WORKS_WELL>
+
+  <FRICTION_MAP>
+    <FRICTION type="NAVIGATION_FRICTION,DISCOVERABILITY_FRICTION" journey="J1">Sin ruta de portfolio/detalle de propiedad</FRICTION>
+    <FRICTION type="ERROR_RECOVERY_FRICTION,FEEDBACK_FRICTION" journey="J3">reCAPTCHA roto bloqueando envio</FRICTION>
+    <FRICTION type="CONSISTENCY_FRICTION,COGNITIVE_FRICTION" journey="Global preferences">Selector de moneda/unidades sin efecto</FRICTION>
+    <FRICTION type="CONTENT_FRICTION,CONSISTENCY_FRICTION" journey="Neighborhood/Insights">Mezcla de idiomas por strings hardcodeados</FRICTION>
+    <FRICTION type="VISUAL_FRICTION,AESTHETIC_COHERENCE_FRICTION" journey="Footer">alert() nativo en newsletter</FRICTION>
+    <FRICTION type="PERMISSION_FRICTION,CONSISTENCY_FRICTION" journey="Footer/Cookies">Boton cookies del footer navega en vez de reabrir modal</FRICTION>
+    <FRICTION type="NAVIGATION_FRICTION,CONTEXT_SWITCH_FRICTION" journey="/legal/*">Paginas legales sin nav/footer</FRICTION>
+    <FRICTION type="ERROR_RECOVERY_FRICTION" journey="Global">Ruta desconocida = pantalla en blanco</FRICTION>
+    <FRICTION type="ACCESSIBILITY,VISUAL_FRICTION" journey="Properties/Investment/Neighborhood">Animaciones scroll-pin sin gate de reduced-motion</FRICTION>
+    <FRICTION type="CONTENT_FRICTION,CONSISTENCY_FRICTION" journey="PropertiesSection">Formateo numerico no localizado en 9/11 idiomas</FRICTION>
+  </FRICTION_MAP>
+
+  <INFORMATION_ARCHITECTURE_FINDINGS>
+    <FINDING>La IA de home sigue guion editorial lineal coherente (Hero-&gt;Prueba social-&gt;Filosofia-&gt;Inversion-&gt;Contexto-&gt;Tasacion-&gt;Contenido-&gt;Confianza-&gt;Contacto).</FINDING>
+    <FINDING severity="CRITICAL">No existe capa de navegacion secundaria hacia catalogo real de propiedades; "Properties" es solo vitrina.</FINDING>
+    <FINDING severity="HIGH">Las 5 paginas legales estan fuera de la IA principal: sin breadcrumb, sin retorno claro a home.</FINDING>
+  </INFORMATION_ARCHITECTURE_FINDINGS>
+
+  <CONSISTENCY_MAP>
+    <PATTERN name="CTA dorado principal" consistent="true"/>
+    <PATTERN name="Idioma de interfaz" consistent="false" evidence="NeighborhoodSection.tsx:107,141; InsightsSection.tsx:135; FloatingControls.tsx:54-59"/>
+    <PATTERN name="Formato numerico/monetario" consistent="false" evidence="PropertiesSection.tsx:52-89"/>
+    <PATTERN name="Boton reabrir cookies" consistent="false" evidence="FloatingControls.tsx correcto vs Footer.tsx:161-163 incorrecto"/>
+    <PATTERN name="Presencia de Navbar/Footer" consistent="false" evidence="solo en / , ausentes en /legal/*"/>
+  </CONSISTENCY_MAP>
+
+  <SYSTEM_STATE_AUDIT>
+    <STATE name="LOADING" screen="Contact submit" result="OK"/>
+    <STATE name="SUCCESS" screen="Valuation,Contact" result="OK"/>
+    <STATE name="ERROR" screen="Contact captcha" result="POOR - mensaje tecnico expuesto"/>
+    <STATE name="DISABLED" screen="Contact SUBMIT" result="OK"/>
+    <STATE name="COOKIE_MODAL" screen="FloatingControls" result="OK"/>
+    <STATE name="LANGUAGE_CHANGE" screen="Global" result="OK - sin parpadeo"/>
+    <STATE name="ROUTE_CHANGE_UNKNOWN" screen="wildcard route" result="POOR - pantalla en blanco"/>
+  </SYSTEM_STATE_AUDIT>
+
+  <ACCESSIBILITY_SUMMARY composed_skill="accessibility-audit" status="COMPLETED">
+    <NOTE>Jerarquia de encabezados correcta; botones y combos con nombres accesibles correctos.</NOTE>
+    <NOTE severity="MEDIUM">Campo Email de Contact expone su placeholder como nombre accesible en vez de un label limpio.</NOTE>
+    <NOTE severity="MEDIUM">prefers-reduced-motion solo cubierto en HeroSection; 3 secciones pinned restantes sin gate (F-11).</NOTE>
+    <NOTE severity="LOW">Enlaces sociales con href="#" (F-14).</NOTE>
+  </ACCESSIBILITY_SUMMARY>
+
+  <DESIGN_SYSTEM_SUMMARY composed_skill="design-system-consumer-check" status="COMPLETED">
+    <NOTE>Tokens de color y tipografia observados coherentes con ANCLORA_BRANDING_COLOR_TOKENS.md y ANCLORA_BRANDING_TYPOGRAPHY.md.</NOTE>
+    <NOTE severity="LOW">ThemeToggle existe pero no esta montado (F-10).</NOTE>
+    <NOTE severity="HIGH">Selector de moneda/unidades es un control de sistema de diseno sin estado consumido (F-03).</NOTE>
+  </DESIGN_SYSTEM_SUMMARY>
+
+  <I18N_SUMMARY composed_skill="i18n-integrity-check" status="COMPLETED">
+    <LOCALES_ACTIVE count="11">ca,da,de,en,es,fr,it,nl,no,pt,sv</LOCALES_ACTIVE>
+    <CONTRACT_DECLARED count="4">es,en,de,fr</CONTRACT_DECLARED>
+    <DRIFT>11 locales activos vs 4 contractuales; 253 cadenas legales en LEGAL_REVIEW_REQUIRED sin evidencia de revision posterior</DRIFT>
+    <KEY_PARITY es_vs_en="MATCH" sections="19" leaf_keys_per_locale="~200"/>
+    <LANGUAGE_LEAKS>Palma Old Town (EN hardcoded), Read more (EN hardcoded), CONTACTAR fallback (ES hardcoded para 8/11 locales)</LANGUAGE_LEAKS>
+    <TEXT_EXPANSION_DE tested="true" result="OK - sin overflow en desktop ni mobile"/>
+    <TEXT_EXPANSION_OTHERS tested="false" note="NOT_RETESTED para CA/SV/FR/IT/DA/NL/NO/PT visual en vivo"/>
+  </I18N_SUMMARY>
+
+  <RESPONSIVE_SUMMARY>
+    <VIEWPORT size="390x844" covered="true" result="OK sin overflow"/>
+    <VIEWPORT size="430x932" covered="false" result="NOT_RETESTED"/>
+    <VIEWPORT size="768x1024" covered="false" result="NOT_RETESTED"/>
+    <VIEWPORT size="1024x768" covered="false" result="NOT_RETESTED - punto de transicion isMobileLayout en codigo"/>
+    <VIEWPORT size="1366x768" covered="false" result="NOT_RETESTED"/>
+    <VIEWPORT size="1440x900" covered="true" result="OK completo"/>
+    <VIEWPORT size="1728x1117" covered="false" result="NOT_RETESTED"/>
+    <NOTE>Salto de scroll instantaneo sintetico puede dejar secciones pinned en opacidad intermedia; interaccion humana real (clic, teclado, rueda) no reprodujo el problema (F-12).</NOTE>
+  </RESPONSIVE_SUMMARY>
+
+  <LIGHT_DARK_SUMMARY>
+    <DARK_THEME status="OBSERVED" quality="EXCELLENT"/>
+    <LIGHT_THEME status="UNKNOWN" reason="ThemeToggle component no montado en produccion (F-10)"/>
+  </LIGHT_DARK_SUMMARY>
+
+  <PREMIUM_PRODUCT_SURFACE_ASSESSMENT>
+    <PREMIUM rating="HIGH">Jerarquia tipografica disciplinada, espaciado generoso, superficies restringidas, bajo ruido visual, dorado usado como acento no como relleno.</PREMIUM>
+    <MODERN rating="HIGH">Chrome global compacto, progressive disclosure correcto, panel unico de preferencias.</MODERN>
+    <ELEGANT rating="HIGH_WITH_CAVEATS">Alto en secciones estaticas; secciones pinned dependen de coreografia de scroll precisa (F-12).</ELEGANT>
+    <BREAKS_ILLUSION>
+      <ITEM>alert() nativo en newsletter (F-06)</ITEM>
+      <ITEM>Mensaje de error de reCAPTCHA con lenguaje de desarrollador (F-02)</ITEM>
+      <ITEM>Enlaces sociales muertos en widget persistente (F-14)</ITEM>
+    </BREAKS_ILLUSION>
+    <VERDICT>Sistema visual muy por encima de la media de landing inmobiliaria generica; 2-3 defectos funcionales muy visibles contradicen la promesa premium exactamente en los puntos de mayor atencion del usuario (contacto, suscripcion).</VERDICT>
+  </PREMIUM_PRODUCT_SURFACE_ASSESSMENT>
+
+  <PUBLIC_SITE_SHELL>
+    <GLOBAL_NAVIGATION>PROPERTIES, ABOUT US, CONTACT</GLOBAL_NAVIGATION>
+    <PRIMARY_CONTENT_ACTION>FREE VALUATION</PRIMARY_CONTENT_ACTION>
+    <GLOBAL_PREFERENCE>Selector unificado de idioma/moneda/unidades</GLOBAL_PREFERENCE>
+    <UTILITY>MENU (hamburguesa)</UTILITY>
+    <CHROME_HEIGHT_RATIO viewport="1440x900">~8-10 percent</CHROME_HEIGHT_RATIO>
+    <STACKED_ROWS>1 (no se detectaron filas de navegacion duplicadas)</STACKED_ROWS>
+    <GAP severity="HIGH">Shell completo (Navbar/Footer/FloatingControls/CookieBanner) no se monta en ninguna de las 5 rutas /legal/* (F-08).</GAP>
+  </PUBLIC_SITE_SHELL>
+
+  <VIEWPORT_ECONOMY viewport="1440x900">
+    <VIEWPORT_HEIGHT>900</VIEWPORT_HEIGHT>
+    <GLOBAL_CHROME_HEIGHT>70-90</GLOBAL_CHROME_HEIGHT>
+    <PRIMARY_WORKSPACE_START_Y>~90</PRIMARY_WORKSPACE_START_Y>
+    <PERSISTENT_CONTROL_ROWS>1</PERSISTENT_CONTROL_ROWS>
+    <PERSISTENT_ACTION_COUNT>5</PERSISTENT_ACTION_COUNT>
+    <PERSISTENT_CONTEXT_CONTROL_COUNT>1</PERSISTENT_CONTEXT_CONTROL_COUNT>
+    <MOBILE_VIEWPORT viewport="390x844" chrome_ratio="~8 percent"/>
+    <CONCLUSION>No se observo relegacion de contenido editorial por exceso de chrome en ningun viewport probado.</CONCLUSION>
+  </VIEWPORT_ECONOMY>
+
+  <PRIMARY_WORKSPACE_ANALYSIS>
+    <NOTE>Este producto no tiene un "workspace" de aplicacion en sentido estricto; el equivalente funcional es el contenido editorial de cada seccion, que domina el viewport en todos los casos observados sin competir con chrome persistente.</NOTE>
+    <PRIMARY_WORKSPACE_BY_SCREEN screen="Contact" note="Seccion de mayor densidad del sitio (7 campos + captcha); justificada por ser el formulario de mayor valor, agrupacion clara en 2 columnas."/>
+  </PRIMARY_WORKSPACE_ANALYSIS>
+
+  <VISUAL_DENSITY_MAP>
+    <SECTION name="Hero" density="LOW"/>
+    <SECTION name="Properties" density="MEDIUM"/>
+    <SECTION name="Philosophy" density="MEDIUM"/>
+    <SECTION name="Investment" density="MEDIUM_LOW"/>
+    <SECTION name="Neighborhood" density="LOW"/>
+    <SECTION name="Valuation" density="MEDIUM"/>
+    <SECTION name="Insights" density="MEDIUM"/>
+    <SECTION name="About" density="MEDIUM"/>
+    <SECTION name="Contact" density="HIGH" note="mayor densidad del sitio, justificada"/>
+    <SECTION name="Footer" density="MEDIUM_HIGH"/>
+  </VISUAL_DENSITY_MAP>
+
+  <STRUCTURAL_REDESIGN_OPPORTUNITIES>
+    <OPPORTUNITY priority="P1" phase="3">Capa real de descubrimiento de propiedades: ruta /propiedades con filtro conectado y detalle por propiedad (F-01).</OPPORTUNITY>
+    <OPPORTUNITY priority="P2" phase="2">Site shell minimo en paginas legales (F-08).</OPPORTUNITY>
+    <OPPORTUNITY priority="P2" phase="1">Pagina 404 real en vez de ruta wildcard nula (F-09).</OPPORTUNITY>
+    <OPPORTUNITY priority="P2" phase="2">Conectar o retirar selector de moneda/unidades (F-03).</OPPORTUNITY>
+    <OPPORTUNITY priority="P2" phase="1">Consolidar boton de reapertura de cookies en un unico patron de modal (F-07).</OPPORTUNITY>
+  </STRUCTURAL_REDESIGN_OPPORTUNITIES>
+
+  <COMPOSED_SKILLS>
+    <SKILL name="repo-preflight" status="NOT_APPLICABLE"/>
+    <SKILL name="aos-compliance-preflight" status="UNAVAILABLE"/>
+    <SKILL name="accessibility-audit" status="COMPLETED"/>
+    <SKILL name="visual-regression-check" status="UNAVAILABLE" note="sin baseline previo"/>
+    <SKILL name="design-system-consumer-check" status="COMPLETED"/>
+    <SKILL name="i18n-integrity-check" status="COMPLETED"/>
+    <SKILL name="change-impact-analysis" status="NOT_APPLICABLE"/>
+  </COMPOSED_SKILLS>
+
+  <FINDINGS>
+    <FINDING id="F-01">
+      <CATEGORY>INFORMATION_ARCHITECTURE</CATEGORY>
+      <JOURNEY>J1</JOURNEY>
+      <SCREEN>Hero,Properties</SCREEN>
+      <USER_TYPE>FIRST_TIME_USER</USER_TYPE>
+      <TASK_CRITICALITY>CORE</TASK_CRITICALITY>
+      <FRICTION_TYPE>NAVIGATION_FRICTION,DISCOVERABILITY_FRICTION</FRICTION_TYPE>
+      <SEVERITY>CRITICAL</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE+MEASURED_BROWSER</EVIDENCE_LEVEL>
+      <EVIDENCE>src/App.tsx:301-310; src/sections/PropertiesSection.tsx:9-40; sec-properties-gradual-1440x900.png</EVIDENCE>
+      <FREQUENCY>FREQUENT</FREQUENCY>
+      <CURRENT_BEHAVIOR>Solo 3 propiedades de muestra; boton EXPLORE THE FULL PORTFOLIO sin ruta registrada en el router.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Producto construido como landing de captacion, no como catalogo navegable.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Contradice la pregunta central del brief sobre descubrimiento facil de propiedades.</WHY_IT_MATTERS>
+      <USER_IMPACT>Comprador con intencion real llega a callejon sin salida tras la vitrina inicial.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Introducir ruta de catalogo /propiedades con filtro conectado y ficha de detalle.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Cierra la brecha entre promesa de marca y funcionalidad real.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Habilita el journey CORE de descubrimiento, hoy inexistente.</EXPECTED_BENEFIT>
+      <EFFORT>HIGH</EFFORT>
+      <RISK>MEDIUM</RISK>
+      <PRIORITY>P1</PRIORITY>
+      <QUICK_WIN>false</QUICK_WIN>
+      <DEPENDENCIES>Fuente de datos de propiedades (CMS/API)</DEPENDENCIES>
+      <DO_NOT_BREAK>Coreografia visual actual de las 3 tarjetas teaser</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-02">
+      <CATEGORY>ERROR_RECOVERY</CATEGORY>
+      <JOURNEY>J3</JOURNEY>
+      <SCREEN>Contact</SCREEN>
+      <USER_TYPE>FIRST_TIME_USER,RETURNING_USER</USER_TYPE>
+      <TASK_CRITICALITY>CORE</TASK_CRITICALITY>
+      <FRICTION_TYPE>ERROR_RECOVERY_FRICTION,FEEDBACK_FRICTION</FRICTION_TYPE>
+      <SEVERITY>CRITICAL</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_BROWSER</EVIDENCE_LEVEL>
+      <EVIDENCE>docs/audits/evidence/anclora-private-estates-2026-09-07/contact-form-validation.png</EVIDENCE>
+      <FREQUENCY>FREQUENT</FREQUENCY>
+      <CURRENT_BEHAVIOR>Widget reCAPTCHA muestra "ERROR for site owner: Invalid site key"; SUBMIT permanece deshabilitado indefinidamente.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Configuracion de VITE_RECAPTCHA_SITE_KEY invalida/ausente en produccion Vercel.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Journey de conversion de mayor valor de negocio del sitio, completamente inoperante.</WHY_IT_MATTERS>
+      <USER_IMPACT>Ningun comprador puede contactar via el formulario principal.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Corregir site key de reCAPTCHA en Vercel o desactivar temporalmente el gate de captcha.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Problema de configuracion de entorno, bajo esfuerzo tecnico y altisimo impacto.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Restaura el journey de conversion CORE de mayor valor del sitio.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P1</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>Acceso a variables de entorno de Vercel (fuera de alcance read-only)</DEPENDENCIES>
+      <DO_NOT_BREAK>Logica de validacion de campos y checkboxes, ya correcta</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-03">
+      <CATEGORY>CONSISTENCY</CATEGORY>
+      <JOURNEY>Preferencias globales</JOURNEY>
+      <SCREEN>Navbar - Global preferences</SCREEN>
+      <USER_TYPE>FIRST_TIME_USER internacional</USER_TYPE>
+      <TASK_CRITICALITY>OCCASIONAL</TASK_CRITICALITY>
+      <FRICTION_TYPE>CONSISTENCY_FRICTION,COGNITIVE_FRICTION</FRICTION_TYPE>
+      <SEVERITY>HIGH</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE+MEASURED_BROWSER</EVIDENCE_LEVEL>
+      <EVIDENCE>src/components/LanguageToggle.tsx:23-24,54,59; lang-switcher-open.png</EVIDENCE>
+      <FREQUENCY>OCCASIONAL</FREQUENCY>
+      <CURRENT_BEHAVIOR>Cambiar moneda/unidad no altera ningun precio o area mostrada; depende solo de i18n.language.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Control de UI implementado sin conexion al estado real de formateo.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Rompe confianza en un control activamente seleccionado por el usuario.</WHY_IT_MATTERS>
+      <USER_IMPACT>Confusion en compradores internacionales que dependen de la moneda mostrada.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Conectar estado de moneda/unidad a PropertiesSection o retirar opciones sin efecto.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Un control visible debe reflejar siempre un efecto real.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Restaura confianza o elimina fuente de confusion.</EXPECTED_BENEFIT>
+      <EFFORT>MEDIUM</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P2</PRIORITY>
+      <QUICK_WIN>false</QUICK_WIN>
+      <DEPENDENCIES>Ninguna externa</DEPENDENCIES>
+      <DO_NOT_BREAK>Conversion EUR-GBP ya funcional para ingles</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-04">
+      <CATEGORY>CONTENT_UX</CATEGORY>
+      <JOURNEY>J1</JOURNEY>
+      <SCREEN>Properties</SCREEN>
+      <USER_TYPE>FIRST_TIME_USER no hispanohablante</USER_TYPE>
+      <TASK_CRITICALITY>FREQUENT</TASK_CRITICALITY>
+      <FRICTION_TYPE>CONTENT_FRICTION,CONSISTENCY_FRICTION</FRICTION_TYPE>
+      <SEVERITY>MEDIUM</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/sections/PropertiesSection.tsx:52-89</EVIDENCE>
+      <FREQUENCY>FREQUENT</FREQUENCY>
+      <CURRENT_BEHAVIOR>9 de 11 locales heredan formato numerico es-ES pese a UI 100% traducida.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Logica de formateo solo contempla 3 ramas (de/en/resto=es).</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Rompe coherencia de una experiencia completamente traducida.</WHY_IT_MATTERS>
+      <USER_IMPACT>Friccion de lectura menor en cifras de precio de alto valor.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Generalizar mapeo i18n.language a Intl.NumberFormat para los 11 locales.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Solucion mecanica de bajo riesgo.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Coherencia total idioma-formato en 100% de locales.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P2</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>Ninguna</DEPENDENCIES>
+      <DO_NOT_BREAK>Formateo DE/EN ya correcto</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-05">
+      <CATEGORY>CONTENT_UX</CATEGORY>
+      <JOURNEY>Global</JOURNEY>
+      <SCREEN>Neighborhood,Insights,FloatingControls</SCREEN>
+      <USER_TYPE>Usuarios en idiomas distintos de ingles</USER_TYPE>
+      <TASK_CRITICALITY>FREQUENT</TASK_CRITICALITY>
+      <FRICTION_TYPE>CONTENT_FRICTION,CONSISTENCY_FRICTION</FRICTION_TYPE>
+      <SEVERITY>HIGH</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/sections/NeighborhoodSection.tsx:107,141; src/sections/InsightsSection.tsx:135; src/components/FloatingControls.tsx:54-59</EVIDENCE>
+      <FREQUENCY>FREQUENT</FREQUENCY>
+      <CURRENT_BEHAVIOR>"Palma Old Town", "Read more" y label 'CONTACTAR' aparecen fijos fuera del idioma activo.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Strings escritos directamente en JSX en vez de pasar por t().</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>LOCALIZATION_CONTRACT.md prohibe mezclar idiomas en una misma vista.</WHY_IT_MATTERS>
+      <USER_IMPACT>Sensacion de producto no terminado para la mayoria de audiencias internacionales.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Mover los 3 strings a claves i18n traducidas en los 11 locales.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Cambio mecanico, bajo riesgo, cierra violacion de contrato explicita.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Coherencia de idioma al 100% en secciones afectadas.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P1</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>Ninguna</DEPENDENCIES>
+      <DO_NOT_BREAK>Resto de contenido ya traducido correctamente</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-06">
+      <CATEGORY>FEEDBACK</CATEGORY>
+      <JOURNEY>Suscripcion newsletter</JOURNEY>
+      <SCREEN>Footer</SCREEN>
+      <USER_TYPE>ALL</USER_TYPE>
+      <TASK_CRITICALITY>OCCASIONAL</TASK_CRITICALITY>
+      <FRICTION_TYPE>VISUAL_FRICTION,AESTHETIC_COHERENCE_FRICTION</FRICTION_TYPE>
+      <SEVERITY>MEDIUM</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/components/Footer.tsx:11-17</EVIDENCE>
+      <FREQUENCY>OCCASIONAL</FREQUENCY>
+      <CURRENT_BEHAVIOR>alert() nativo del navegador tras SUBSCRIBE, sin validacion de campos.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Implementacion de marcador de posicion nunca reemplazada.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Contraste mas visible con la calidad visual del resto del producto.</WHY_IT_MATTERS>
+      <USER_IMPACT>Rompe inmersion premium en el ultimo punto de contacto de la sesion.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Sustituir por banner in-page consistente con Contact/Valuation.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Reutiliza patron ya validado en el propio producto.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Elimina la unica ruptura visual no-premium detectada consistentemente.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P2</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>Ninguna</DEPENDENCIES>
+      <DO_NOT_BREAK>Nada relevante</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-07">
+      <CATEGORY>CONSISTENCY</CATEGORY>
+      <JOURNEY>Gestion de cookies</JOURNEY>
+      <SCREEN>Footer</SCREEN>
+      <USER_TYPE>ALL</USER_TYPE>
+      <TASK_CRITICALITY>FREQUENT</TASK_CRITICALITY>
+      <FRICTION_TYPE>PERMISSION_FRICTION,CONSISTENCY_FRICTION</FRICTION_TYPE>
+      <SEVERITY>MEDIUM</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/components/Footer.tsx:161-163 vs src/components/FloatingControls.tsx:64-77</EVIDENCE>
+      <FREQUENCY>FREQUENT</FREQUENCY>
+      <CURRENT_BEHAVIOR>Enlace COOKIES del footer navega a pagina legal en vez de reabrir el modal.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Dos implementaciones distintas del mismo requisito coexisten en el codigo.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>COOKIES_CONSENT_CONTRACT.md Seccion 6 exige explicitamente reabrir preferencias reales.</WHY_IT_MATTERS>
+      <USER_IMPACT>Usuario no puede cambiar consentimiento directamente desde el footer.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Sustituir Link por boton que invoque el mismo handler que FloatingControls.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Reutiliza logica ya existente y correcta.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Cumplimiento del contrato de cookies y consistencia de patron.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P2</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>Elevar estado del modal a App.tsx compartido con Footer</DEPENDENCIES>
+      <DO_NOT_BREAK>Pagina /legal/cookies como contenido informativo valido</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-08">
+      <CATEGORY>NAVIGATION</CATEGORY>
+      <JOURNEY>Consulta legal</JOURNEY>
+      <SCREEN>/legal/*</SCREEN>
+      <USER_TYPE>Visitante directo via URL</USER_TYPE>
+      <TASK_CRITICALITY>OCCASIONAL</TASK_CRITICALITY>
+      <FRICTION_TYPE>NAVIGATION_FRICTION,CONTEXT_SWITCH_FRICTION</FRICTION_TYPE>
+      <SEVERITY>HIGH</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/App.tsx:291-293</EVIDENCE>
+      <FREQUENCY>OCCASIONAL</FREQUENCY>
+      <CURRENT_BEHAVIOR>Sin Navbar/Footer/control de cookies en las 5 rutas legales.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Navbar condicionado estrictamente a path="/"; resto del shell vive dentro de HomePage.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Rompe continuidad de marca y deja al usuario sin salida clara.</WHY_IT_MATTERS>
+      <USER_IMPACT>Callejon sin salida de navegacion; unico recurso es boton atras.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Montar header/footer minimo en rutas /legal/* via layout compartido.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Restaura continuidad sin duplicar todo el shell de home.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Elimina callejon sin salida en 5 rutas reales.</EXPECTED_BENEFIT>
+      <EFFORT>MEDIUM</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P2</PRIORITY>
+      <QUICK_WIN>false</QUICK_WIN>
+      <DEPENDENCIES>Decision de diseno de header legal reducido vs completo</DEPENDENCIES>
+      <DO_NOT_BREAK>Contenido legal ya traducido a 11 locales</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-09">
+      <CATEGORY>ERROR_RECOVERY</CATEGORY>
+      <JOURNEY>RECOVERY_JOURNEY</JOURNEY>
+      <SCREEN>Ruta no registrada</SCREEN>
+      <USER_TYPE>ALL</USER_TYPE>
+      <TASK_CRITICALITY>EDGE</TASK_CRITICALITY>
+      <FRICTION_TYPE>ERROR_RECOVERY_FRICTION</FRICTION_TYPE>
+      <SEVERITY>MEDIUM</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/App.tsx:293</EVIDENCE>
+      <FREQUENCY>RARE</FREQUENCY>
+      <CURRENT_BEHAVIOR>Ruta wildcard devuelve null; pantalla completamente en blanco.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Route path="*" element={null}.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Peor estado de recuperacion de error posible.</WHY_IT_MATTERS>
+      <USER_IMPACT>Abandono inmediato, percepcion de sitio roto.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Componente NotFoundPage con mensaje y navegacion de vuelta.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Estandar minimo de cualquier sitio en produccion.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Convierte callejon sin salida en oportunidad de recuperacion.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P2</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>Ninguna</DEPENDENCIES>
+      <DO_NOT_BREAK>N/A</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-10">
+      <CATEGORY>THEME</CATEGORY>
+      <JOURNEY>Preferencias globales</JOURNEY>
+      <SCREEN>Global</SCREEN>
+      <USER_TYPE>ALL</USER_TYPE>
+      <TASK_CRITICALITY>OCCASIONAL</TASK_CRITICALITY>
+      <FRICTION_TYPE>DISCOVERABILITY_FRICTION</FRICTION_TYPE>
+      <SEVERITY>LOW</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/components/ThemeToggle.tsx (no importado); src/context/ThemeContext.tsx:14-27</EVIDENCE>
+      <FREQUENCY>OCCASIONAL</FREQUENCY>
+      <CURRENT_BEHAVIOR>Ningun control visible para cambiar tema manualmente.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Componente huerfano, construido pero nunca integrado.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Coincide con hallazgo historico ya documentado, STILL_PRESENT.</WHY_IT_MATTERS>
+      <USER_IMPACT>Bajo; falta de opcion, no defecto del tema en si.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Decision de producto explicita: integrar o retirar formalmente.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Evita codigo muerto sin dueno.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Claridad de intencion de producto.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P3</PRIORITY>
+      <QUICK_WIN>false</QUICK_WIN>
+      <DEPENDENCIES>Decision de producto/marca</DEPENDENCIES>
+      <DO_NOT_BREAK>Tema oscuro actual, ya validado visualmente</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-11">
+      <CATEGORY>ACCESSIBILITY</CATEGORY>
+      <JOURNEY>Global</JOURNEY>
+      <SCREEN>Properties,Investment,Neighborhood</SCREEN>
+      <USER_TYPE>Usuarios sensibles al movimiento</USER_TYPE>
+      <TASK_CRITICALITY>FREQUENT</TASK_CRITICALITY>
+      <FRICTION_TYPE>ACCESSIBILITY,VISUAL_FRICTION</FRICTION_TYPE>
+      <SEVERITY>MEDIUM</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>HeroSection.tsx:14-25,36 (unico gate); PropertiesSection.tsx:108-117; InvestmentSection.tsx:54-141; NeighborhoodSection.tsx:34-92 sin gate</EVIDENCE>
+      <FREQUENCY>FREQUENT</FREQUENCY>
+      <CURRENT_BEHAVIOR>3 de 4 secciones animadas fuerzan scroll-hijacking incluso con prefers-reduced-motion activo.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Gate implementado puntualmente en Hero, no generalizado.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>UI_MOTION_CONTRACT.md linea 32 exige respetar la preferencia como obligacion.</WHY_IT_MATTERS>
+      <USER_IMPACT>Molestia real para usuarios con sensibilidad al movimiento.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Extender el gate de HeroSection a las 3 secciones restantes.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Reutiliza patron ya implementado y probado.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Cumplimiento total del contrato de movimiento.</EXPECTED_BENEFIT>
+      <EFFORT>MEDIUM</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P2</PRIORITY>
+      <QUICK_WIN>false</QUICK_WIN>
+      <DEPENDENCIES>Ninguna</DEPENDENCIES>
+      <DO_NOT_BREAK>Coreografia actual para usuarios sin la preferencia activada</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-12">
+      <CATEGORY>LAYOUT_EFFICIENCY</CATEGORY>
+      <JOURNEY>Navegacion general</JOURNEY>
+      <SCREEN>Properties,Investment,Neighborhood</SCREEN>
+      <USER_TYPE>ALL (solo bajo scroll sintetico)</USER_TYPE>
+      <TASK_CRITICALITY>EDGE</TASK_CRITICALITY>
+      <FRICTION_TYPE>VISUAL_FRICTION</FRICTION_TYPE>
+      <SEVERITY>LOW</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_BROWSER</EVIDENCE_LEVEL>
+      <EVIDENCE>sec-properties-1440x900.png (opacidad ~0) vs sec-properties-gradual-1440x900.png/nav-click-about-jump.png/keyboard-end-key.png (correcto)</EVIDENCE>
+      <FREQUENCY>RARE</FREQUENCY>
+      <CURRENT_BEHAVIOR>Salto de scroll instantaneo puede dejar contenido pinned en opacidad intermedia.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>ScrollTrigger scrub depende de eventos incrementales para actualizar progreso.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>No reproducido con interaccion humana real; riesgo latente para tecnologia de asistencia futura.</WHY_IT_MATTERS>
+      <USER_IMPACT>Bajo en uso tipico.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Forzar ScrollTrigger.refresh() tras cualquier salto de scroll programatico futuro.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Previene problema hoy latente.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Robustece ante futuros patrones de navegacion por ancla.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P4</PRIORITY>
+      <QUICK_WIN>false</QUICK_WIN>
+      <DEPENDENCIES>Ninguna</DEPENDENCIES>
+      <DO_NOT_BREAK>Comportamiento actual correcto de clic-navbar y teclado</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-13">
+      <CATEGORY>DISCOVERABILITY</CATEGORY>
+      <JOURNEY>Global/SEO</JOURNEY>
+      <SCREEN>Toda la home excepto Hero</SCREEN>
+      <USER_TYPE>Crawlers/SEO</USER_TYPE>
+      <TASK_CRITICALITY>FREQUENT</TASK_CRITICALITY>
+      <FRICTION_TYPE>DISCOVERABILITY_FRICTION</FRICTION_TYPE>
+      <SEVERITY>LOW</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE+MEASURED_BROWSER</EVIDENCE_LEVEL>
+      <EVIDENCE>src/App.tsx listener one-shot; confirmado en navegador que solo #hero existe en DOM hasta el evento</EVIDENCE>
+      <FREQUENCY>FREQUENT para crawlers sin interaccion sintetica</FREQUENCY>
+      <CURRENT_BEHAVIOR>Solo Hero existe en DOM hasta el primer gesto de usuario.</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Optimizacion de carga implementada como gate de interaccion.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Motores de busqueda sin interaccion simulada podrian indexar solo el Hero.</WHY_IT_MATTERS>
+      <USER_IMPACT>Bajo para humanos; potencialmente alto para SEO.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Anadir IntersectionObserver como disparador adicional.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Mantiene ahorro de carga sin sacrificar indexacion.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Mejor cobertura de indexacion SEO.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P3</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>Ninguna</DEPENDENCIES>
+      <DO_NOT_BREAK>Beneficio de rendimiento de carga inicial</DO_NOT_BREAK>
+    </FINDING>
+
+    <FINDING id="F-14">
+      <CATEGORY>CONTENT_UX</CATEGORY>
+      <JOURNEY>Global</JOURNEY>
+      <SCREEN>SocialSidebar</SCREEN>
+      <USER_TYPE>ALL</USER_TYPE>
+      <TASK_CRITICALITY>RARE</TASK_CRITICALITY>
+      <FRICTION_TYPE>CONTENT_FRICTION</FRICTION_TYPE>
+      <SEVERITY>LOW</SEVERITY>
+      <EVIDENCE_LEVEL>MEASURED_CODE</EVIDENCE_LEVEL>
+      <EVIDENCE>src/components/SocialSidebar.tsx:8-11</EVIDENCE>
+      <FREQUENCY>RARE</FREQUENCY>
+      <CURRENT_BEHAVIOR>Los 4 enlaces sociales apuntan a href="#".</CURRENT_BEHAVIOR>
+      <ROOT_UX_CAUSE>Marcadores de posicion nunca reemplazados.</ROOT_UX_CAUSE>
+      <WHY_IT_MATTERS>Erosiona credibilidad de marca institucional.</WHY_IT_MATTERS>
+      <USER_IMPACT>Bajo pero visible en widget persistente.</USER_IMPACT>
+      <RECOMMENDED_CHANGE>Sustituir por URLs reales o retirar el widget.</RECOMMENDED_CHANGE>
+      <WHY_THIS_CHANGE>Cambio trivial de bajo riesgo.</WHY_THIS_CHANGE>
+      <EXPECTED_BENEFIT>Elimina detalle de credibilidad negativo.</EXPECTED_BENEFIT>
+      <EFFORT>LOW</EFFORT>
+      <RISK>LOW</RISK>
+      <PRIORITY>P3</PRIORITY>
+      <QUICK_WIN>true</QUICK_WIN>
+      <DEPENDENCIES>URLs reales de perfiles sociales</DEPENDENCIES>
+      <DO_NOT_BREAK>Posicionamiento y estilo visual actual</DO_NOT_BREAK>
+    </FINDING>
+  </FINDINGS>
+
+  <QUICK_WINS>
+    <ITEM ref="F-02"/><ITEM ref="F-05"/><ITEM ref="F-06"/><ITEM ref="F-07"/>
+    <ITEM ref="F-09"/><ITEM ref="F-04"/><ITEM ref="F-13"/><ITEM ref="F-14"/>
+  </QUICK_WINS>
+
+  <TOP_RECOMMENDATIONS>
+    <RECOMMENDATION rank="1" ref="F-02" priority="P1"/>
+    <RECOMMENDATION rank="2" ref="F-01" priority="P1"/>
+    <RECOMMENDATION rank="3" ref="F-05" priority="P1"/>
+    <RECOMMENDATION rank="4" ref="F-06" priority="P2"/>
+    <RECOMMENDATION rank="5" ref="F-07" priority="P2"/>
+    <RECOMMENDATION rank="6" ref="F-11" priority="P2"/>
+    <RECOMMENDATION rank="7" ref="F-08" priority="P2"/>
+    <RECOMMENDATION rank="8" ref="F-03" priority="P2"/>
+    <RECOMMENDATION rank="9" ref="F-09" priority="P2"/>
+    <RECOMMENDATION rank="10" ref="F-04" priority="P2"/>
+  </TOP_RECOMMENDATIONS>
+
+  <RECOMMENDED_ROADMAP>
+    <PHASE number="1" name="Quick Wins">
+      <ITEM ref="F-02" note="maxima prioridad, bloqueante de negocio"/>
+      <ITEM ref="F-05"/><ITEM ref="F-06"/><ITEM ref="F-07"/><ITEM ref="F-09"/>
+      <ITEM ref="F-04"/><ITEM ref="F-14"/><ITEM ref="F-13"/>
+    </PHASE>
+    <PHASE number="2" name="Alto Impacto">
+      <ITEM ref="F-03"/><ITEM ref="F-08"/><ITEM ref="F-11"/><ITEM ref="F-10"/>
+    </PHASE>
+    <PHASE number="3" name="UX Estructural">
+      <ITEM ref="F-01"/>
+      <ITEM note="Resolucion de discrepancia de contrato de localizacion (11 vs 4 locales) y cierre de 253 cadenas legales pendientes"/>
+    </PHASE>
+  </RECOMMENDED_ROADMAP>
+
+  <DO_NOT_BREAK_SUMMARY>
+    <ITEM>Restauracion exacta de scroll y seccion activa al cambiar idioma</ITEM>
+    <ITEM>Navegacion por clic en navbar</ITEM>
+    <ITEM>Navegacion nativa por teclado</ITEM>
+    <ITEM>Patron disabled-hasta-valido del boton SUBMIT en Contact</ITEM>
+    <ITEM>Preservacion de datos del formulario tras error</ITEM>
+    <ITEM>Conversion EUR-GBP funcional en PropertiesSection</ITEM>
+    <ITEM>prefers-reduced-motion en Hero</ITEM>
+    <ITEM>Identidad visual gold/navy y tipografia Cardo/Inter/Fraunces</ITEM>
+    <ITEM>Contenido legal ya traducido a 11 locales</ITEM>
+    <ITEM>Composicion de las 3 tarjetas teaser de Properties</ITEM>
+  </DO_NOT_BREAK_SUMMARY>
+
+  <EVIDENCE_COVERAGE>
+    <BROWSER_AVAILABLE>true</BROWSER_AVAILABLE>
+    <AUTHENTICATED_FLOWS_COVERED>NOT_APPLICABLE</AUTHENTICATED_FLOWS_COVERED>
+    <PUBLIC_FLOWS_COVERED>true</PUBLIC_FLOWS_COVERED>
+    <REPO_CONTEXT_AVAILABLE>true</REPO_CONTEXT_AVAILABLE>
+    <DESKTOP_COVERED>true</DESKTOP_COVERED>
+    <TABLET_COVERED>false</TABLET_COVERED>
+    <MOBILE_PORTRAIT_COVERED>true</MOBILE_PORTRAIT_COVERED>
+    <MOBILE_LANDSCAPE_COVERED>false</MOBILE_LANDSCAPE_COVERED>
+    <LIGHT_THEME_COVERED>false</LIGHT_THEME_COVERED>
+    <DARK_THEME_COVERED>true</DARK_THEME_COVERED>
+    <ACCESSIBILITY_COMPOSED>true</ACCESSIBILITY_COMPOSED>
+    <I18N_COMPOSED>true</I18N_COMPOSED>
+    <DESIGN_SYSTEM_COMPOSED>true</DESIGN_SYSTEM_COMPOSED>
+    <VISUAL_REGRESSION_COMPOSED>false</VISUAL_REGRESSION_COMPOSED>
+    <SCREENSHOT_COUNT>31</SCREENSHOT_COUNT>
+    <EVIDENCE_DIR>docs/audits/evidence/anclora-private-estates-2026-09-07/</EVIDENCE_DIR>
+  </EVIDENCE_COVERAGE>
+
+  <LIMITATIONS_AND_GAPS>
+    <ITEM>Viewports 430x932, 768x1024, 1024x768, 1366x768, 1728x1117 no capturados visualmente.</ITEM>
+    <ITEM>Smoke visual en vivo no realizado para CA/SV/FR/IT/DA/NL/NO/PT (solo paridad estructural de claves confirmada).</ITEM>
+    <ITEM>Envio real del formulario de Contact no completado (SAFETY_BLOCKED); evidencia de captcha roto ya demuestra bloqueo total.</ITEM>
+    <ITEM>Carga de red de fuentes (@font-face) no verificada en vivo.</ITEM>
+    <ITEM>Comportamiento del boton SEARCH del Hero mas alla de seleccion de combos no confirmado en vivo.</ITEM>
+    <ITEM>Skills AOS compuestos aplicados con criterio manual, no como procesos independientes invocados por separado.</ITEM>
+    <ITEM>Revision legal de 253 cadenas LEGAL_REVIEW_REQUIRED fuera de alcance de auditoria UX.</ITEM>
+  </LIMITATIONS_AND_GAPS>
+</UX_PRODUCT_AUDIT>
